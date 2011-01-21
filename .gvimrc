@@ -1,0 +1,69 @@
+" 模拟windows下的一些设置
+if g:is_Win
+    source $VIM/vimfiles/mswin.vim
+else
+    source ~/.vim/mswin.vim
+endif
+" Toggle Toolbar
+set guioptions-=T
+set guioptions-=m
+set go+=L
+map <silent> <F2> :if &guioptions =~# 'T' <Bar>
+		\set guioptions-=T <Bar>
+	\else <Bar>
+		\set guioptions+=T <Bar>
+	\endif<CR><CR>
+map <silent> <F3> :if &guioptions =~# 'm' <bar>
+		\set guioptions-=m <bar>
+	\else <Bar>
+		\set guioptions+=m <bar>
+	\endif<CR><CR>
+"=========================== gvimrc_example =========================
+" An example for a gvimrc file.
+" The commands in this are executed when the GUI is started.
+"
+" Maintainer:	Bram Moolenaar <Bram@vim.org>
+" Last change:	2001 Sep 02
+"
+" To use it, copy it to
+"     for Unix and OS/2:  ~/.gvimrc
+"	      for Amiga:  s:.gvimrc
+"  for MS-DOS and Win32:  $VIM\_gvimrc
+"	    for OpenVMS:  sys$login:.gvimrc
+
+" Make external commands work through a pipe instead of a pseudo-tty
+"set noguipty
+
+" set the X11 font to use
+" set guifont=-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-1
+
+set ch=1		" Make command line two lines high
+
+set mousehide		" Hide the mouse when typing text
+"字体设置
+if g:is_Win
+    set gfn=Megatops_ProCoder_1.0:h9:b:cANSI
+    set gfw=Megatops_ProCoder_1.0:h9:cANSI
+else
+    "set gfn=Megatops\ ProCoder\ 1.0\ Bold\ 9
+    set gfn=Terminus\ 9
+    set gfw=最像素EX2\ 10
+endif
+
+" Make shift-insert work like in Xterm
+map <S-Insert> <MiddleMouse>
+map! <S-Insert> <MiddleMouse>
+
+" Only do this for Vim version 5.0 and later.
+if version >= 500
+
+  " I like highlighting strings inside C comments
+  let c_comment_strings=1
+
+  " Switch on syntax highlighting if it wasn't on yet.
+  if !exists("syntax_on")
+    syntax on
+  endif
+endif
+colo peaksea
+
