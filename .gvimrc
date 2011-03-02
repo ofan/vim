@@ -65,5 +65,4 @@ if version >= 500
     syntax on
   endif
 endif
-colo peaksea
 
