@@ -1,23 +1,4 @@
-" 判断操作系统
-if has("win32") || has("win64") || has("win32unix")
-    let g:is_Win=1
-else
-    let g:is_Win=0
-endif
-
-" 编码设置
-set ffs=dos,unix
-set fileencodings=ucs-bom,utf8,chinese,taiwan,japan,korea
-if g:is_Win
-    set termencoding=gbk
-else
-    set termencoding=utf8
-endif
-" 写入配置文件和脚本插件时强制使用unix风格换行
-au BufWritePre *vimrc,*gvimrc,*.vim set ff=unix
-" 不兼容Vi
-set nocompatible
-"= vimrc_example =========================================
+"{{{= vimrc_example =========================================
 " An example for a vimrc file.
 "
 " Maintainer:	Bram Moolenaar <Bram@vim.org>
@@ -118,25 +99,46 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 
-"= vimrc_example======================================================
+"= vimrc_example======================================================}}}
+" 自定义配置
+" 判断操作系统
+if has("win32") || has("win64") || has("win32unix")
+    let g:is_Win=1
+else
+    let g:is_Win=0
+endif
+
+" 编码设置
+set ffs=dos,unix
+set fileencodings=ucs-bom,utf8,chinese,taiwan,japan,korea
+if g:is_Win
+    set termencoding=gbk
+else
+    set termencoding=utf8
+endif
+" 写入配置文件和脚本插件时强制使用unix风格换行
+au BufWritePre *vimrc,*gvimrc,*.vim set ff=unix
+" 不兼容Vi
+set nocompatible
 if g:is_Win
     source $VIMRUNTIME/mswin.vim
     behave mswin
 endif
+" some text
+" Persistent undo
+set undofile
+set undodir=~/.vim/.backups/persistent/
+au BufWritePre /tmp/*,/var/log/* setlocal noundofile
 " 文件名设置
-set isf-=/
-set isf-=\\
-set isf-=#
-set isf-=:
-set isf-==
-set isf-=,
+set isf=@,48-57,.,-,_,+,$,%,~
 " 设置当前工作路径
 map <silent> <leader>cd :cd %:p:h<cr>
 " 颜色和配色方案
 if g:is_Win && &term!="win32"
     set t_Co=256
 endif
-colorscheme peaksea
+" colorscheme peaksea
+colo gentooish
 set bg=dark
 " 设置最长文本长度，超过此长度会被自动截断
 set textwidth=150
@@ -368,8 +370,8 @@ function Do_CsTag()
 endfunction
 "进行Tlist的设置
 "TlistUpdate可以更新tags
-map <F6> :silent! Tlist<CR> "按下F6就可以呼出了
-imap <F6> :silent! Tlist<CR> "按下F6就可以呼出了
+noremap <F6> :silent! Tlist<CR> "按下F6就可以呼出了
+inoremap <F6> :silent! Tlist<CR> "按下F6就可以呼出了
 let Tlist_Ctags_Cmd='ctags' "因为我们放在环境变量里，所以可以直接执行
 let Tlist_Use_Right_Window=1 "让窗口显示在右边，0的话就是显示在左边
 let Tlist_Show_One_File=1 "让taglist可以同时展示多个文件的函数列表，如果想只有1个，设置为1
@@ -378,3 +380,7 @@ let Tlist_Exit_OnlyWindow=1 "当taglist是最后一个分割窗口时，自动�
 "是否一直处理tags.1:处理;0:不处理
 let Tlist_Process_File_Always=0 "不是一直实时更新tags，因为没有必要
 let Tlist_Inc_Winwidth=0
+" Gundo(Persistent Undo) 设置
+noremap <F7> :GundoToggle<CR>
+inoremap <F7> <ESC>:GundoToggle<CR>
+
