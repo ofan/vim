@@ -105,9 +105,26 @@ endif
 if has("win32") || has("win64") || has("win32unix")
     let g:is_Win=1
 else
+    if has("mac") || has("macunix")
+        let g:is_Mac=1
+    endif
     let g:is_Win=0
 endif
 
+" 剪切板设置
+if g:is_Mac==1
+    if has("clipboard")
+        set clipboard=unnamed
+    endif
+    vnoremap <special> <D-x> "+x
+
+    vnoremap <special> <D-y> "+y
+
+    cnoremap <special> <D-y> <C-Y>
+
+    nnoremap <special> <D-v> "+gP
+    cnoremap <special> <D-v> <C-R>+
+endif
 " 编码设置
 set ffs=dos,unix
 set fileencodings=ucs-bom,utf8,chinese,taiwan,japan,korea
@@ -175,16 +192,18 @@ set lbr
 set mousemodel=extend
 set slm=key,mouse
 set fdm=marker
-"Taglist 设置
+" PEP8
+let g:pep8_map='\pep'
+" Taglist 设置
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
-"netrw 设置
+" netrw 设置
 let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
-"自动变更当前目录到打开文件的目录
+" 自动变更当前目录到打开文件的目录
 set acd
-"分割窗口设置
+" 分割窗口设置
 set spr " 分割窗口从右边打开.
-"TxtBrowser设置
+" TxtBrowser设置
 let tlist_txt_settings = 'txt;c:content;f:figures;t:tables'
 au BufEnter *.txt setf txt|setlocal nospell
 " CDPATH 一些默认的查找目录，方便cd到需要的目录
@@ -312,7 +331,7 @@ let g:DoxygenToolkit_briefTag_funcName = "no"
 let g:DoxygenToolkit_maxFunctionProtoLines = 30
 " ctags and cscope settings
 set tags+=~/.vim/tags
-map <F12> :call Do_CsTag()<CR>
+map <C-F12> :call Do_CsTag()<CR>
 function Do_CsTag()
     let dir = getcwd()
     if filereadable("tags")
@@ -364,10 +383,11 @@ function Do_CsTag()
         silent! execute "!cscope -b"
         execute "normal :"
         if filereadable("cscope.out")
-            execute "cs add cscope.out"
+            silent! execute "cs add cscope.out"
         endif
     endif
 endfunction
+
 "进行Tlist的设置
 "TlistUpdate可以更新tags
 noremap <F6> :silent! Tlist<CR> "按下F6就可以呼出了

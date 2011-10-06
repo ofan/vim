@@ -44,6 +44,9 @@ set mousehide		" Hide the mouse when typing text
 if g:is_Win
     set gfn=Megatops_ProCoder_1.0:h9:b:cANSI
     set gfw=Megatops_ProCoder_1.0:h9:cANSI
+elseif g:is_Mac
+    set gfn=Menlo
+    set gfw=Menlo
 else
     "set gfn=Megatops\ ProCoder\ 1.0\ Bold\ 9
     set gfn=Terminus\ 9
@@ -66,3 +69,5 @@ if version >= 500
   endif
 endif
 
+" Colorscheme
+colorscheme gentooish
