@@ -58,3 +58,6 @@
 [submodule "bundle/ropevim"]
 	path = bundle/ropevim
 	url = https://github.com/sontek/rope-vim.git
+[submodule "bundle/vim-js"]
+	path = bundle/vim-js
+	url = git://github.com/pangloss/vim-javascript.git
