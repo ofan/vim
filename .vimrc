@@ -112,10 +112,10 @@ else
 endif
 
 " 剪切板设置
-if g:is_Mac==1
-    if has("clipboard")
-        set clipboard=unnamed
-    endif
+if g:is_Mac 
+    "if has("clipboard")
+        "set clipboard=unnamed
+    "endif
     vnoremap <special> <D-x> "+x
 
     vnoremap <special> <D-y> "+y
