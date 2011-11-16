@@ -61,3 +61,6 @@
 [submodule "bundle/vim-js"]
 	path = bundle/vim-js
 	url = git://github.com/pangloss/vim-javascript.git
+[submodule "bundle/pydiction"]
+	path = bundle/pydiction
+	url = https://github.com/vim-scripts/Pydiction.git
