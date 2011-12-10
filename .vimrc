@@ -1,3 +1,4 @@
+" vim: ts=4 sw=4
 "{{{= vimrc_example =========================================
 " An example for a vimrc file.
 "
@@ -194,15 +195,12 @@ set slm=key,mouse
 set fdm=marker
 " PEP8
 let g:pep8_map='\pep'
-" Taglist 设置
-let Tlist_Show_One_File=1
-let Tlist_Exit_OnlyWindow=1
 " netrw 设置
 let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 " 自动变更当前目录到打开文件的目录
 set acd
 " 分割窗口设置
-set spr " 分割窗口从右边打开.
+"set spr " 分割窗口从右边打开.
 " TxtBrowser设置
 let tlist_txt_settings = 'txt;c:content;f:figures;t:tables'
 au BufEnter *.txt setf txt|setlocal nospell
@@ -268,7 +266,17 @@ let  g:C_OutputGvim="xterm"
 :imap <C-h>     <C-o>h
 :map <C-h>      h
 :map <C-l>      l
-:imap <C-l>     <C-o>l
+:imap <C-l>     <Right>
+" Map M-BS to delete previous word in insert-mode
+:imap <M-BS>    <C-w>
+" Window commands in insert-mode
+:inoremap <C-w>     <C-o><C-w>
+" Page up and down in insert-mode
+:imap <C-f>     <C-o><C-f>
+:imap <C-b>     <C-o><C-b>
+" Scroll down and up in insert-mode
+:imap <C-e>     <C-o><C-e>
+:imap <C-y>     <C-o><C-y>
 "正确的显示 .NFO 文件（ANSI art)
 "let s:encBackup=&enc
 au BufEnter *.nfo let s:encBackup|set enc=cp437
@@ -298,11 +306,11 @@ if version>=703
 	hi colorcolumn guibg=lightgreen
 endif
 " 设定Alt+Backspace为ESC键
-noremap! <M-BS> <ESC>
-vnoremap <M-BS> <ESC>
-snoremap <M-BS> <ESC>
-lnoremap <M-BS> <ESC>
-inoremap <M-BS> <ESC>
+"noremap! <M-BS> <ESC>
+"vnoremap <M-BS> <ESC>
+"snoremap <M-BS> <ESC>
+"lnoremap <M-BS> <ESC>
+"inoremap <M-BS> <ESC>
 " Txt2tags 文件
 au BufNewFile,BufRead *.t2t,*.t,*.tt	setf txt2tags
 " visualbell
@@ -372,7 +380,7 @@ function Do_CsTag()
     endif
     if(executable('ctags'))
         "silent! execute "!ctags -R --c-types=+p --fields=+S *"
-        silent! execute "!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q ."
+        silent! execute "!ctags -R --c++-kinds=+p --python-kinds=-i --fields=+iaS --extra=+q ."
     endif
     if(executable('cscope') && has("cscope") )
         if(g:iswindows!=1)
@@ -388,19 +396,24 @@ function Do_CsTag()
     endif
 endfunction
 
-"进行Tlist的设置
+" Taglist 设置
+let Tlist_Show_One_File=1
+let Tlist_Exit_OnlyWindow=1
 "TlistUpdate可以更新tags
-noremap <F6> :silent! Tlist<CR> "按下F6就可以呼出了
-inoremap <F6> :silent! Tlist<CR> "按下F6就可以呼出了
-let Tlist_Ctags_Cmd='ctags' "因为我们放在环境变量里，所以可以直接执行
-let Tlist_Use_Right_Window=1 "让窗口显示在右边，0的话就是显示在左边
-let Tlist_Show_One_File=1 "让taglist可以同时展示多个文件的函数列表，如果想只有1个，设置为1
-let Tlist_File_Fold_Auto_Close=1 "非当前文件，函数列表折叠隐藏
-let Tlist_Exit_OnlyWindow=1 "当taglist是最后一个分割窗口时，自动推出vim
+noremap <F6> :silent! TlistToggle<CR> "按下F6就可以呼出了
+inoremap <F6> <Esc>:silent! TlistToggle<CR> "按下F6就可以呼出了
+let Tlist_Ctags_Cmd='ctags' 
+let Tlist_Use_Right_Window=0 
+let Tlist_Show_One_File=1 
+let Tlist_File_Fold_Auto_Close=1 
+let Tlist_Exit_OnlyWindow=1 
 "是否一直处理tags.1:处理;0:不处理
 let Tlist_Process_File_Always=0 "不是一直实时更新tags，因为没有必要
 let Tlist_Inc_Winwidth=0
 " Gundo(Persistent Undo) 设置
 noremap <F7> :GundoToggle<CR>
 inoremap <F7> <ESC>:GundoToggle<CR>
-
+" Automatically use opened file instead of reopen in current buf when using quickfix
+set switchbuf=useopen
+" timeout for mapping(ms)
+set timeoutlen=800
