@@ -417,3 +417,7 @@ inoremap <F7> <ESC>:GundoToggle<CR>
 set switchbuf=useopen
 " timeout for mapping(ms)
 set timeoutlen=800
+" MakeGreen mapping
+map <unique> <silent> <Leader>m :call MakeGreen()<CR>
+" Tasklist mapping
+map <unique> <Leader>t <Plug>TaskList
