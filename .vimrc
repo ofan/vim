@@ -421,3 +421,6 @@ set timeoutlen=800
 map <unique> <silent> <Leader>m :call MakeGreen()<CR>
 " Tasklist mapping
 map <unique> <Leader>t <Plug>TaskList
+" ChangesPlugin settings
+let g:changes_autocmd=0 " Auto-refresh the changes
+let g:changes_verbose=0
