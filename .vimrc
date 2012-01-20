@@ -71,9 +71,6 @@ if has("autocmd")
   augroup vimrcEx
   au!
 
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
-
   " When editing a file, always jump to the last known cursor position.
   " Don't do it when the position is invalid or when inside an event handler
   " (happens when dropping a file on gvim).
@@ -101,8 +98,9 @@ if !exists(":DiffOrig")
 endif
 
 "= vimrc_example======================================================}}}
-" 自定义配置
-" 判断操作系统
+" Customized settings
+"
+" Determine platform
 if has("win32") || has("win64") || has("win32unix")
     let g:is_Win=1
 else
@@ -142,11 +140,6 @@ if g:is_Win
     source $VIMRUNTIME/mswin.vim
     behave mswin
 endif
-" some text
-" Persistent undo
-set undofile
-set undodir=~/.vim/.backups/persistent/
-au BufWritePre /tmp/*,/var/log/* setlocal noundofile
 " 文件名设置
 set isf=@,48-57,.,-,_,+,$,%,~
 " 设置当前工作路径
@@ -159,7 +152,7 @@ endif
 colo gentooish
 set bg=dark
 " 设置最长文本长度，超过此长度会被自动截断
-set textwidth=150
+"set textwidth=150
 " 缩进
 set ts=4
 set sw=4
@@ -292,11 +285,13 @@ set cursorline
 if version>=703
     " 相对行号
     "set rnu
-	" 保存undo list到文件
+	" Presistent undo
+    set undofile
+    au BufWritePre /tmp/*,/var/log/* setlocal noundofile
     if g:is_Win
-        set undodir=~/.vim/.undo
-    else
         set undodir=$VIM\\vimfiles\\_undo
+    else
+        set undodir=~/.vim/.undo
     endif
     " undo次数限制10000
 	set ul=10000
