@@ -64,3 +64,6 @@
 [submodule "bundle/changesplugin"]
 	path = bundle/changesplugin
 	url = https://github.com/chrisbra/changesPlugin.git
+[submodule "bundle/zencoding"]
+	path = bundle/zencoding
+	url = https://github.com/mattn/zencoding-vim.git
