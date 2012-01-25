@@ -116,14 +116,12 @@ if g:is_Mac
         "set clipboard=unnamed
     "endif
     vnoremap <special> <D-x> "+x
-
     vnoremap <special> <D-y> "+y
-
     cnoremap <special> <D-y> <C-Y>
-
     nnoremap <special> <D-v> "+gP
     cnoremap <special> <D-v> <C-R>+
 endif
+
 " 编码设置
 set ffs=dos,unix
 set fileencodings=ucs-bom,utf8,chinese,taiwan,japan,korea
@@ -418,3 +416,14 @@ map <unique> <Leader>t <Plug>TaskList
 " ChangesPlugin settings
 let g:changes_autocmd=0 " Auto-refresh the changes
 let g:changes_verbose=0
+" Enable neocomplcache
+"let g:acp_enableAtStartup = 0
+let g:neocomplcache_enable_underbar_completion = 1
+let g:neocomplcache_enable_at_startup = 1
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
