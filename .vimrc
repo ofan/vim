@@ -2,8 +2,8 @@
 "{{{= vimrc_example =========================================
 " An example for a vimrc file.
 "
-" Maintainer:	Bram Moolenaar <Bram@vim.org>
-" Last change:	2008 Dec 17
+" Maintainer: Bram Moolenaar <Bram@vim.org>
+" Last change: 2008 Dec 17
 "
 " To use it, copy it to
 "     for Unix and OS/2:  ~/.vimrc
@@ -24,14 +24,14 @@ set nocompatible
 set backspace=indent,eol,start
 
 if has("vms")
-  set nobackup		" do not keep a backup file, use versions instead
+  set nobackup        " do not keep a backup file, use versions instead
 else
-  set backup		" keep a backup file
+  set backup        " keep a backup file
 endif
-set history=800		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
+set history=800        " keep 50 lines of command line history
+set ruler        " show the cursor position all the time
+set showcmd        " display incomplete commands
+set incsearch        " do incremental searching
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
@@ -85,7 +85,7 @@ if has("autocmd")
 
 else
 
-  set autoindent		" always set autoindenting on
+  set autoindent        " always set autoindenting on
 
 endif " has("autocmd")
 
@@ -94,7 +94,7 @@ endif " has("autocmd")
 " Only define it when not defined already.
 if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
+          \ | wincmd p | diffthis
 endif
 
 "= vimrc_example======================================================}}}
@@ -146,8 +146,6 @@ map <silent> <leader>cd :cd %:p:h<cr>
 if g:is_Win && &term!="win32"
     set t_Co=256
 endif
-" colorscheme peaksea
-colo gentooish
 set bg=dark
 " 设置最长文本长度，超过此长度会被自动截断
 "set textwidth=150
@@ -174,7 +172,7 @@ else
 endif
 " 帮助
 if version >= 603
-	set helplang=cn
+    set helplang=cn
 endif
 " 设置word所能包含的字符
 set iskeyword=@,48-57,192-255,_
@@ -194,7 +192,7 @@ set acd
 "set spr " 分割窗口从右边打开.
 " TxtBrowser设置
 let tlist_txt_settings = 'txt;c:content;f:figures;t:tables'
-au BufEnter *.txt :if &filetype != 'help' | setf txt | setlocal nospell | :endif
+au BufNewFile,BufRead *.txt setlocal ft=txt | setlocal nospell
 " CDPATH 一些默认的查找目录，方便cd到需要的目录
 if g:is_Win
     set cdpath+=E:\\dev\\src
@@ -212,20 +210,20 @@ endif
 "" 始终显示状态栏
 set laststatus=2
 "" 状态栏各个状态
-let statusHead			="%-.50f\ %h%m%r"
-let statusBreakPoint	="%<"
-let statusSeparator		="|"
-let statusFileType		="%{((&ft\ ==\ \"help\"\ \|\|\ &ft\ ==\ \"\")?\"\":\"[\".&ft.\"]\")}"
-let statusFileFormat    ="[%{(&ff\ ==\ \"unix\")?\"u\":\"d\"}]"
-let statusAscii			="\{%b:0x%B\}"
-let statusCwd			="%-.50{getcwd()}"
-let statusBody			=statusFileType.statusFileFormat.statusSeparator.statusAscii.statusSeparator."\ ".statusBreakPoint.statusCwd
-let statusEncoding		="[%{(&fenc\ ==\ \"\"?&enc:&fenc).(&bomb?\",BOM\":\"\")}]"
-let statusBlank			="%="
-let statusKeymap		="%k"
-let statusRuler			="%-12.(%lL,%c%VC%)\ %P"
-let statusTime			="%{strftime(\"%y-%m-%d\",getftime(expand(\"%\")))}"
-let statusEnd=statusKeymap."\ ".statusEncoding.statusRuler."\ ".statusTime
+let statusHead        ="%-.50f\ %h%m%r"
+let statusBreakPoint  ="%<"
+let statusSeparator   ="|"
+let statusFileType    ="%{((&ft\ ==\ \"help\"\ \|\|\ &ft\ ==\ \"\")?\"\":\"[\".&ft.\"]\")}"
+let statusFileFormat  ="[%{(&ff\ ==\ \"unix\")?\"u\":\"d\"}]"
+let statusAscii       ="\{%b:0x%B\}"
+let statusCwd         ="%-.50{getcwd()}"
+let statusBody        =statusFileType.statusFileFormat.statusSeparator.statusAscii.statusSeparator."\ ".statusBreakPoint.statusCwd
+let statusEncoding    ="[%{(&fenc\ ==\ \"\"?&enc:&fenc).(&bomb?\",BOM\":\"\")}]"
+let statusBlank       ="%="
+let statusKeymap      ="%k"
+let statusRuler       ="%-12.(%lL,%c%VC%)\ %P"
+let statusTime        ="%{strftime(\"%y-%m-%d\",getftime(expand(\"%\")))}"
+let statusEnd         =statusKeymap."\ ".statusEncoding.statusRuler."\ ".statusTime
 "" 最终状态栏的模式字符串
 let statusString=statusHead.statusBody.statusBlank.statusEnd
 """ 恢复statusLine的状态(gdbmgr会修改statusline)
@@ -237,23 +235,23 @@ call ResetStatusline()
 setlocal spelllang=en_us
 "setlocal spell
 " C-Support Settings
-let  g:C_CFlags= '-Wall -g -O0 -c -pipe'
-let	 g:C_LFlags= '-Wall -g -O0 -pipe'
-"let  g:C_XtermDefaults="-fa courier -fs 10 -geometry 80x24"
-let  g:C_XtermDefaults="-fa courier -fs 10 -geometry 80x24"
-let  g:C_OutputGvim="xterm"
+let  g:C_CFlags          = '-Wall -g -O0 -c -pipe'
+let g:C_LFlags           = '-Wall -g -O0 -pipe'
+"let  g:C_XtermDefaults  ="-fa courier -fs 10 -geometry 80x24"
+let  g:C_XtermDefaults   ="-fa courier -fs 10 -geometry 80x24"
+let  g:C_OutputGvim      ="xterm"
 " 设置Shift-Tab为减少缩进
 :imap <S-Tab> 
 " 对于绕回显示的行要使用gj,g<Down> 或 gk,g<up> 来跳转到上下行
 " 绑定<C-j>,<C-k>,<C-Up>,<C-Down>到以上几个命令
-:imap <C-Up>	<C-o>gk
-:imap <C-k>		<C-Up>
-:imap <C-Down>	<C-o>gj
-:imap <C-j>		<C-Down>
-:map <C-j>		gj
-:map <C-Down>	gj
-:map <C-k>		gk
-:map <C-Up>		gk
+:imap <C-Up> <C-o>gk
+:imap <C-k>  <C-Up>
+:imap <C-Down> <C-o>gj
+:imap <C-j>  <C-Down>
+:map <C-j>  gj
+:map <C-Down> gj
+:map <C-k>  gk
+:map <C-Up>  gk
 :imap <C-h>     <C-o>h
 :map <C-h>      h
 :map <C-l>      l
@@ -283,7 +281,7 @@ set cursorline
 if version>=703
     " 相对行号
     "set rnu
-	" Presistent undo
+    " Presistent undo
     set undofile
     au BufWritePre /tmp/*,/var/log/* setlocal noundofile
     if g:is_Win
@@ -292,11 +290,11 @@ if version>=703
         set undodir=~/.vim/.undo
     endif
     " undo次数限制10000
-	set ul=10000
-	" 高亮textwidth后的第二列
-	set colorcolumn=+2
-	" 底色为浅绿
-	hi colorcolumn guibg=lightgreen
+    set ul=10000
+    " 高亮textwidth后的第二列
+    set colorcolumn=+2
+    " 底色为浅绿
+    hi colorcolumn guibg=lightgreen
 endif
 " 设定Alt+Backspace为ESC键
 "noremap! <M-BS> <ESC>
@@ -305,7 +303,7 @@ endif
 "lnoremap <M-BS> <ESC>
 "inoremap <M-BS> <ESC>
 " Txt2tags 文件
-au BufNewFile,BufRead *.t2t,*.t,*.tt	setf txt2tags
+au BufNewFile,BufRead *.t2t,*.t,*.tt setf txt2tags
 " visualbell
 "set visualbell
 " 打开光标下的文件
@@ -331,12 +329,13 @@ let g:DoxygenToolkit_returnTag = "@return\t"
 let g:DoxygenToolkit_briefTag_funcName = "no"
 let g:DoxygenToolkit_maxFunctionProtoLines = 30
 " ctags and cscope settings
+set cscopetag 
 set tags+=~/.vim/tags
-map <C-F12> :call Do_CsTag()<CR>
+map <F9> :call Do_CsTag()<CR>
 function Do_CsTag()
     let dir = getcwd()
     if filereadable("tags")
-        if(g:iswindows==1)
+        if(g:is_Win==1)
             let tagsdeleted=delete(dir."\\"."tags")
         else
             let tagsdeleted=delete("./"."tags")
@@ -350,7 +349,7 @@ function Do_CsTag()
         silent! execute "cs kill -1"
     endif
     if filereadable("cscope.files")
-        if(g:iswindows==1)
+        if(g:is_Win==1)
             let csfilesdeleted=delete(dir."\\"."cscope.files")
         else
             let csfilesdeleted=delete("./"."cscope.files")
@@ -361,7 +360,7 @@ function Do_CsTag()
         endif
     endif
     if filereadable("cscope.out")
-        if(g:iswindows==1)
+        if(g:is_Win==1)
             let csoutdeleted=delete(dir."\\"."cscope.out")
         else
             let csoutdeleted=delete("./"."cscope.out")
@@ -376,7 +375,7 @@ function Do_CsTag()
         silent! execute "!ctags -R --c++-kinds=+p --python-kinds=-i --fields=+iaS --extra=+q ."
     endif
     if(executable('cscope') && has("cscope") )
-        if(g:iswindows!=1)
+        if(g:is_Win!=1)
             silent! execute "!find . -name '*.h' -o -name '*.c' -o -name '*.cpp' -o -name '*.java' -o -name '*.cs' > cscope.files"
         else
             silent! execute "!dir /s/b *.c,*.cpp,*.h,*.java,*.cs >> cscope.files"
@@ -427,3 +426,27 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Zen coding
+let g:use_zen_complete_tag = 1
+
+" List invisible chars
+set listchars=eol:¬
+let g:listChar=1
+function ToggleListChar()
+    if g:listChar
+        set nolist
+    else 
+        set list
+    endif
+    g:listChar= ~g:listChar
+endfunc
+" Vim indent guides
+hi IndentGuidesOdd  ctermbg=white
+hi IndentGuidesEven ctermbg=lightgrey
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level=2
+let g:indent_guides_guide_size=1
+" colorscheme peaksea
+colorscheme gentooish
+
