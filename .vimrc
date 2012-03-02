@@ -210,27 +210,27 @@ endif
 "" 始终显示状态栏
 set laststatus=2
 "" 状态栏各个状态
-let statusHead        ="%-.50f\ %h%m%r"
-let statusBreakPoint  ="%<"
-let statusSeparator   ="|"
-let statusFileType    ="%{((&ft\ ==\ \"help\"\ \|\|\ &ft\ ==\ \"\")?\"\":\"[\".&ft.\"]\")}"
-let statusFileFormat  ="[%{(&ff\ ==\ \"unix\")?\"u\":\"d\"}]"
-let statusAscii       ="\{%b:0x%B\}"
-let statusCwd         ="%-.50{getcwd()}"
-let statusBody        =statusFileType.statusFileFormat.statusSeparator.statusAscii.statusSeparator."\ ".statusBreakPoint.statusCwd
-let statusEncoding    ="[%{(&fenc\ ==\ \"\"?&enc:&fenc).(&bomb?\",BOM\":\"\")}]"
-let statusBlank       ="%="
-let statusKeymap      ="%k"
-let statusRuler       ="%-12.(%lL,%c%VC%)\ %P"
-let statusTime        ="%{strftime(\"%y-%m-%d\",getftime(expand(\"%\")))}"
-let statusEnd         =statusKeymap."\ ".statusEncoding.statusRuler."\ ".statusTime
-"" 最终状态栏的模式字符串
-let statusString=statusHead.statusBody.statusBlank.statusEnd
+"let statusHead        ="%-.50f\ %h%m%r"
+"let statusBreakPoint  ="%<"
+"let statusSeparator   ="|"
+"let statusFileType    ="%{((&ft\ ==\ \"help\"\ \|\|\ &ft\ ==\ \"\")?\"\":\"[\".&ft.\"]\")}"
+"let statusFileFormat  ="[%{(&ff\ ==\ \"unix\")?\"u\":\"d\"}]"
+"let statusAscii       ="\{%b:0x%B\}"
+"let statusCwd         ="%-.50{getcwd()}"
+"let statusBody        =statusFileType.statusFileFormat.statusSeparator.statusAscii.statusSeparator."\ ".statusBreakPoint.statusCwd
+"let statusEncoding    ="[%{(&fenc\ ==\ \"\"?&enc:&fenc).(&bomb?\",BOM\":\"\")}]"
+"let statusBlank       ="%="
+"let statusKeymap      ="%k"
+"let statusRuler       ="%-12.(%lL,%c%VC%)\ %P"
+"let statusTime        ="%{strftime(\"%y-%m-%d\",getftime(expand(\"%\")))}"
+"let statusEnd         =statusKeymap."\ ".statusEncoding.statusRuler."\ ".statusTime
+""" 最终状态栏的模式字符串
+"let statusString=statusHead.statusBody.statusBlank.statusEnd
 """ 恢复statusLine的状态(gdbmgr会修改statusline)
-function! ResetStatusline()
-    set statusline=%!statusString
-endfunction
-call ResetStatusline()
+"function! ResetStatusline()
+    "set statusline=%!statusString
+"endfunction
+"call ResetStatusline()
 "拼写检查
 setlocal spelllang=en_us
 "setlocal spell
@@ -331,8 +331,8 @@ let g:DoxygenToolkit_maxFunctionProtoLines = 30
 " ctags and cscope settings
 set cscopetag 
 set tags+=~/.vim/tags
-map <F9> :call Do_CsTag()<CR>
-function Do_CsTag()
+map <F9> :call g:Do_CsTag()<CR>
+function g:Do_CsTag()
     let dir = getcwd()
     if filereadable("tags")
         if(g:is_Win==1)
@@ -433,13 +433,14 @@ let g:use_zen_complete_tag = 1
 " List invisible chars
 set listchars=eol:¬
 let g:listChar=1
-function ToggleListChar()
-    if g:listChar
+function g:ToggleListChar()
+    if g:listChar==1
         set nolist
+        g:listChar=0
     else 
         set list
+        g:listChar=1
     endif
-    g:listChar= ~g:listChar
 endfunc
 " Vim indent guides
 hi IndentGuidesOdd  ctermbg=white
@@ -447,6 +448,12 @@ hi IndentGuidesEven ctermbg=lightgrey
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level=2
 let g:indent_guides_guide_size=1
+
+" Powerline
+if has("gui_running")
+    let g:Powerline_symbols = 'fancy'
+endif
+
 " colorscheme peaksea
 colorscheme gentooish
 
