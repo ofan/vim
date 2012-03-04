@@ -94,3 +94,6 @@
 [submodule "bundle/fuzzyfinder"]
 	path = bundle/fuzzyfinder
 	url = https://github.com/vim-scripts/FuzzyFinder
+[submodule "bundle/doxygentoolkit"]
+	path = bundle/doxygentoolkit
+	url = https://github.com/vim-scripts/DoxygenToolkit.vim
