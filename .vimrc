@@ -209,7 +209,7 @@ endif
 "状态栏设置
 "" 始终显示状态栏
 set laststatus=2
-"" 状态栏各个状态
+"" {{{ Statusline
 "let statusHead        ="%-.50f\ %h%m%r"
 "let statusBreakPoint  ="%<"
 "let statusSeparator   ="|"
@@ -231,7 +231,9 @@ set laststatus=2
     "set statusline=%!statusString
 "endfunction
 "call ResetStatusline()
-"拼写检查
+" }}}
+
+" Spell check
 setlocal spelllang=en_us
 "setlocal spell
 " C-Support Settings
@@ -320,7 +322,7 @@ if &term =~? "xterm\\|rxvt"
 endif
 
 "DoxygenToolkit settings
-let g:DoxygenToolkit_authorName="ofan"
+let g:DoxygenToolkit_authorName="Ryan Feng"
 let g:DoxygenToolkit_licenseTag="GPL 2\<enter>"
 let g:DoxygenToolkit_undocTag="DOXIGEN_SKIP_BLOCK"
 let g:DoxygenToolkit_briefTag_pre = "@brief\t"
@@ -331,8 +333,8 @@ let g:DoxygenToolkit_maxFunctionProtoLines = 30
 " ctags and cscope settings
 set cscopetag 
 set tags+=~/.vim/tags
-map <F9> :call g:Do_CsTag()<CR>
-function g:Do_CsTag()
+map <F9> :call Do_CsTag()<CR>
+function Do_CsTag() " {{{
     let dir = getcwd()
     if filereadable("tags")
         if(g:is_Win==1)
@@ -386,7 +388,15 @@ function g:Do_CsTag()
             silent! execute "cs add cscope.out"
         endif
     endif
-endfunction
+endfunction " }}}
+
+" add any database in current directory
+if filereadable("cscope.out")
+    cs add cscope.out
+    " else add database pointed to by environment
+elseif $CSCOPE_DB != ""
+    cs add $CSCOPE_DB
+endif
 
 " Taglist 设置
 "TlistUpdate可以更新tags
@@ -411,7 +421,7 @@ set timeoutlen=800
 " MakeGreen mapping
 map <unique> <silent> <Leader>m :call MakeGreen()<CR>
 " Tasklist mapping
-map <unique> <Leader>t <Plug>TaskList
+map <unique> <Leader>l <Plug>TaskList
 " ChangesPlugin settings
 let g:changes_autocmd=0 " Auto-refresh the changes
 let g:changes_verbose=0
@@ -431,17 +441,8 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 let g:use_zen_complete_tag = 1
 
 " List invisible chars
-set listchars=eol:¬
-let g:listChar=1
-function g:ToggleListChar()
-    if g:listChar==1
-        set nolist
-        g:listChar=0
-    else 
-        set list
-        g:listChar=1
-    endif
-endfunc
+set listchars=tab:▸\ ,eol:¬
+noremap <Leader><Leader>l :set list!<CR>
 " Vim indent guides
 hi IndentGuidesOdd  ctermbg=white
 hi IndentGuidesEven ctermbg=lightgrey
