@@ -457,4 +457,3 @@ endif
 
 " colorscheme peaksea
 colorscheme gentooish
-
