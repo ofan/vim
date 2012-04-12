@@ -70,6 +70,14 @@ if version >= 500
   endif
 endif
 
+" Set transparency
+if has("transparency")
+  set transparency=4
+endif
+
+" No right scroll bar
+set go-=r
+set go+=R
 
 " Colorscheme
 colorscheme gentooish
