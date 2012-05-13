@@ -455,5 +455,7 @@ if has("gui_running")
     let g:Powerline_symbols = 'fancy'
 endif
 
+" cpoptinos
+set cpo-=B
 " colorscheme peaksea
 colorscheme gentooish
