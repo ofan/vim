@@ -101,17 +101,23 @@ endif
 " Customized settings
 "
 " Determine platform
+let g:is_Win = 0
+let g:is_Mac = 0
+let g:is_Linux = 0
+
 if has("win32") || has("win64") || has("win32unix")
     let g:is_Win=1
 else
     if has("mac") || has("macunix")
         let g:is_Mac=1
+    else
+        let g:is_Win = 0
+        let g:is_Linux = 1
     endif
-    let g:is_Win=0
 endif
 
 " 剪切板设置
-if g:is_Mac 
+if g:is_Mac
     "if has("clipboard")
         "set clipboard=unnamed
     "endif
