@@ -199,17 +199,6 @@ set acd
 " TxtBrowser设置
 let tlist_txt_settings = 'txt;c:content;f:figures;t:tables'
 au BufNewFile,BufRead *.txt setlocal ft=txt | setlocal nospell
-" CDPATH 一些默认的查找目录，方便cd到需要的目录
-if g:is_Win
-    set cdpath+=E:\\dev\\src
-    set cdpath+=E:\\Users\\OFAN
-    set cdpath+=E:\\dev\\alg
-else
-    set cdpath+=/media/DOC
-    set cdpath+=/media/DOC/dev/src
-    set cdpath+=/media/DOC/Users/OFAN
-    set cdpath+=/media/DOC/dev/alg
-endif
 " C++ Support Support
 "map <C-M-r> @='<Leader>rc|<Leader>rl|<Leader>rr'<CR>
 "状态栏设置
