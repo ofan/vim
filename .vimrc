@@ -231,28 +231,22 @@ set laststatus=2
 " Spell check
 setlocal spelllang=en_us
 "setlocal spell
-" C-Support Settings
-let  g:C_CFlags          = '-Wall -g -O0 -c -pipe'
-let g:C_LFlags           = '-Wall -g -O0 -pipe'
-"let  g:C_XtermDefaults  ="-fa courier -fs 10 -geometry 80x24"
-let  g:C_XtermDefaults   ="-fa courier -fs 10 -geometry 80x24"
-let  g:C_OutputGvim      ="xterm"
 " 设置Shift-Tab为减少缩进
 :imap <S-Tab> 
 " 对于绕回显示的行要使用gj,g<Down> 或 gk,g<up> 来跳转到上下行
 " 绑定<C-j>,<C-k>,<C-Up>,<C-Down>到以上几个命令
-:imap <C-Up> <C-o>gk
-:imap <C-k>  <C-Up>
-:imap <C-Down> <C-o>gj
-:imap <C-j>  <C-Down>
-:map <C-j>  gj
-:map <C-Down> gj
-:map <C-k>  gk
-:map <C-Up>  gk
-:imap <C-h>     <C-o>h
-:map <C-h>      h
-:map <C-l>      l
-:imap <C-l>     <Right>
+:imap  <C-Up>     <C-o>gk
+:imap  <C-k>      <C-Up>
+:imap  <C-Down>   <C-o>gj
+:imap  <C-j>      <C-Down>
+:map   <C-j>      gj
+:map   <C-Down>   gj
+:map   <C-k>      gk
+:map   <C-Up>     gk
+:imap  <C-h>      <C-o>h
+:map   <C-h>      h
+:map   <C-l>      l
+:imap  <C-l>      <Right>
 " Map M-BS to delete previous word in insert-mode
 :imap <M-BS>    <C-w>
 " Window commands in insert-mode
@@ -263,6 +257,11 @@ let  g:C_OutputGvim      ="xterm"
 " Scroll down and up in insert-mode
 :imap <C-e>     <C-o><C-e>
 :imap <C-y>     <C-o><C-y>
+"Window resize
+:nmap <silent> k :res +1<CR>
+:nmap <silent> j :res -1<CR>
+:nmap <silent> l :vertical res +1<CR>
+:nmap <silent> h :vertical res -1<CR>
 "正确的显示 .NFO 文件（ANSI art)
 "let s:encBackup=&enc
 au BufEnter *.nfo let s:encBackup|set enc=cp437
