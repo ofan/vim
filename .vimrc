@@ -159,7 +159,7 @@ set bg=dark
 set ts=4
 set sw=4
 " C语言缩进
-set cindent
+au BufNew,BufRead *.h,*.cpp,*.c,*.hpp,*.cxx setlocal cindent
 " 自动缩进
 set autoindent
 " 使用空格替换Tab
