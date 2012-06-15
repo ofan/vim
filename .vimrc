@@ -436,11 +436,16 @@ let g:use_zen_complete_tag = 1
 
 " List invisible chars
 set listchars=tab:▸\ ,eol:¬
+" Auto display list chars for some source files
+au BufNew,BufRead *.h,*.c,*.cpp,*.hpp,*.cxx,
+            \ *.py,*.hs,*.rb,Makefile,makefile,CMakelist.txt
+            \ setlocal list
+
 noremap <Leader><Leader>l :set list!<CR>
 " Vim indent guides
 hi IndentGuidesOdd  ctermbg=white
 hi IndentGuidesEven ctermbg=lightgrey
-let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_enable_on_vim_startup = 0
 let g:indent_guides_start_level=2
 let g:indent_guides_guide_size=1
 
