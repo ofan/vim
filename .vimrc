@@ -437,9 +437,10 @@ let g:use_zen_complete_tag = 1
 " List invisible chars
 set listchars=tab:▸\ ,eol:¬
 " Auto display list chars for some source files
-au BufNew,BufRead *.h,*.c,*.cpp,*.hpp,*.cxx,
-            \ *.py,*.hs,*.rb,Makefile,makefile,CMakelist.txt
+au BufNew,BufEnter *.h,*.c,*.cpp,*.hpp,*.cxx,
+            \*.py,*.hs,*.rb,Makefile,makefile,CMakelists.txt
             \ setlocal list
+"Dont miss the space before 'setlocal'
 
 noremap <Leader><Leader>l :set list!<CR>
 " Vim indent guides
