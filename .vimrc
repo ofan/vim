@@ -325,7 +325,7 @@ let g:DoxygenToolkit_returnTag = "@return\t"
 let g:DoxygenToolkit_briefTag_funcName = "no"
 let g:DoxygenToolkit_maxFunctionProtoLines = 30
 " ctags and cscope settings
-set cscopetag 
+set cscopetag
 set tags+=~/.vim/tags
 map <F9> :call Do_CsTag()<CR>
 function Do_CsTag() " {{{
@@ -396,12 +396,12 @@ endif
 "TlistUpdate可以更新tags
 noremap <F6> :silent! TlistToggle<CR> "按下F6就可以呼出了
 inoremap <F6> <Esc>:silent! TlistToggle<CR> "按下F6就可以呼出了
-let Tlist_Ctags_Cmd='ctags' 
-let Tlist_Use_Right_Window=0 
+let Tlist_Ctags_Cmd='ctags'
+let Tlist_Use_Right_Window=0
 let Tlist_Show_One_File=0
-let Tlist_File_Fold_Auto_Close=0 
+let Tlist_File_Fold_Auto_Close=0
 let Tlist_Auto_Update=1
-let Tlist_Exit_OnlyWindow=1 
+let Tlist_Exit_OnlyWindow=1
 "是否一直处理tags.1:处理;0:不处理
 let Tlist_Process_File_Always=0 "不是一直实时更新tags，因为没有必要
 let Tlist_Inc_Winwidth=0
