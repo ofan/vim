@@ -442,6 +442,15 @@ au BufNew,BufEnter *.h,*.c,*.cpp,*.hpp,*.cxx,
             \ setlocal list
 "Dont miss the space before 'setlocal'
 
+" Highlight extra whitespace
+au ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
 noremap <Leader><Leader>l :set list!<CR>
 " Vim indent guides
 hi IndentGuidesOdd  ctermbg=white
