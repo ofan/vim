@@ -433,6 +433,7 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " Zen coding
 let g:use_zen_complete_tag = 1
+let g:user_zen_leader_key = '<c-;>'
 
 " List invisible chars
 set listchars=tab:▸\ ,eol:¬
