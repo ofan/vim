@@ -468,7 +468,7 @@ if has("gui_running")
     let g:Powerline_symbols = 'fancy'
 endif
 
-" cpoptinos
-set cpo-=B
+" cpoptinos  snipMate plugin requires B in cpo
+"set cpo-=B
 " colorscheme peaksea
 colorscheme gentooish
