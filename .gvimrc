@@ -7,7 +7,10 @@ endif
 " Toggle Toolbar
 set guioptions-=T
 set guioptions-=m
-set go+=L
+
+" No scroll bar
+set go-=L
+set go-=R
 map <silent> <F2> :if &guioptions =~# 'T' <Bar>
 		\set guioptions-=T <Bar>
 	\else <Bar>
