@@ -11,6 +11,8 @@ set guioptions-=m
 " No scroll bar
 set go-=L
 set go-=R
+set go-=r
+
 map <silent> <F2> :if &guioptions =~# 'T' <Bar>
 		\set guioptions-=T <Bar>
 	\else <Bar>
@@ -77,10 +79,6 @@ endif
 if has("transparency")
   set transparency=4
 endif
-
-" No right scroll bar
-set go-=r
-set go+=R
 
 " Colorscheme
 colorscheme gentooish
