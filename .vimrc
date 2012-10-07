@@ -395,10 +395,15 @@ elseif $CSCOPE_DB != ""
     cs add $CSCOPE_DB
 endif
 
+" NERDTree settings
+noremap <F3> :silent! NERDTreeToggle<CR>
+
+" Quick buf
+
 " Taglist 设置
 "TlistUpdate可以更新tags
-noremap <F6> :silent! TagbarToggle<CR> "按下F6就可以呼出了
-inoremap <F6> <Esc>:silent! TagbarToggle<CR> "按下F6就可以呼出了
+noremap <F5> :silent! TagbarToggle<CR>
+inoremap <F5> <Esc>:silent! TagbarToggle<CR>
 let Tlist_Ctags_Cmd='ctags'
 let Tlist_Use_Right_Window=0
 let Tlist_Show_One_File=0
@@ -409,8 +414,8 @@ let Tlist_Exit_OnlyWindow=1
 let Tlist_Process_File_Always=0 "不是一直实时更新tags，因为没有必要
 let Tlist_Inc_Winwidth=0
 " Gundo(Persistent Undo) 设置
-noremap <F7> :GundoToggle<CR>
-inoremap <F7> <ESC>:GundoToggle<CR>
+noremap <F6> :GundoToggle<CR>
+inoremap <F6> <ESC>:GundoToggle<CR>
 " Automatically use opened file instead of reopen in current buf when using quickfix
 set switchbuf=useopen
 " timeout for mapping(ms)
@@ -468,6 +473,12 @@ if has("gui_running")
     let g:Powerline_symbols = 'fancy'
 endif
 
+" Session settings
+set sessionoptions-=curdir
+"" Make compitable with windows, use relative path
+set sessionoptions+=slash,unix,sesdir
+" map \r to make nerdtree to change cur directory to cur buffer
+map <leader>r :NERDTreeFind<cr>
 " cpoptinos  snipMate plugin requires B in cpo
 "set cpo-=B
 " colorscheme peaksea
