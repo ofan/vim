@@ -161,8 +161,10 @@ set bg=dark
 " 缩进
 set ts=4
 set sw=4
+" Haskell indent
+au BufNew,BufRead,BufNewFile *.hs setlocal ts=2 sw=2
 " C语言缩进
-au BufNew,BufRead *.h,*.cpp,*.c,*.hpp,*.cxx setlocal cindent
+au BufNew,BufRead,BufNewFile *.h,*.cpp,*.c,*.hpp,*.cxx setlocal cindent
 " 自动缩进
 set autoindent
 " 使用空格替换Tab
@@ -441,12 +443,12 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " Zen coding
 let g:use_zen_complete_tag = 1
-let g:user_zen_leader_key = '<c-;>'
+let g:user_zen_leader_key = '<c-z>'
 
 " List invisible chars
 set listchars=tab:▸\ ,eol:¬
 " Auto display list chars for some source files
-au BufNew,BufEnter *.h,*.c,*.cpp,*.hpp,*.cxx,
+au BufNew,BufEnter,BufNewFile *.h,*.c,*.cpp,*.hpp,*.cxx,
             \*.py,*.hs,*.rb,Makefile,makefile,CMakelists.txt
             \ setlocal list
 "Dont miss the space before 'setlocal'
