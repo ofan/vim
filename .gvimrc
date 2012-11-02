@@ -4,6 +4,16 @@ if g:is_Win
 else
     source ~/.vim/mswin.vim
 endif
+
+" Window resize
+if g:is_Mac
+    " Alt+hjkl is converted to special charaters under MacVim
+    :nmap <silent> ˚ :res +1<CR>
+    :nmap <silent> ∆ :res -1<CR>
+    :nmap <silent> ¬ :vertical res +1<CR>
+    :nmap <silent> ˙ :vertical res -1<CR>
+endif
+
 " Toggle Toolbar
 set guioptions-=T
 set guioptions-=m
