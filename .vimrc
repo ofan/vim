@@ -303,8 +303,6 @@ endif
 "snoremap <M-BS> <ESC>
 "lnoremap <M-BS> <ESC>
 "inoremap <M-BS> <ESC>
-" Txt2tags 文件
-au BufNewFile,BufRead *.t2t,*.t,*.tt setf txt2tags
 " visualbell
 "set visualbell
 " 打开光标下的文件
