@@ -485,3 +485,7 @@ map <leader>r :NERDTreeFind<cr>
 "set cpo-=B
 " colorscheme peaksea
 colorscheme gentooish
+" Haskell mode
+au BufEnter *.hs compiler ghc
+let g:haddock_browser="open"
+let g:haddock_browser_callformat = "%s %s"

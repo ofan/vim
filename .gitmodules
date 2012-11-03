@@ -118,6 +118,15 @@
 [submodule "bundle/vimproc"]
 	path = bundle/vimproc
 	url = https://github.com/Shougo/vimproc.git
-[submodule "bundle/neco-ghc"]
-	path = bundle/neco-ghc
-	url = https://github.com/ujihisa/neco-ghc.git
+[submodule "bundle/vim-hoogle"]
+	path = bundle/vim-hoogle
+	url = https://github.com/Twinside/vim-hoogle.git
+[submodule "bundle/lushtags"]
+	path = bundle/lushtags
+	url = https://github.com/bitc/lushtags.git
+[submodule "bundle/vimshell"]
+	path = bundle/vimshell
+	url = https://github.com/Shougo/vimshell
+[submodule "bundle/haskell-conceal"]
+	path = bundle/haskell-conceal
+	url = https://github.com/vim-scripts/Haskell-Conceal.git
