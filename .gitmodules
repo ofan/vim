@@ -136,3 +136,9 @@
 [submodule "bundle/haskell-fold"]
 	path = bundle/haskell-fold
 	url = https://github.com/Twinside/vim-haskellFold.git
+[submodule "bundle/repl"]
+	path = bundle/repl
+	url = https://github.com/ujihisa/repl.vim.git
+[submodule "bundle/tslime"]
+	path = bundle/tslime
+	url = https://github.com/xaviershay/tslime.vim
