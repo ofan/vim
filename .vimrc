@@ -316,6 +316,12 @@ if &term =~? "xterm\\|rxvt"
     :silent !echo -ne "\033]12;green\x7"
     let &t_SI = "\033]12;orange\007"
     let &t_EI = "\033]12;green\007"
+elseif exists('$TMUX')
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
 "DoxygenToolkit settings
@@ -428,7 +434,7 @@ map <unique> <Leader>l <Plug>TaskList
 let g:changes_autocmd=0 " Auto-refresh the changes
 let g:changes_verbose=0
 " Enable neocomplcache
-"let g:acp_enableAtStartup = 0
+let g:neocomplcache_enable_camel_case_completion = 1
 let g:neocomplcache_enable_underbar_completion = 1
 let g:neocomplcache_enable_at_startup = 1
 
@@ -487,3 +493,4 @@ colorscheme gentooish
 au BufEnter *.hs compiler ghc
 let g:haddock_browser="open"
 let g:haddock_browser_callformat = "%s %s"
+
