@@ -434,9 +434,8 @@ map <unique> <Leader>l <Plug>TaskList
 let g:changes_autocmd=0 " Auto-refresh the changes
 let g:changes_verbose=0
 " Enable neocomplcache
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_underbar_completion = 1
 let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_fuzzy_completion = 1
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -493,4 +492,14 @@ colorscheme gentooish
 au BufEnter *.hs compiler ghc
 let g:haddock_browser="open"
 let g:haddock_browser_callformat = "%s %s"
+
+" Clang-complete options
+set path=.,,/usr/include,/usr/include/c++/4.2.1,/opt/local/include,/usr/local/include,/opt/local/include/gcc47/c++/
+let g:clang_user_options = '-std=c++11'
+let g:clang_complete_auto = 1
+let g:clang_complete_copen = 1
+let g:clang_use_library = 1
+let g:clang_close_preview = 1
+let g:clang_exec = "clang++"
+let g:neocomplcache_force_overwrite_completefunc=1
 
