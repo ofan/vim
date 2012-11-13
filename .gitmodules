@@ -142,3 +142,9 @@
 [submodule "bundle/tslime"]
 	path = bundle/tslime
 	url = https://github.com/xaviershay/tslime.vim
+[submodule "bundle/clang_complete"]
+	path = bundle/clang_complete
+	url = https://github.com/Rip-Rip/clang_complete.git
+[submodule "bundle/neocomplcache-clang_complete"]
+	path = bundle/neocomplcache-clang_complete
+	url = https://github.com/osyo-manga/neocomplcache-clang_complete.git
