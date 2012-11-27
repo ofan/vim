@@ -148,3 +148,6 @@
 [submodule "bundle/neocomplcache-clang_complete"]
 	path = bundle/neocomplcache-clang_complete
 	url = https://github.com/osyo-manga/neocomplcache-clang_complete.git
+[submodule "bundle/drawit"]
+	path = bundle/drawit
+	url = https://github.com/vim-scripts/DrawIt.git
