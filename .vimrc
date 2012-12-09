@@ -449,7 +449,7 @@ let g:use_zen_complete_tag = 1
 let g:user_zen_leader_key = '<c-z>'
 
 " List invisible chars
-set listchars=tab:▸\ ,eol:¬
+set listchars=tab:▸\ ,eol:↩
 " Auto display list chars for some source files
 au BufNew,BufEnter,BufNewFile *.h,*.c,*.cpp,*.hpp,*.cxx,
             \*.py,*.hs,*.rb,Makefile,makefile,CMakelists.txt
