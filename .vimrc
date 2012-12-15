@@ -495,6 +495,13 @@ set sessionoptions+=slash,unix,sesdir
 map <leader>r :NERDTreeFind<cr>
 " cpoptinos  snipMate plugin requires B in cpo
 "set cpo-=B
+
+" Haskell highligh
+let hs_highlight_delimiters = 1
+let hs_highlight_boolean = 1
+let hs_highlight_types = 1
+let hs_highlighy_more_types = 1
+
 " Haskell mode
 au BufEnter *.hs compiler ghc
 let g:haddock_browser="open"
