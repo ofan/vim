@@ -242,9 +242,11 @@ setlocal spelllang=en_us
 " 绑定<C-j>,<C-k>,<C-Up>,<C-Down>到以上几个命令
 :imap  <C-Up>     <C-o>gk
 :imap  <C-k>      <C-Up>
+:cmap  <C-k>      k
 :imap  <C-Down>   <C-o>gj
 :imap  <C-j>      <C-Down>
 :map   <C-j>      gj
+:cmap  <C-j>      j
 :map   <C-Down>   gj
 :map   <C-k>      gk
 :map   <C-Up>     gk
@@ -405,6 +407,11 @@ endif
 noremap <F3> :silent! NERDTreeToggle<CR>
 
 " Quick buf
+let g:qb_hotkey = "<F4>"
+map <C-w>b <F4>
+map <C-w><C-b> <F4>
+cmap <C-w>b <F4>
+cmap <C-w><C-b> <F4>
 
 " Taglist 设置
 "TlistUpdate可以更新tags
