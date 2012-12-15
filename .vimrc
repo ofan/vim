@@ -162,7 +162,7 @@ set bg=dark
 set ts=4
 set sw=4
 " Haskell indent
-au BufNew,BufRead,BufNewFile *.hs setlocal ts=2 sw=2
+au BufNew,BufRead,BufNewFile *.hs setlocal ts=2 sw=2 | IndentGuidesEnable
 " C语言缩进
 au BufNew,BufRead,BufNewFile *.h,*.cpp,*.c,*.hpp,*.cxx setlocal cindent
 " 自动缩进
@@ -467,11 +467,13 @@ autocmd BufWinLeave * call clearmatches()
 
 noremap <Leader><Leader>l :set list!<CR>
 " Vim indent guides
-hi IndentGuidesOdd  ctermbg=white
-hi IndentGuidesEven ctermbg=lightgrey
+let g:indent_guides_auto_colors = 0
 let g:indent_guides_enable_on_vim_startup = 0
 let g:indent_guides_start_level=2
 let g:indent_guides_guide_size=1
+"" Set indent line colors
+autocmd VimEnter,ColorScheme * hi IndentGuidesOdd  guibg=#262626 ctermbg=235
+autocmd VimEnter,ColorScheme * hi IndentGuidesEven guibg=#3a3a3a ctermbg=237
 
 " Powerline
 if has("gui_running")
@@ -486,8 +488,6 @@ set sessionoptions+=slash,unix,sesdir
 map <leader>r :NERDTreeFind<cr>
 " cpoptinos  snipMate plugin requires B in cpo
 "set cpo-=B
-" colorscheme peaksea
-colorscheme gentooish
 " Haskell mode
 au BufEnter *.hs compiler ghc
 let g:haddock_browser="open"
@@ -503,3 +503,5 @@ let g:clang_close_preview = 1
 let g:clang_exec = "clang++"
 let g:neocomplcache_force_overwrite_completefunc=1
 
+" colorscheme peaksea
+colorscheme gentooish
