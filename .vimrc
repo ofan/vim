@@ -241,10 +241,10 @@ setlocal spelllang=en_us
 " 对于绕回显示的行要使用gj,g<Down> 或 gk,g<up> 来跳转到上下行
 " 绑定<C-j>,<C-k>,<C-Up>,<C-Down>到以上几个命令
 :imap  <C-Up>     <C-o>gk
-:imap  <C-k>      <C-Up>
-:cmap  <C-k>      k
 :imap  <C-Down>   <C-o>gj
-:imap  <C-j>      <C-Down>
+:imap  <C-k>      <C-o>gk
+:cmap  <C-k>      k
+:imap  <C-j>      <C-o>gj
 :map   <C-j>      gj
 :cmap  <C-j>      j
 :map   <C-Down>   gj
@@ -253,7 +253,7 @@ setlocal spelllang=en_us
 :imap  <C-h>      <C-o>h
 :map   <C-h>      h
 :map   <C-l>      l
-:imap  <C-l>      <Right>
+:imap  <C-l>      <C-o>l
 " Map M-BS to delete previous word in insert-mode
 :imap <M-BS>    <C-w>
 " Window commands in insert-mode
