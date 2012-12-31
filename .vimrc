@@ -121,9 +121,9 @@ endif
 
 " 剪切板设置
 if g:is_Mac
-    "if has("clipboard")
-        "set clipboard=unnamed
-    "endif
+    if has("clipboard") && !has("gui_running")
+        set clipboard=unnamed
+    endif
     vnoremap <special> <D-x> "+x
     vnoremap <special> <D-y> "+y
     cnoremap <special> <D-y> <C-Y>
