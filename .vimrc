@@ -279,8 +279,12 @@ setlocal spelllang=en_us
 :nmap <silent> h :vertical res -1<CR>
 "正确的显示 .NFO 文件（ANSI art)
 "let s:encBackup=&enc
-au BufEnter *.nfo let s:encBackup|set enc=cp437
-au BufLeave *.nfo set enc=s:encBackup
+augroup NfoEncoding
+    au!
+    au BufEnter *.nfo let s:encBackup|set enc=cp437
+    au BufLeave *.nfo set enc=s:encBackup
+augroup END
+
 " 终端设置
 set ttyfast
 " 载入Pyclewn
