@@ -287,8 +287,6 @@ augroup END
 
 " 终端设置
 set ttyfast
-" 载入Pyclewn
-"runtime pyclewn.vim
 
 " Highlight current line and column
 hi CursorLine ctermbg=17
