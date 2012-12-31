@@ -290,8 +290,19 @@ set ttyfast
 " 载入Pyclewn
 "runtime pyclewn.vim
 
-" 高亮当前行
+" Highlight current line and column
+hi CursorLine ctermbg=17
+"hi CursorColumn ctermbg=black
 set cursorline
+set cursorcolumn
+augroup CursorLine
+    au!
+    au InsertEnter * hi CursorLine ctermbg=black
+    au InsertLeave * hi CursorLine ctermbg=17
+    au WinLeave * setlocal nocursorline nocursorcolumn
+    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline cursorcolumn
+augroup END
+
 " 版本>7.3,启用新功能
 if version>=703
     " 相对行号
