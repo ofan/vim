@@ -440,6 +440,8 @@ let g:changes_verbose=0
 " Enable neocomplcache
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_fuzzy_completion = 1
+let g:neocomplcache_force_overwrite_completefunc=1
+
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
