@@ -516,7 +516,13 @@ let g:clang_complete_copen = 1
 let g:clang_use_library = 1
 let g:clang_close_preview = 1
 let g:clang_exec = "clang++"
-let g:neocomplcache_force_overwrite_completefunc=1
+
+" Syntastic options
+let g:syntastic_cpp_check_header = 1
+"let g:syntastic_cpp_include_dirs = [ '/usr/include', '/usr/include/c++/4.2.1/', '/opt/local/include', '/usr/local/include', '/opt/local/include/gcc47/c++' ]
+let g:syntastic_cpp_compiler = 'g++'
+let g:syntastic_cpp_compiler_options = '-Wall -std=c++0x'
+let g:syntastic_cpp_config_file = '.syntastic_cpp_config'
 
 " colorscheme peaksea
 colorscheme gentooish
