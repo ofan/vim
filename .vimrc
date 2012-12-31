@@ -307,20 +307,9 @@ if version>=703
     " 底色为浅绿
     hi colorcolumn guibg=lightgreen
 endif
-" 设定Alt+Backspace为ESC键
-"noremap! <M-BS> <ESC>
-"vnoremap <M-BS> <ESC>
-"snoremap <M-BS> <ESC>
-"lnoremap <M-BS> <ESC>
-"inoremap <M-BS> <ESC>
 " visualbell
 "set visualbell
-" 打开光标下的文件
-"" for Windows
-vnoremap <silent> <C-F5> :<C-U>let old_reg=@"<CR>gvy:silent!!cmd /cstart <C-R><C-R>"<CR><CR>:let @"=old_reg<CR>
-"
-" 设置perl-support的工作目录
-let g:Perl_Support_Root_Dir = expand("$HOME")."/.vim/bundle"
+
 " 设置不同模式下的光标颜色
 if &term =~? "xterm\\|rxvt"
     :silent !echo -ne "\033]12;green\x7"
