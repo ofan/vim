@@ -140,7 +140,9 @@ else
     set termencoding=utf8
 endif
 " 写入配置文件和脚本插件时强制使用unix风格换行
-au BufWritePre *vimrc,*gvimrc,*.vim set ff=unix
+augroup FileFormat
+    au BufWritePre *vimrc,*gvimrc,*.vim,*.sh set ff=unix
+augroup END
 " 不兼容Vi
 set nocompatible
 if g:is_Win
@@ -162,9 +164,15 @@ set bg=dark
 set ts=4
 set sw=4
 " Haskell indent
-au BufNew,BufRead,BufNewFile *.hs setlocal ts=2 sw=2 | IndentGuidesEnable
+augroup Haskell
+    au!
+    au BufNew,BufRead,BufNewFile *.hs setlocal ts=2 sw=2 | IndentGuidesEnable
+augroup END
 " C语言缩进
-au BufNew,BufRead,BufNewFile *.h,*.cpp,*.c,*.hpp,*.cxx setlocal cindent
+augroup C
+    au!
+    au BufNew,BufRead,BufNewFile *.h,*.cpp,*.c,*.hpp,*.cxx setlocal cindent
+augroup END
 " 自动缩进
 set autoindent
 " 使用空格替换Tab
@@ -464,13 +472,15 @@ au BufNew,BufEnter,BufNewFile *.h,*.c,*.cpp,*.hpp,*.cxx,
 "Dont miss the space before 'setlocal'
 
 " Highlight extra whitespace
-au ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
-autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-autocmd BufWinLeave * call clearmatches()
+augroup HiExtraWhiteSpace
+    au ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+    au BufWinEnter * match ExtraWhitespace /\s\+$/
+    au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+    au InsertLeave * match ExtraWhitespace /\s\+$/
+    au BufWinLeave * call clearmatches()
+augroup END
 
 noremap <Leader><Leader>l :set list!<CR>
 " Vim indent guides
@@ -479,8 +489,10 @@ let g:indent_guides_enable_on_vim_startup = 0
 let g:indent_guides_start_level=2
 let g:indent_guides_guide_size=1
 "" Set indent line colors
-autocmd VimEnter,ColorScheme * hi IndentGuidesOdd  guibg=#262626 ctermbg=235
-autocmd VimEnter,ColorScheme * hi IndentGuidesEven guibg=#3a3a3a ctermbg=237
+augroup IndentGuideColors
+    au VimEnter,ColorScheme * hi IndentGuidesOdd  guibg=#262626 ctermbg=235
+    au VimEnter,ColorScheme * hi IndentGuidesEven guibg=#3a3a3a ctermbg=237
+augroup END
 
 " Powerline
 if has("gui_running")
