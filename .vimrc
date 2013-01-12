@@ -289,14 +289,14 @@ augroup END
 set ttyfast
 
 " Highlight current line and column
-hi CursorLine ctermbg=17
+hi CursorLine ctermbg=17 guibg=#00005f
 "hi CursorColumn ctermbg=black
 set cursorline
 set cursorcolumn
 augroup CursorLine
     au!
-    au InsertEnter * hi CursorLine ctermbg=black
-    au InsertLeave * hi CursorLine ctermbg=17
+    au InsertEnter * hi CursorLine ctermbg=black guibg=black
+    au InsertLeave * hi CursorLine ctermbg=17 guibg=#00005f
     au WinLeave * setlocal nocursorline nocursorcolumn
     au VimEnter,WinEnter,BufWinEnter * setlocal cursorline cursorcolumn
 augroup END
