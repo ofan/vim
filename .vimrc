@@ -415,6 +415,7 @@ endif
 
 " NERDTree settings
 noremap <F3> :silent! NERDTreeToggle<CR>
+inoremap <F3> <Esc>:silent! NERDTreeToggle<CR>
 
 " Quick buf
 let g:qb_hotkey = "<F4>"
