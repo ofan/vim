@@ -498,6 +498,12 @@ augroup IndentGuideColors
     au VimEnter,ColorScheme * hi IndentGuidesEven guibg=#3a3a3a ctermbg=237
 augroup END
 
+" Auto open and close quickfix window
+augroup Quickfix
+    au QuickFixCmdPost [^l]* nested cwindow
+    au QuickFixCmdPost    l* nested lwindow
+augroup END
+
 " Powerline
 if has("gui_running")
     let g:Powerline_symbols = 'fancy'
