@@ -527,6 +527,7 @@ let hs_highlighy_more_types = 1
 
 " Haskell mode
 au BufEnter *.hs,*.lhs,*.hsc compiler ghc
+let g:haddock_docdir="/Users/ofan/Library/Haskell/doc"
 let g:haddock_browser="open"
 let g:haddock_browser_callformat = "%s %s"
 
