@@ -166,7 +166,7 @@ set sw=4
 " Haskell indent
 augroup Haskell
     au!
-    au BufNew,BufRead,BufNewFile *.hs setlocal ts=2 sw=2 | IndentGuidesEnable
+    au BufNew,BufRead,BufNewFile *.hs,*.lhs,*.hsc setlocal ts=2 sw=2 | IndentGuidesEnable
 augroup END
 " C语言缩进
 augroup C
@@ -471,7 +471,7 @@ let g:user_zen_leader_key = '<c-z>'
 set listchars=tab:▸\ ,eol:↩
 " Auto display list chars for some source files
 au BufNew,BufEnter,BufNewFile *.h,*.c,*.cpp,*.hpp,*.cxx,
-            \*.py,*.hs,*.rb,Makefile,makefile,CMakelists.txt
+            \*.py,*.hs,*.lhs,*.hsc,*.rb,Makefile,makefile,CMakelists.txt
             \ setlocal list
 "Dont miss the space before 'setlocal'
 
