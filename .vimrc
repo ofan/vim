@@ -528,13 +528,16 @@ let hs_highlight_types = 1
 let hs_highlighy_more_types = 1
 
 " Haskell mode
-au BufEnter *.hs,*.lhs,*.hsc compiler ghc
+augroup Haskell
+    au FileType haskell compiler ghc
+    au FileType haskell let b:ghc_staticoptions = '-Wall -i.:..'
+augroup END
 let g:haddock_docdir="/Users/ofan/Library/Haskell/doc"
 let g:haddock_browser="open"
 let g:haddock_browser_callformat = "%s %s"
 
 " Clang-complete options
-set path=.,,/usr/include,/usr/include/c++/4.2.1,/opt/local/include,/usr/local/include,/opt/local/include/gcc47/c++/
+set path=.,..,,/usr/include,/usr/include/c++/4.2.1,/opt/local/include,/usr/local/include,/opt/local/include/gcc47/c++/
 let g:clang_user_options = '-std=c++11'
 let g:clang_complete_auto = 1
 let g:clang_complete_copen = 1
