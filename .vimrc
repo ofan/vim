@@ -501,8 +501,8 @@ augroup END
 
 " Auto open and close quickfix window
 augroup Quickfix
-    au QuickFixCmdPost [^l]* nested cwindow
-    au QuickFixCmdPost    l* nested lwindow
+    au QuickFixCmdPost [^l]* nested cwindow 4
+    au QuickFixCmdPost    l* nested lwindow 4
 augroup END
 
 " Powerline
