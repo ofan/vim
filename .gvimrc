@@ -61,7 +61,8 @@ if g:is_Win
     set gfw=Megatops_ProCoder_1.0:h9:cANSI
 elseif g:is_Mac
     "set gfn=Consolas:h12
-    set gfn=Consolas\ for\ Powerline:h12
+    "set gfn=Consolas\ for\ Powerline:h12
+    set gfn=Menlo Regular:h11
     set gfw=Microsoft\ YaHei
 else
     "set gfn=Megatops\ ProCoder\ 1.0\ Bold\ 9
