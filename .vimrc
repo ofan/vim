@@ -166,12 +166,12 @@ set sw=4
 " Haskell indent
 augroup Haskell
     au!
-    au BufNew,BufRead,BufNewFile *.hs,*.lhs,*.hsc setlocal ts=2 sw=2 | IndentGuidesEnable
+    au FileType haskell setlocal ts=2 sw=2 | IndentGuidesEnable
 augroup END
-" C语言缩进
+" C/C++ indentation
 augroup C
     au!
-    au BufNew,BufRead,BufNewFile *.h,*.cpp,*.c,*.hpp,*.cxx setlocal cindent
+    au FileType c,cpp setlocal cindent
 augroup END
 " 自动缩进
 set autoindent
