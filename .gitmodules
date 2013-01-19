@@ -148,3 +148,9 @@
 [submodule "bundle/neco-ghc"]
 	path = bundle/neco-ghc
 	url = https://github.com/ujihisa/neco-ghc.git
+[submodule "bundle/solarized-colors"]
+	path = bundle/solarized-colors
+	url = git://github.com/altercation/vim-colors-solarized.git
+[submodule "bundle/vim-solarized-powerline"]
+	path = bundle/vim-solarized-powerline
+	url = https://github.com/stephenmckinney/vim-solarized-powerline.git

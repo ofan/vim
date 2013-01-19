@@ -23,16 +23,16 @@ set go-=L
 set go-=R
 set go-=r
 
-map <silent> <F2> :if &guioptions =~# 'T' <Bar>
-		\set guioptions-=T <Bar>
-	\else <Bar>
-		\set guioptions+=T <Bar>
-	\endif<CR><CR>
-map <silent> <F3> :if &guioptions =~# 'm' <bar>
-		\set guioptions-=m <bar>
-	\else <Bar>
-		\set guioptions+=m <bar>
-	\endif<CR><CR>
+"map <silent> <F2> :if &guioptions =~# 'T' <Bar>
+		"\set guioptions-=T <Bar>
+	"\else <Bar>
+		"\set guioptions+=T <Bar>
+	"\endif<CR><CR>
+"map <silent> <F3> :if &guioptions =~# 'm' <bar>
+		"\set guioptions-=m <bar>
+	"\else <Bar>
+		"\set guioptions+=m <bar>
+	"\endif<CR><CR>
 "=========================== gvimrc_example =========================
 " An example for a gvimrc file.
 " The commands in this are executed when the GUI is started.
