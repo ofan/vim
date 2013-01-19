@@ -509,6 +509,8 @@ augroup END
 if has("gui_running")
     let g:Powerline_symbols = 'fancy'
 endif
+let g:Powerline_theme='short'
+let g:Powerline_colorscheme='solarized256'
 
 " Session settings
 set sessionoptions-=curdir
@@ -547,5 +549,8 @@ let g:syntastic_cpp_compiler = 'g++'
 let g:syntastic_cpp_compiler_options = '-Wall -std=c++0x'
 let g:syntastic_cpp_config_file = '.syntastic_cpp_config'
 
+" Solarized colorscheme
+let g:solarized_termcolors=256
 " colorscheme peaksea
-colorscheme gentooish
+"colorscheme gentooish
+colorscheme solarized
