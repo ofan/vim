@@ -500,10 +500,10 @@ augroup IndentGuideColors
 augroup END
 
 " Auto open and close quickfix window
-augroup Quickfix
-    au QuickFixCmdPost [^l]* nested cwindow 4
-    au QuickFixCmdPost    l* nested lwindow 4
-augroup END
+"augroup Quickfix
+    "au QuickFixCmdPost [^l]* nested cwindow 4
+    "au QuickFixCmdPost    l* nested lwindow 4
+"augroup END
 
 " Powerline
 if has("gui_running")
