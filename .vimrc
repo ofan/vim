@@ -506,9 +506,8 @@ augroup END
 "augroup END
 
 " Powerline
-if has("gui_running")
-    let g:Powerline_symbols = 'fancy'
-endif
+"python from powerline.bindings.vim import source_plugin; source_plugin()
+source $HOME/.vim/bundle/powerline/powerline/bindings/vim/plugin/source_plugin.vim
 let g:Powerline_theme='short'
 let g:Powerline_colorscheme='solarized256'
 
