@@ -553,6 +553,17 @@ let g:syntastic_cpp_compiler = 'g++'
 let g:syntastic_cpp_compiler_options = '-Wall -std=c++0x'
 let g:syntastic_cpp_config_file = '.syntastic_cpp_config'
 
+" Ctrl-p
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_cache_dir = $HOME.'/.vim/.cache/ctrlp'
+let g:ctrlp_custom_ignore = {
+            \ 'dir': '\v[\/]\.(git|hg|svn)$',
+            \ 'file': '(\.(DS_Store|so|dll))|\v\.(tmp,exe,dll,so,socket)'
+            \ }
+let g:ctrlp_lazy_update = 1
+let g:ctrlp_cmd = 'CtrlPLastMode'
+let g:ctrlp_extensions = ['tag', 'buffertag', 'mixed', 'quickfix', 'dir', 'line']
+
 " Solarized colorscheme
 let g:solarized_termcolors=256
 " colorscheme peaksea
