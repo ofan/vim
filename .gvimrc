@@ -62,7 +62,7 @@ if g:is_Win
 elseif g:is_Mac
     "set gfn=Consolas:h12
     "set gfn=Consolas\ for\ Powerline:h12
-    set gfn=Menlo Regular:h11
+    set gfn=Menlo\ Regular\ for\ Powerline:h11
     set gfw=Microsoft\ YaHei
 else
     "set gfn=Megatops\ ProCoder\ 1.0\ Bold\ 9
