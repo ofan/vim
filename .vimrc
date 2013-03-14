@@ -553,6 +553,9 @@ let g:syntastic_cpp_compiler = 'g++'
 let g:syntastic_cpp_compiler_options = '-Wall -std=c++0x'
 let g:syntastic_cpp_config_file = '.syntastic_cpp_config'
 
+" hdevtools options
+let g:hdevtools_options = '-g-i.:.. -g-Wall'
+
 " Ctrl-p
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_cache_dir = $HOME.'/.vim/.cache/ctrlp'
