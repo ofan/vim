@@ -569,6 +569,12 @@ let g:ctrlp_extensions = ['tag', 'buffertag', 'mixed', 'quickfix', 'dir', 'line'
 
 " Solarized colorscheme
 let g:solarized_termcolors=256
+
+" YouCompleteMe options
+let g:ycm_filetype_whitelist = { 'cpp':1,'c':1, 'python':1 }
+let g:ycm_filetype_specific_completion_to_disable = { 'vim':1,'txt':1 }
+let g:ycm_confirm_extra_conf = 0
+
 " colorscheme peaksea
 "colorscheme gentooish
 colorscheme solarized
