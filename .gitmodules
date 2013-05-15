@@ -160,3 +160,6 @@
 [submodule "bundle/YouCompleteMe"]
 	path = bundle/YouCompleteMe
 	url = https://github.com/Valloric/YouCompleteMe.git
+[submodule "bundle/gist"]
+	path = bundle/gist
+	url = https://github.com/mattn/gist-vim.git
