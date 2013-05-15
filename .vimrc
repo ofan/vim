@@ -509,7 +509,7 @@ augroup END
 "python from powerline.bindings.vim import source_plugin; source_plugin()
 source $HOME/.vim/bundle/powerline/powerline/bindings/vim/plugin/source_plugin.vim
 let g:Powerline_theme='short'
-let g:Powerline_colorscheme='solarized256'
+let g:Powerline_colorscheme='solarized256_dark'
 
 " Session settings
 set sessionoptions-=curdir
@@ -569,6 +569,7 @@ let g:ctrlp_extensions = ['tag', 'buffertag', 'mixed', 'quickfix', 'dir', 'line'
 
 " Solarized colorscheme
 let g:solarized_termcolors=256
+let g:solarized_termtrans=1
 
 " YouCompleteMe options
 let g:ycm_filetype_whitelist = { 'cpp':1,'c':1, 'python':1 }
