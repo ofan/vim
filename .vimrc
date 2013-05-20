@@ -576,6 +576,15 @@ let g:ycm_filetype_whitelist = { 'cpp':1,'c':1, 'python':1 }
 let g:ycm_filetype_specific_completion_to_disable = { 'vim':1,'txt':1 }
 let g:ycm_confirm_extra_conf = 0
 
+" Gist settings
+if g:is_Mac
+    let g:gist_clip_command = 'pbcopy'
+    let g:gist_browser_command = 'open %URL%'
+endif
+let g:gist_open_browser_after_post = 1
+let g:gist_detect_filetype = 1
+let g:gist_show_privates = 1
+
 " colorscheme peaksea
 "colorscheme gentooish
 colorscheme solarized
