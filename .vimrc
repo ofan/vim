@@ -507,7 +507,7 @@ augroup END
 
 " Powerline
 "python from powerline.bindings.vim import source_plugin; source_plugin()
-source $HOME/.vim/bundle/powerline/powerline/bindings/vim/plugin/source_plugin.vim
+set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_theme='short'
 let g:Powerline_colorscheme='solarized256_dark'
 
