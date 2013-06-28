@@ -92,4 +92,4 @@ if has("transparency")
 endif
 
 " Colorscheme
-colorscheme gentooish
+colorscheme solarized
