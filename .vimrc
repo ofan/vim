@@ -529,7 +529,7 @@ let hs_highlighy_more_types = 1
 " Haskell mode
 augroup Haskell
     au FileType haskell compiler ghc
-    au FileType haskell let b:ghc_staticoptions = '-Wall -i.:..'
+    au FileType haskell let b:ghc_staticoptions = '-Wall -i.:..:../..'
     " Reset makeprg after setting b:ghc_staticoptions
     au FileType haskell execute 'setlocal makeprg=' . g:ghc . '\ ' . escape(b:ghc_staticoptions,' ') .'\ -e\ :q\ %'
 augroup END
