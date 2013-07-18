@@ -20,6 +20,80 @@ endif
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+" Vundle settings
+set nocompatible               " be iMproved
+filetype off                   " required!
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required! 
+Bundle "gmarik/vundle"
+" {{{ Plugins
+" --- Plugins from github
+Bundle "tpope/vim-fugitive"
+Bundle "csexton/jekyll.vim"
+Bundle "sjl/gundo.vim"
+Bundle "scrooloose/nerdtree"
+Bundle "ervandew/supertab"
+Bundle "godlygeek/tabular"
+Bundle "msanders/snipmate.vim"
+Bundle "tpope/vim-markdown"
+Bundle "Lokaltog/vim-easymotion"
+Bundle "tpope/vim-surround"
+Bundle "tpope/vim-git"
+Bundle "fs111/pydoc.vim"
+Bundle "alfredodeza/pytest.vim"
+Bundle "reinh/vim-makegreen"
+Bundle "sontek/rope-vim"
+Bundle "pangloss/vim-javascript"
+Bundle "scrooloose/nerdcommenter"
+Bundle "chrisbra/changesPlugin"
+Bundle "mattn/zencoding-vim"
+Bundle "Shougo/neocomplcache"
+Bundle "nathanaelkane/vim-indent-guides"
+Bundle "kien/ctrlp.vim"
+Bundle "majutsushi/tagbar"
+Bundle "wlangstroth/vim-haskell"
+Bundle "eagletmt/ghcmod-vim"
+Bundle "Shougo/vimproc"
+Bundle "Twinside/vim-hoogle"
+Bundle "bitc/lushtags"
+Bundle "Shougo/vimshell"
+Bundle "lukerandall/haskellmode-vim"
+Bundle "Twinside/vim-haskellConceal"
+Bundle "Twinside/vim-haskellFold"
+Bundle "ujihisa/repl.vim"
+Bundle "xaviershay/tslime.vim"
+Bundle "Rip-Rip/clang_complete"
+Bundle "osyo-manga/neocomplcache-clang_complete"
+Bundle "scrooloose/syntastic"
+Bundle "ujihisa/neco-ghc"
+Bundle "altercation/vim-colors-solarized"
+Bundle "stephenmckinney/vim-solarized-powerline"
+Bundle "Lokaltog/powerline"
+Bundle "davidhalter/jedi-vim"
+Bundle "Valloric/YouCompleteMe"
+Bundle "mattn/gist-vim"
+Bundle "mileszs/ack.vim"
+Bundle "jimenezrick/vimerl"
+Bundle "mattn/webapi-vim"
+Bundle "wakatime/vim-wakatime"
+" -- Plugins from vim-scripts
+Bundle "TaskList.vim"
+Bundle "vimwiki"
+Bundle "VOoM"
+Bundle "OmniCppComplete"
+Bundle "TxtBrowser"
+Bundle "FuzzyFinder"
+Bundle "DoxygenToolkit.vim"
+Bundle "L9"
+Bundle "dbext.vim"
+Bundle "QuickBuf"
+Bundle "DrawIt"
+" }}}
+
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
@@ -62,7 +136,7 @@ endif
 if has("autocmd")
 
     " 加载 pathogen
-    call pathogen#runtime_append_all_bundles()
+    "call pathogen#runtime_append_all_bundles()
 
   " Enable file type detection.
   " Use the default filetype settings, so that mail gets 'tw' set to 72,
@@ -506,8 +580,8 @@ augroup END
 "augroup END
 
 " Powerline
-"python from powerline.bindings.vim import source_plugin; source_plugin()
-set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+python from powerline.bindings.vim import source_plugin; source_plugin()
+"set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_theme='short'
 let g:Powerline_colorscheme='solarized256_dark'
 
