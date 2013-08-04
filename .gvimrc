@@ -92,4 +92,5 @@ if has("transparency")
 endif
 
 " Colorscheme
-colorscheme solarized
+"colorscheme solarized
+colorscheme xcode-dusk
