@@ -654,8 +654,10 @@ let g:ycm_confirm_extra_conf = 0
 " Auto-rename tmux window title
 let s:in_tmux=$TMUX
 if s:in_tmux != "$TMUX"
+    let s:tmux_win_title=system("tmux display-message -p '#W'")
     augroup TMUX
         autocmd BufReadPost,FileReadPost,BufNewFile,BufEnter * call system("tmux rename-window ".expand('%'))
+        autocmd VimLeave * call system("tmux rename-window ".s:tmux_win_title)
     augroup END
 endif
 
