@@ -660,6 +660,8 @@ endif
 
 " VimShell options
 let g:vimshell_editor_command = 'vim'
+let g:vimshell_user_prompt = "fnamemodify(getcwd(), ':~')"
+let g:vimshell_temporary_directory = expand('~/.vim/.temp')
 
 " Gist settings
 if g:is_Mac
