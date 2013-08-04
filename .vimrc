@@ -650,6 +650,14 @@ let g:ycm_filetype_whitelist = { 'cpp':1,'c':1, 'python':1 }
 let g:ycm_filetype_specific_completion_to_disable = { 'vim':1,'txt':1 }
 let g:ycm_confirm_extra_conf = 0
 
+" Auto-rename tmux window title
+let s:in_tmux=$TMUX
+if s:in_tmux != "$TMUX"
+    augroup TMUX
+        autocmd BufReadPost,FileReadPost,BufNewFile,BufEnter * call system("tmux rename-window ".expand('%'))
+    augroup END
+endif
+
 " VimShell options
 let g:vimshell_editor_command = 'vim'
 
