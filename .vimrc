@@ -80,6 +80,7 @@ Bundle "mileszs/ack.vim"
 Bundle "jimenezrick/vimerl"
 Bundle "mattn/webapi-vim"
 Bundle "wakatime/vim-wakatime"
+Bundle 'rodnaph/vim-color-schemes'
 " -- Plugins from vim-scripts
 Bundle "TaskList.vim"
 Bundle "vimwiki"
