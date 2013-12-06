@@ -51,34 +51,36 @@ Bundle "pangloss/vim-javascript"
 Bundle "scrooloose/nerdcommenter"
 Bundle "chrisbra/changesPlugin"
 Bundle "mattn/emmet-vim"
-Bundle "Shougo/neocomplete.vim"
 Bundle "nathanaelkane/vim-indent-guides"
 Bundle "kien/ctrlp.vim"
 Bundle "majutsushi/tagbar"
 Bundle "wlangstroth/vim-haskell"
-Bundle "eagletmt/ghcmod-vim"
-Bundle "Shougo/vimproc"
 Bundle "Twinside/vim-hoogle"
 Bundle "bitc/lushtags"
 Bundle "Shougo/vimshell"
+" -- Haskell plugins
 Bundle "lukerandall/haskellmode-vim"
 Bundle "Twinside/vim-haskellConceal"
 Bundle "Twinside/vim-haskellFold"
+Bundle "eagletmt/neco-ghc"
+Bundle "eagletmt/ghcmod-vim"
+
 Bundle "ujihisa/repl.vim"
 Bundle "xaviershay/tslime.vim"
+Bundle "Shougo/vimproc"
 Bundle "scrooloose/syntastic"
-Bundle "ujihisa/neco-ghc"
 Bundle "altercation/vim-colors-solarized"
 Bundle "stephenmckinney/vim-solarized-powerline"
 Bundle "Lokaltog/powerline"
 Bundle "davidhalter/jedi-vim"
-Bundle "Valloric/YouCompleteMe"
 Bundle "mattn/gist-vim"
 Bundle "mileszs/ack.vim"
 Bundle "jimenezrick/vimerl"
 Bundle "mattn/webapi-vim"
 Bundle "wakatime/vim-wakatime"
-Bundle 'rodnaph/vim-color-schemes'
+"Bundle 'rodnaph/vim-color-schemes'
+Bundle "Valloric/YouCompleteMe"
+Bundle "Shougo/neocomplete.vim"
 " -- Plugins from vim-scripts
 Bundle "TaskList.vim"
 Bundle "vimwiki"
@@ -222,7 +224,7 @@ if g:is_Win
     behave mswin
 endif
 " 文件名设置
-set isf=@,48-57,.,-,_,+,$,%,~
+"set isf=@,48-57,.,-,_,+,$,%,~
 " 设置当前工作路径
 map <silent> <leader>cd :cd %:p:h<cr>
 " 颜色和配色方案
@@ -291,8 +293,7 @@ set acd
 " TxtBrowser设置
 let tlist_txt_settings = 'txt;c:content;f:figures;t:tables'
 au BufNewFile,BufRead *.txt setlocal ft=txt | setlocal nospell
-" C++ Support Support
-"map <C-M-r> @='<Leader>rc|<Leader>rl|<Leader>rr'<CR>
+
 "状态栏设置
 "" 始终显示状态栏
 set laststatus=2
@@ -357,7 +358,7 @@ setlocal spelllang=en_us
 :nmap <silent> l :vertical res +1<CR>
 :nmap <silent> h :vertical res -1<CR>
 "正确的显示 .NFO 文件（ANSI art)
-"let s:encBackup=&enc
+let s:encBackup=&enc
 augroup NfoEncoding
     au!
     au BufEnter *.nfo let s:encBackup|set enc=cp437
@@ -427,7 +428,7 @@ let g:DoxygenToolkit_maxFunctionProtoLines = 30
 " ctags and cscope settings
 set cscopetag
 set tags+=~/.vim/tags
-map <F9> :call Do_CsTag()<CR>
+"map <F9> :call Do_CsTag()<CR>
 function Do_CsTag() " {{{
     let dir = getcwd()
     if filereadable("tags")
@@ -493,20 +494,20 @@ elseif $CSCOPE_DB != ""
 endif
 
 " NERDTree settings
-noremap <F3> :silent! NERDTreeToggle<CR>
-inoremap <F3> <Esc>:silent! NERDTreeToggle<CR>
+nnoremap <F1> :silent! NERDTreeToggle<CR>
+inoremap <F1> <C-o>:silent! NERDTreeToggle<CR>
 
 " Quick buf
-let g:qb_hotkey = "<F4>"
-map <C-w>b <F4>
-map <C-w><C-b> <F4>
-cmap <C-w>b <F4>
-cmap <C-w><C-b> <F4>
+let g:qb_hotkey = "<F2>"
+map <C-w>b <F2>
+map <C-w><C-b> <F2>
+cmap <C-w>b <F2>
+cmap <C-w><C-b> <F2>
 
 " Taglist 设置
 "TlistUpdate可以更新tags
-noremap <F5> :silent! TagbarToggle<CR>
-inoremap <F5> <Esc>:silent! TagbarToggle<CR>
+noremap <F3> :silent! TagbarToggle<CR>
+inoremap <F3> <Esc>:silent! TagbarToggle<CR>
 let Tlist_Ctags_Cmd='ctags'
 let Tlist_Use_Right_Window=0
 let Tlist_Show_One_File=0
@@ -517,8 +518,8 @@ let Tlist_Exit_OnlyWindow=1
 let Tlist_Process_File_Always=0 "不是一直实时更新tags，因为没有必要
 let Tlist_Inc_Winwidth=0
 " Gundo(Persistent Undo) 设置
-noremap <F6> :GundoToggle<CR>
-inoremap <F6> <ESC>:GundoToggle<CR>
+noremap <F4> :GundoToggle<CR>
+inoremap <F4> <ESC>:GundoToggle<CR>
 " Automatically use opened file instead of reopen in current buf when using quickfix
 set switchbuf=useopen
 " timeout for mapping(ms)
@@ -532,7 +533,6 @@ let g:changes_autocmd=0 " Auto-refresh the changes
 let g:changes_verbose=0
 " Enable neocomplete
 let g:neocomplete#enable_at_startup = 1
-
 " neoghc for Haskell completion
 let g:necoghc_enable_detailed_browse = 1
 
@@ -567,7 +567,7 @@ augroup HiExtraWhiteSpace
     au BufWinLeave * call clearmatches()
 augroup END
 
-noremap <Leader><Leader>l :set list!<CR>
+noremap <Leader><Leader>l :set list!<CR> " toggle list
 " Vim indent guides
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_enable_on_vim_startup = 0
@@ -596,7 +596,7 @@ set sessionoptions-=curdir
 "" Make compitable with windows, use relative path
 set sessionoptions+=slash,unix,sesdir
 " map \r to make nerdtree to change cur directory to cur buffer
-map <leader>r :NERDTreeFind<cr>
+map <leader>r :NERDTreeFind<cr> " open nerdtree in cur dir
 " cpoptinos  snipMate plugin requires B in cpo
 "set cpo-=B
 
@@ -612,6 +612,7 @@ augroup Haskell
     au FileType haskell let b:ghc_staticoptions = '-Wall -i.:..:../..:../../..:../../../..:../../../../..'
     " Reset makeprg after setting b:ghc_staticoptions
     au FileType haskell execute 'setlocal makeprg=' . g:ghc . '\ ' . escape(b:ghc_staticoptions,' ') .'\ -e\ :q\ %'
+    au FileType haskell setlocal omnifunc=necoghc#omnifunc
 augroup END
 let g:haddock_docdir="/Users/ofan/Library/Haskell/doc"
 let g:haddock_browser="open"
@@ -644,6 +645,7 @@ let g:solarized_termtrans=1
 
 " YouCompleteMe options
 let g:ycm_filetype_whitelist = { 'cpp':1,'c':1, 'python':1 }
+let g:ycm_filetype_blacklist = { 'haskell':1 }
 let g:ycm_filetype_specific_completion_to_disable = { 'vim':1,'txt':1 }
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_register_as_syntastic_checker = 1
