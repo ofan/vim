@@ -223,8 +223,6 @@ if g:is_Win
     source $VIMRUNTIME/mswin.vim
     behave mswin
 endif
-" 文件名设置
-"set isf=@,48-57,.,-,_,+,$,%,~
 " 设置当前工作路径
 map <silent> <leader>cd :cd %:p:h<cr>
 " 颜色和配色方案
