@@ -50,8 +50,8 @@ Bundle "sontek/rope-vim"
 Bundle "pangloss/vim-javascript"
 Bundle "scrooloose/nerdcommenter"
 Bundle "chrisbra/changesPlugin"
-Bundle "mattn/zencoding-vim"
-Bundle "Shougo/neocomplcache"
+Bundle "mattn/emmet-vim"
+Bundle "Shougo/neocomplete.vim"
 Bundle "nathanaelkane/vim-indent-guides"
 Bundle "kien/ctrlp.vim"
 Bundle "majutsushi/tagbar"
@@ -66,8 +66,6 @@ Bundle "Twinside/vim-haskellConceal"
 Bundle "Twinside/vim-haskellFold"
 Bundle "ujihisa/repl.vim"
 Bundle "xaviershay/tslime.vim"
-Bundle "Rip-Rip/clang_complete"
-Bundle "osyo-manga/neocomplcache-clang_complete"
 Bundle "scrooloose/syntastic"
 Bundle "ujihisa/neco-ghc"
 Bundle "altercation/vim-colors-solarized"
@@ -85,7 +83,6 @@ Bundle 'rodnaph/vim-color-schemes'
 Bundle "TaskList.vim"
 Bundle "vimwiki"
 Bundle "VOoM"
-Bundle "OmniCppComplete"
 Bundle "TxtBrowser"
 Bundle "FuzzyFinder"
 Bundle "DoxygenToolkit.vim"
@@ -248,6 +245,13 @@ augroup C
     au!
     au FileType c,cpp setlocal cindent
 augroup END
+" Omni completion
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
 " 自动缩进
 set autoindent
 " 使用空格替换Tab
@@ -526,10 +530,11 @@ map <unique> <Leader>l <Plug>TaskList
 " ChangesPlugin settings
 let g:changes_autocmd=0 " Auto-refresh the changes
 let g:changes_verbose=0
-" Enable neocomplcache
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_fuzzy_completion = 1
-let g:neocomplcache_force_overwrite_completefunc=1
+" Enable neocomplete
+let g:neocomplete#enable_at_startup = 1
+
+" neoghc for Haskell completion
+let g:necoghc_enable_detailed_browse = 1
 
 
 " Enable omni completion.
@@ -604,22 +609,13 @@ let hs_highlighy_more_types = 1
 " Haskell mode
 augroup Haskell
     au FileType haskell compiler ghc
-    au FileType haskell let b:ghc_staticoptions = '-Wall -i.:..:../..'
+    au FileType haskell let b:ghc_staticoptions = '-Wall -i.:..:../..:../../..:../../../..:../../../../..'
     " Reset makeprg after setting b:ghc_staticoptions
     au FileType haskell execute 'setlocal makeprg=' . g:ghc . '\ ' . escape(b:ghc_staticoptions,' ') .'\ -e\ :q\ %'
 augroup END
 let g:haddock_docdir="/Users/ofan/Library/Haskell/doc"
 let g:haddock_browser="open"
 let g:haddock_browser_callformat = "%s %s"
-
-" Clang-complete options
-set path=.,..,,/usr/include,/usr/include/c++/4.2.1,/opt/local/include,/usr/local/include,/opt/local/include/gcc47/c++/
-let g:clang_user_options = '-std=c++11'
-let g:clang_complete_auto = 1
-let g:clang_complete_copen = 1
-let g:clang_use_library = 1
-let g:clang_close_preview = 1
-let g:clang_exec = "clang++"
 
 " Syntastic options
 let g:syntastic_cpp_check_header = 1
@@ -650,14 +646,23 @@ let g:solarized_termtrans=1
 let g:ycm_filetype_whitelist = { 'cpp':1,'c':1, 'python':1 }
 let g:ycm_filetype_specific_completion_to_disable = { 'vim':1,'txt':1 }
 let g:ycm_confirm_extra_conf = 0
+let g:ycm_register_as_syntastic_checker = 1
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle_configs/ycm/.ycm_extra_conf.py'
+"" ycm debug
+"let g:ycm_server_use_vim_stdout = 1
+"let g:ycm_server_log_level = 'debug'
 
 " Auto-rename tmux window title
-let s:in_tmux=$TMUX
-if s:in_tmux != "$TMUX"
-    let s:tmux_win_title=system("tmux display-message -p '#W'")
+let g:in_tmux=$TMUX
+if g:in_tmux != "$TMUX" && !has("gui_running")
+    if !exists("$TMUX_WINDOW_TITLE")
+        let g:tmux_win_title=system("tmux display-message -p '#W'")
+    else
+        let g:tmux_win_title=expand("$TMUX_WINDOW_TITLE")
+    endif
     augroup TMUX
         autocmd BufReadPost,FileReadPost,BufNewFile,BufEnter * call system("tmux rename-window ".expand('%'))
-        autocmd VimLeave * call system("tmux rename-window ".s:tmux_win_title)
+        autocmd VimLeave * call system("tmux rename-window ".g:tmux_win_title)
     augroup END
 endif
 
@@ -674,6 +679,10 @@ endif
 let g:gist_open_browser_after_post = 1
 let g:gist_detect_filetype = 1
 let g:gist_show_privates = 1
+
+" jedi-vim settings
+let g:jedi#use_tabs_not_buffers = 0
+let g:jedi#popup_select_first = 0
 
 "colorscheme peaksea
 colorscheme solarized
