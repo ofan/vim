@@ -1,15 +1,4 @@
 " vim: ts=4 sw=4
-"{{{= vimrc_example =========================================
-" An example for a vimrc file.
-"
-" Maintainer: Bram Moolenaar <Bram@vim.org>
-" Last change: 2008 Dec 17
-"
-" To use it, copy it to
-"     for Unix and OS/2:  ~/.vimrc
-"	      for Amiga:  s:.vimrc
-"  for MS-DOS and Win32:  $VIM\_vimrc
-"	    for OpenVMS:  sys$login:.vimrc
 
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
@@ -58,6 +47,9 @@ Bundle "wlangstroth/vim-haskell"
 Bundle "Twinside/vim-hoogle"
 Bundle "bitc/lushtags"
 Bundle "Shougo/vimshell"
+" Productivity
+Bundle "jceb/vim-orgmode"
+Bundle "chrisbra/NrrwRgn"
 " -- Haskell plugins
 Bundle "lukerandall/haskellmode-vim"
 Bundle "Twinside/vim-haskellConceal"
@@ -174,7 +166,6 @@ if !exists(":DiffOrig")
           \ | wincmd p | diffthis
 endif
 
-"= vimrc_example======================================================}}}
 " Customized settings
 "
 " Determine platform
@@ -654,7 +645,7 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/bundle_configs/ycm/.ycm_extra_conf.py'
 
 " Auto-rename tmux window title
 let g:in_tmux=$TMUX
-if g:in_tmux != "$TMUX" && !has("gui_running")
+if g:in_tmux && g:in_tmux != "$TMUX" && !has("gui_running")
     if !exists("$TMUX_WINDOW_TITLE")
         let g:tmux_win_title=system("tmux display-message -p '#W'")
     else
@@ -683,6 +674,42 @@ let g:gist_show_privates = 1
 " jedi-vim settings
 let g:jedi#use_tabs_not_buffers = 0
 let g:jedi#popup_select_first = 0
+
+" Vimwiki settings
+" Stores wiki in dropbox
+let dropbox_wiki = {}
+if g:is_Mac || g:is_Linux
+    let dropbox_wiki.path = "~/Dropbox/VimWiki"
+endif
+if g:is_Win
+    ":echohl "You may need to change the default path of VimWiki"
+    let dropbox_wiki.path = expand("%HOMEPATH%\Documents\Dropbox\VimWiki")
+endif
+
+let dropbox_wiki.html_template = dropbox_wiki.path . "/html_templates/template.tpl"
+let dropbox_wiki.nested_syntaxes = {'python': 'python',
+\                                   'c++': 'cpp',
+\                                   'c': 'c',
+\                                   'bash': 'bash',
+\                                   'zsh': 'zsh',
+\                                   'sh': 'bash',
+\                                   'shell': 'bash',
+\                                   'haskell': 'haskell'}
+let dropbox_wiki.path_html = dropbox_wiki.path . "/html_output"
+let dropbox_wiki.template_path = dropbox_wiki.path . "/html_templates"
+let dropbox_wiki.template_default = 'default'
+let dropbox_wiki.template_ext = '.html'
+let dropbox_wiki.css_name = 'css/main.css'
+let g:vimwiki_list = [dropbox_wiki]
+
+"" Highlight headers with colors
+let g:vimwiki_hl_headers = 1
+"" Highlight check list items with "Comment" color group
+let g:vimwiki_hl_cb_checked = 1
+"" Folding
+"let g:vimwiki_folding = "syntax"
+"" Create page if link is pointing to a directory.
+let g:vimwiki_dir_link = 'index'
 
 "colorscheme peaksea
 colorscheme solarized
