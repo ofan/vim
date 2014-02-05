@@ -699,7 +699,7 @@ let dropbox_wiki.path_html = dropbox_wiki.path . "/html_output"
 let dropbox_wiki.template_path = dropbox_wiki.path . "/html_templates"
 let dropbox_wiki.template_default = 'default'
 let dropbox_wiki.template_ext = '.html'
-let dropbox_wiki.css_name = 'css/main.css'
+let dropbox_wiki.css_name = 'css/main.min.css'
 let g:vimwiki_list = [dropbox_wiki]
 
 "" Highlight headers with colors
@@ -710,6 +710,15 @@ let g:vimwiki_hl_cb_checked = 1
 "let g:vimwiki_folding = "syntax"
 "" Create page if link is pointing to a directory.
 let g:vimwiki_dir_link = 'index'
+
+" Tagbar settings
+let g:tagbar_type_vimwiki = {
+\ 'ctagstype' : 'vimwiki',
+\ 'kinds'     : [
+\ 'h:header',
+\ ],
+\ 'sort'    : 0
+\ }
 
 "colorscheme peaksea
 colorscheme solarized
