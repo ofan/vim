@@ -220,7 +220,7 @@ map <silent> <leader>cd :cd %:p:h<cr>
 if g:is_Win && &term!="win32"
     set t_Co=256
 endif
-set bg=dark
+set bg=light
 " 设置最长文本长度，超过此长度会被自动截断
 "set textwidth=150
 " 缩进
@@ -354,18 +354,46 @@ augroup NfoEncoding
     au BufLeave *.nfo set enc=s:encBackup
 augroup END
 
-" 终端设置
+" Terminal colors and misc settings
 set ttyfast
 
 " Highlight current line and column
-hi CursorLine ctermbg=17 guibg=#00005f
-"hi CursorColumn ctermbg=black
+let s:curline_color = {
+    \'insert':{
+        \'ctermbg':'NONE',
+        \'guibg':'NONE'
+    \},
+    \'normal':{
+        \'ctermbg':'NONE',
+        \'guibg':'NONE'
+        \}
+\}
+if &background=="dark"
+    let s:curline_color.insert.ctermbg = 7
+    let s:curline_color.insert.guibg = #00005f
+    let s:curline_color.normal.ctermbg = 'NONE'
+    let s:curline_color.normal.guibg = 'NONE'
+else
+    let s:curline_color.insert.ctermbg = 'lightblue'
+    let s:curline_color.insert.guibg = 'lightblue'
+    let s:curline_color.normal.ctermbg = 'NONE'
+    let s:curline_color.normal.guibg = 'NONE'
+endif
+
+let s:hi_cursorline_insert_cmd=
+            \"highlight CursorLine ctermbg=".s:curline_color.insert.ctermbg
+            \." guibg=".s:curline_color.insert.guibg
+let s:hi_cursorline_normal_cmd=
+            \"highlight CursorLine ctermbg=".s:curline_color.normal.ctermbg
+            \." guibg=".s:curline_color.normal.guibg
 set cursorline
 set cursorcolumn
 augroup CursorLine
     au!
-    au InsertEnter * hi CursorLine ctermbg=black guibg=black
-    au InsertLeave * hi CursorLine ctermbg=17 guibg=#00005f
+    "au InsertEnter * hi CursorLine ctermbg=black guibg=black
+    "au InsertLeave * hi CursorLine ctermbg=17 guibg=#00005f
+    au InsertEnter * exe s:hi_cursorline_insert_cmd
+    au InsertLeave * exe s:hi_cursorline_normal_cmd
     au WinLeave * setlocal nocursorline nocursorcolumn
     au VimEnter,WinEnter,BufWinEnter * setlocal cursorline cursorcolumn
 augroup END
@@ -578,7 +606,11 @@ augroup END
 python from powerline.bindings.vim import source_plugin; source_plugin()
 "set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_theme='short'
-let g:Powerline_colorscheme='solarized256_dark'
+if &bg=='dark'
+    let g:Powerline_colorscheme='solarized256_dark'
+else
+    let g:Powerline_colorscheme='solarized256_light'
+endif
 
 " Session settings
 set sessionoptions-=curdir
@@ -603,9 +635,11 @@ augroup Haskell
     au FileType haskell execute 'setlocal makeprg=' . g:ghc . '\ ' . escape(b:ghc_staticoptions,' ') .'\ -e\ :q\ %'
     au FileType haskell setlocal omnifunc=necoghc#omnifunc
 augroup END
-let g:haddock_docdir="/Users/ofan/Library/Haskell/doc"
-let g:haddock_browser="open"
-let g:haddock_browser_callformat = "%s %s"
+if g:is_Mac
+    let g:haddock_docdir="/Users/ofan/Library/Haskell/doc"
+    let g:haddock_browser="open"
+    let g:haddock_browser_callformat = "%s %s"
+endif
 
 " Syntastic options
 let g:syntastic_cpp_check_header = 1
@@ -720,5 +754,5 @@ let g:tagbar_type_vimwiki = {
 \ 'sort'    : 0
 \ }
 
-"colorscheme peaksea
-colorscheme solarized
+colorscheme peaksea
+"colorscheme solarized
