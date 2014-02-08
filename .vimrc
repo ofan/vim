@@ -1,4 +1,23 @@
 " vim: ts=4 sw=4
+" Determine platform
+let g:is_Win = 0
+let g:is_Mac = 0
+let g:is_Linux = 0
+let g:is_Cygwin = 0
+
+if has("win32") || has("win64")
+    let g:is_Win=1
+else
+    if has("mac") || has("macunix")
+        let g:is_Mac=1
+    elseif has("win32unix")
+        let g:is_Win = 0
+        let g:is_Linux = 0
+        let g:is_Cygwin = 1
+    else
+        let g:is_Linux = 1
+    endif
+endif
 
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
@@ -63,7 +82,7 @@ Bundle "Shougo/vimproc"
 Bundle "scrooloose/syntastic"
 Bundle "altercation/vim-colors-solarized"
 Bundle "stephenmckinney/vim-solarized-powerline"
-Bundle "Lokaltog/powerline"
+Bundle 'bling/vim-airline'
 Bundle "davidhalter/jedi-vim"
 Bundle "mattn/gist-vim"
 Bundle "mileszs/ack.vim"
@@ -71,7 +90,9 @@ Bundle "jimenezrick/vimerl"
 Bundle "mattn/webapi-vim"
 Bundle "wakatime/vim-wakatime"
 "Bundle 'rodnaph/vim-color-schemes'
-Bundle "Valloric/YouCompleteMe"
+if !(g:is_Win || g:is_Cygwin)
+    Bundle "Valloric/YouCompleteMe"
+endif
 Bundle "Shougo/neocomplete.vim"
 " -- Plugins from vim-scripts
 Bundle "TaskList.vim"
@@ -168,21 +189,6 @@ endif
 
 " Customized settings
 "
-" Determine platform
-let g:is_Win = 0
-let g:is_Mac = 0
-let g:is_Linux = 0
-
-if has("win32") || has("win64") || has("win32unix")
-    let g:is_Win=1
-else
-    if has("mac") || has("macunix")
-        let g:is_Mac=1
-    else
-        let g:is_Win = 0
-        let g:is_Linux = 1
-    endif
-endif
 
 " 剪切板设置
 if g:is_Mac
@@ -220,6 +226,7 @@ map <silent> <leader>cd :cd %:p:h<cr>
 if g:is_Win && &term!="win32"
     set t_Co=256
 endif
+
 set bg=light
 " 设置最长文本长度，超过此长度会被自动截断
 "set textwidth=150
@@ -603,7 +610,7 @@ augroup END
 "augroup END
 
 " Powerline
-python from powerline.bindings.vim import source_plugin; source_plugin()
+"python from powerline.bindings.vim import source_plugin; source_plugin()
 "set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 let g:Powerline_theme='short'
 if &bg=='dark'
@@ -679,7 +686,7 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/bundle_configs/ycm/.ycm_extra_conf.py'
 
 " Auto-rename tmux window title
 let g:in_tmux=$TMUX
-if g:in_tmux && g:in_tmux != "$TMUX" && !has("gui_running")
+if (g:is_Mac || g:is_Linux) && !empty(g:in_tmux) && g:in_tmux != "$TMUX" && !has("gui_running")
     if !exists("$TMUX_WINDOW_TITLE")
         let g:tmux_win_title=system("tmux display-message -p '#W'")
     else
@@ -720,6 +727,10 @@ if g:is_Win
     let dropbox_wiki.path = expand("%HOMEPATH%\Documents\Dropbox\VimWiki")
 endif
 
+if g:is_Cygwin
+    let dropbox_wiki.path = "~/Dropbox/Vimwiki"
+endif
+
 let dropbox_wiki.html_template = dropbox_wiki.path . "/html_templates/template.tpl"
 let dropbox_wiki.nested_syntaxes = {'python': 'python',
 \                                   'c++': 'cpp',
@@ -754,5 +765,9 @@ let g:tagbar_type_vimwiki = {
 \ 'sort'    : 0
 \ }
 
-colorscheme peaksea
-"colorscheme solarized
+if &t_Co == 256
+    colorscheme peaksea
+    "colorscheme solarized
+else
+    colorscheme desert
+endif
