@@ -29,7 +29,6 @@ endif
 set nocompatible
 
 " Vundle settings
-set nocompatible               " be iMproved
 filetype off                   " required!
 
 set rtp+=~/.vim/bundle/vundle/
@@ -288,7 +287,12 @@ set acd
 "set spr " 分割窗口从右边打开.
 " TxtBrowser设置
 let tlist_txt_settings = 'txt;c:content;f:figures;t:tables'
-au BufNewFile,BufRead *.txt setlocal ft=txt | setlocal nospell
+
+augroup NoSpell
+    au!
+    au FileType txt setlocal ft=txt | setlocal nospell
+    au FileType vim setlocal nospell
+augroup END
 
 "状态栏设置
 "" 始终显示状态栏
@@ -593,15 +597,15 @@ augroup END
 
 noremap <Leader><Leader>l :set list!<CR> " toggle list
 " Vim indent guides
-let g:indent_guides_auto_colors = 0
+let g:indent_guides_auto_colors = 1
 let g:indent_guides_enable_on_vim_startup = 0
 let g:indent_guides_start_level=2
 let g:indent_guides_guide_size=1
 "" Set indent line colors
-augroup IndentGuideColors
-    au VimEnter,ColorScheme * hi IndentGuidesOdd  guibg=#262626 ctermbg=235
-    au VimEnter,ColorScheme * hi IndentGuidesEven guibg=#3a3a3a ctermbg=237
-augroup END
+"augroup IndentGuideColors
+    "au VimEnter,ColorScheme * hi IndentGuidesOdd  guibg=#262626 ctermbg=235
+    "au VimEnter,ColorScheme * hi IndentGuidesEven guibg=#3a3a3a ctermbg=237
+"augroup END
 
 " Auto open and close quickfix window
 "augroup Quickfix
@@ -715,6 +719,8 @@ let g:gist_show_privates = 1
 " jedi-vim settings
 let g:jedi#use_tabs_not_buffers = 0
 let g:jedi#popup_select_first = 0
+let g:jedi#auto_initialization = 1
+let g:jedi#popup_on_dot = 0
 
 " Vimwiki settings
 " Stores wiki in dropbox
@@ -764,6 +770,9 @@ let g:tagbar_type_vimwiki = {
 \ ],
 \ 'sort'    : 0
 \ }
+
+" Airline settings
+let g:airline_powerline_fonts=1
 
 if &t_Co == 256
     colorscheme peaksea
