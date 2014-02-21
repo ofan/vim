@@ -1,6 +1,6 @@
 " 模拟windows下的一些设置
 if g:is_Win
-    source $VIM/vimfiles/mswin.vim
+    source $HOME/vimfiles/mswin.vim
 else
     source ~/.vim/mswin.vim
 endif
@@ -57,8 +57,8 @@ set ch=1		" Make command line two lines high
 set mousehide		" Hide the mouse when typing text
 "字体设置
 if g:is_Win
-    set gfn=Megatops_ProCoder_1.0:h9:b:cANSI
-    set gfw=Megatops_ProCoder_1.0:h9:cANSI
+    "set gfn=Megatops_ProCoder_1.0:h9:b:cANSI
+    "set gfw=Megatops_ProCoder_1.0:h9:cANSI
 elseif g:is_Mac
     "set gfn=Consolas:h12
     "set gfn=Consolas\ for\ Powerline:h12
