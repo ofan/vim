@@ -1,4 +1,7 @@
 " vim: ts=4 sw=4
+" Script encoding
+scriptencoding utf-8
+
 " Determine platform
 let g:is_Win = 0
 let g:is_Mac = 0
@@ -31,7 +34,11 @@ set nocompatible
 " Vundle settings
 filetype off                   " required!
 
-set rtp+=~/.vim/bundle/vundle/
+if g:is_Win
+    set rtp+=$HOME\\vimfiles\\bundle\\vundle
+else
+    set rtp+=~/.vim/bundle/vundle/
+endif
 call vundle#rc()
 
 " let Vundle manage Vundle
@@ -216,7 +223,7 @@ augroup END
 " 不兼容Vi
 set nocompatible
 if g:is_Win
-    source $VIMRUNTIME/mswin.vim
+    source $HOME/vimfiles/mswin.vim
     behave mswin
 endif
 " 设置当前工作路径
@@ -577,7 +584,7 @@ let g:use_zen_complete_tag = 1
 let g:user_zen_leader_key = '<c-z>'
 
 " List invisible chars
-set listchars=tab:▸\ ,eol:↩
+set listchars=tab:▸\ ,eol:↲
 " Auto display list chars for some source files
 au BufNew,BufEnter,BufNewFile *.h,*.c,*.cpp,*.hpp,*.cxx,
             \*.py,*.hs,*.lhs,*.hsc,*.rb,Makefile,makefile,CMakelists.txt
