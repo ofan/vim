@@ -34,15 +34,13 @@ set nocompatible
 " Vundle settings
 filetype off                   " required!
 
-if g:is_Win
-    set rtp+=$HOME\\vimfiles\\bundle\\vundle
-else
-    set rtp+=~/.vim/bundle/vundle/
-endif
-call vundle#rc()
+let win_shell = (has('win32') || has('win64')) && &shellcmdflag =~ '/'
+let vimDir = win_shell ? '$HOME/vimfiles' : '$HOME/.vim'
+let &runtimepath .= ',' . expand(vimDir . '/bundle/vundle')
+call vundle#rc(expand(vimDir . '/bundle'))
 
 " let Vundle manage Vundle
-" required! 
+" required!
 Bundle "gmarik/vundle"
 " {{{ Plugins
 " --- Plugins from github
