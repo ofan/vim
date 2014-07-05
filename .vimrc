@@ -696,14 +696,15 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/bundle_configs/ycm/.ycm_extra_conf.py'
 " Auto-rename tmux window title
 let g:in_tmux=$TMUX
 if (g:is_Mac || g:is_Linux) && !empty(g:in_tmux) && g:in_tmux != "$TMUX" && !has("gui_running")
+    call system("tmux rename-window vim")
     if !exists("$TMUX_WINDOW_TITLE")
         let g:tmux_win_title=system("tmux display-message -p '#W'")
     else
         let g:tmux_win_title=expand("$TMUX_WINDOW_TITLE")
     endif
     augroup TMUX
-        autocmd BufReadPost,FileReadPost,BufNewFile,BufEnter * call system("tmux rename-window ".expand('%'))
-        autocmd VimLeave * call system("tmux rename-window ".g:tmux_win_title)
+        autocmd BufReadPost,FileReadPost,BufNewFile * call system("tmux rename-window ".expand('%'))
+        autocmd VimLeave * call system("tmux rename-window -- ".g:tmux_win_title)
     augroup END
 endif
 
