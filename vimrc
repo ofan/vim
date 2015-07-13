@@ -34,12 +34,10 @@ set nocompatible
 " Vundle settings
 filetype off                   " required!
 
-if g:is_Win
-    set rtp+=$HOME\\vimfiles\\bundle\\vundle
-else
-    set rtp+=~/.vim/bundle/vundle/
-endif
-call vundle#rc()
+let win_shell = (has('win32') || has('win64')) && &shellcmdflag =~ '/'
+let vimDir = win_shell ? '$HOME/vimfiles' : '$HOME/.vim'
+let &runtimepath .= ',' . expand(vimDir . '/bundle/vundle')
+call vundle#rc(expand(vimDir . '/bundle'))
 
 " let Vundle manage Vundle
 " required! 
@@ -77,7 +75,9 @@ Bundle "jceb/vim-orgmode"
 Bundle "chrisbra/NrrwRgn"
 " -- Haskell plugins
 Bundle "lukerandall/haskellmode-vim"
-Bundle "Twinside/vim-haskellConceal"
+if !g:is_Win
+    Bundle "Twinside/vim-haskellConceal"
+endif
 Bundle "Twinside/vim-haskellFold"
 Bundle "eagletmt/neco-ghc"
 Bundle "eagletmt/ghcmod-vim"
@@ -94,11 +94,9 @@ Bundle "mattn/gist-vim"
 Bundle "mileszs/ack.vim"
 Bundle "jimenezrick/vimerl"
 Bundle "mattn/webapi-vim"
-Bundle "wakatime/vim-wakatime"
+"Bundle "wakatime/vim-wakatime"
 "Bundle 'rodnaph/vim-color-schemes'
-if !(g:is_Win || g:is_Cygwin)
-    Bundle "Valloric/YouCompleteMe"
-endif
+Bundle "Valloric/YouCompleteMe"
 Bundle "Shougo/neocomplete.vim"
 " -- Plugins from vim-scripts
 Bundle "TaskList.vim"
@@ -112,6 +110,10 @@ Bundle "dbext.vim"
 Bundle "QuickBuf"
 Bundle "DrawIt"
 " }}}
+
+if g:is_Win
+"    call vundle#config#require(g:bundles)
+endif
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -212,7 +214,8 @@ endif
 set ffs=dos,unix
 set fileencodings=ucs-bom,utf8,chinese,taiwan,japan,korea
 if g:is_Win
-    set termencoding=gbk
+    "set termencoding=gbk
+    set encoding=utf8
 else
     set termencoding=utf8
 endif
@@ -265,13 +268,8 @@ set smarttab
 " 行号
 set nu!
 " 设置目录
-if g:is_Win
-    set backupdir=D:\\Temp\\_vim_backups
-    set dir=D:\\Temp
-else
-    set backupdir=~/.vim/.backups
-    set dir=~/.vim/.temp
-endif
+let &backupdir=expand(vimDir . '/.backups')
+let &dir=expand(vimDir . '/.temp')
 " 帮助
 if version >= 603
     set helplang=cn
@@ -584,7 +582,9 @@ let g:use_zen_complete_tag = 1
 let g:user_zen_leader_key = '<c-z>'
 
 " List invisible chars
-set listchars=tab:▸\ ,eol:↲
+if !g:is_Win
+    set listchars=tab:▸\ ,eol:↲
+endif
 " Auto display list chars for some source files
 au BufNew,BufEnter,BufNewFile *.h,*.c,*.cpp,*.hpp,*.cxx,
             \*.py,*.hs,*.lhs,*.hsc,*.rb,Makefile,makefile,CMakelists.txt
@@ -657,6 +657,9 @@ if g:is_Mac
     let g:haddock_docdir="/Users/ofan/Library/Haskell/doc"
     let g:haddock_browser="open"
     let g:haddock_browser_callformat = "%s %s"
+endif
+if g:is_Win
+    let g:haddock_browser="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 endif
 
 " Syntastic options
@@ -779,7 +782,9 @@ let g:tagbar_type_vimwiki = {
 \ }
 
 " Airline settings
-let g:airline_powerline_fonts=1
+"if !g:is_Win
+    let g:airline_powerline_fonts=1
+"endif
 
 if &t_Co == 256
     colorscheme peaksea
