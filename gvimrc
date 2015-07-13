@@ -57,8 +57,10 @@ set ch=1		" Make command line two lines high
 set mousehide		" Hide the mouse when typing text
 "字体设置
 if g:is_Win
-    "set gfn=Megatops_ProCoder_1.0:h9:b:cANSI
-    "set gfw=Megatops_ProCoder_1.0:h9:cANSI
+    "set gfn=Megatops_ProCoder_1.0:h10:b:cANSI
+    set gfn=Ubuntu_Mono_derivative_Powerlin:h11:cANSI
+    "set gfw=Microsoft\ YaHei\ Light:h11
+    set gfw=NSimSun:h11:cANSI
 elseif g:is_Mac
     "set gfn=Consolas:h12
     "set gfn=Consolas\ for\ Powerline:h12
