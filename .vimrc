@@ -92,7 +92,7 @@ Bundle "mattn/gist-vim"
 Bundle "mileszs/ack.vim"
 Bundle "jimenezrick/vimerl"
 Bundle "mattn/webapi-vim"
-Bundle "wakatime/vim-wakatime"
+"Bundle "wakatime/vim-wakatime"
 "Bundle 'rodnaph/vim-color-schemes'
 if !(g:is_Win || g:is_Cygwin)
     Bundle "Valloric/YouCompleteMe"
@@ -362,6 +362,38 @@ setlocal spelllang=en_us
 :nmap <silent> j :res -1<CR>
 :nmap <silent> l :vertical res +1<CR>
 :nmap <silent> h :vertical res -1<CR>
+" Tab mappings
+:nmap <silent> <C-n>n :tabnew<CR>
+:nmap <silent> <C-n><C-n> :tabnew<CR>
+:nmap <silent> <C-n>e :tabedit %<CR>
+:nmap <silent> <C-n><C-e> :tabedit %<CR>
+:nmap <silent> <C-n>c :tabclose<CR>
+:nmap <silent> <C-n><C-c> :tabclose<CR>
+:nmap <silent> <C-n>o :tabonly<CR>
+:nmap <silent> <C-n><C-o> :tabonly<CR>
+:nmap <silent> <C-n>k :tabnext<CR>
+:nmap <silent> <C-n><C-k> :tabnext<CR>
+:nmap <silent> <C-n>j :tabprev<CR>
+:nmap <silent> <C-n><C-j> :tabprev<CR>
+:nmap <silent> <C-n>h :tabfirst<CR>
+:nmap <silent> <C-n><C-h> :tabfirst<CR>
+:nmap <silent> <C-n>l :tablast<CR>
+:nmap <silent> <C-n><C-l> :tablast<CR>
+:nmap <silent> <C-n>s :tab split<CR>
+:nmap <silent> <C-n><C-s> :tab split<CR>
+:nmap <silent> <C-n>v :tab vsplit<CR>
+:nmap <silent> <C-n><C-v> :tab vsplit<CR>
+:nmap <silent> <C-n>1 :tabnext 1<CR>
+:nmap <silent> <C-n>2 :tabnext 2<CR>
+:nmap <silent> <C-n>3 :tabnext 3<CR>
+:nmap <silent> <C-n>4 :tabnext 4<CR>
+:nmap <silent> <C-n>5 :tabnext 5<CR>
+:nmap <silent> <C-n>6 :tabnext 6<CR>
+:nmap <silent> <C-n>7 :tabnext 7<CR>
+:nmap <silent> <C-n>8 :tabnext 8<CR>
+:nmap <silent> <C-n>9 :tabnext 9<CR>
+:nmap <silent> <C-n>0 :tabnext 10<CR>
+
 "正确的显示 .NFO 文件（ANSI art)
 let s:encBackup=&enc
 augroup NfoEncoding
@@ -727,6 +759,10 @@ let g:jedi#use_tabs_not_buffers = 0
 let g:jedi#popup_select_first = 0
 let g:jedi#auto_initialization = 1
 let g:jedi#popup_on_dot = 0
+let g:jedi#show_call_signatures = ""
+
+" pymode settings
+let g:pymode_rope = 0
 
 " Vimwiki settings
 " Stores wiki in dropbox

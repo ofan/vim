@@ -29,12 +29,13 @@
 # For more information, please refer to <http://unlicense.org/>
 
 import os
+import platform
 import ycm_core
 
 # These are the compilation flags that will be used in case there's no
 # compilation database set (by default, one is not set).
 # CHANGE THIS LIST OF FLAGS. YES, THIS IS THE DROID YOU HAVE BEEN LOOKING FOR.
-flags = [
+base_flags = [
 '-Wall',
 '-Wextra',
 #'-Werror',
@@ -55,35 +56,54 @@ flags = [
 # For a C project, you would set this to 'c' instead of 'c++'.
 '-x',
 'c++',
-'-F/System/Library/Frameworks',
-'-F/opt/local/Library/Frameworks',
-'-F/Library/Frameworks',
-'-isystem',
-#'-I',
-'/usr/include',
-#'-I',
-'-isystem',
-'/opt/local/libexec/llvm-3.3/lib/c++/v1',
-#'-I',
-'-isystem',
-'/opt/local/libexec/llvm-3.3/lib/clang/3.3/include',
-'-isystem',
-#'-I',
-'/opt/local/include',
-'-isystem',
-#'-I',
-'/usr/local/include',
-#'-L',
-#'/opt/local/lib',
-# This path will only work on OS X, but extra paths that don't exist are not
-# harmful
-#'-isystem',
-#'-I',
-#'/opt/local/Library/Frameworks/Python.framework/Headers',
-#'-isystem',
-'-I',
-'.'
 ]
+
+if "Darwin" in platform.uname():
+    flags = base_flags + [
+        '-F/System/Library/Frameworks',
+        '-F/opt/local/Library/Frameworks',
+        '-F/Library/Frameworks',
+        '-isystem',
+        #'-I',
+        '/usr/include',
+        #'-I',
+        '-isystem',
+        '/opt/local/libexec/llvm-3.3/lib/c++/v1',
+        #'-I',
+        '-isystem',
+        '/opt/local/libexec/llvm-3.3/lib/clang/3.3/include',
+        '-isystem',
+        #'-I',
+        '/opt/local/include',
+        '-isystem',
+        #'-I',
+        '/usr/local/include',
+        #'-L',
+        #'/opt/local/lib',
+        # This path will only work on OS X, but extra paths that don't exist are not
+        # harmful
+        #'-isystem',
+        #'-I',
+        #'/opt/local/Library/Frameworks/Python.framework/Headers',
+        #'-isystem',
+        '-I',
+        '.'
+    ]
+elif platform.system() == "Linux":
+    flags = base_flags + [
+        '-I',
+        '/usr/include',
+        '-I',
+        '/usr/local/include',
+        '-I',
+        '/usr/include/c++/4.8',
+        '-L',
+        '/usr/lib',
+        '-L',
+        '/usr/local/lib'
+    ]
+else:
+    flags = base_flags
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
 # compile_commands.json file to use that instead of 'flags'. See here for
