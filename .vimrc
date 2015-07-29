@@ -362,10 +362,16 @@ setlocal spelllang=en_us
 :imap <C-e>     <C-o><C-e>
 :imap <C-y>     <C-o><C-y>
 "Window resize
-:nmap <silent> k :res +1<CR>
-:nmap <silent> j :res -1<CR>
+:nmap <silent> k :res -1<CR>
+:nmap <silent> j :res +1<CR>
 :nmap <silent> l :vertical res +1<CR>
 :nmap <silent> h :vertical res -1<CR>
+if g:is_Win
+    :nmap <silent> <M-k> :res -1<CR>
+    :nmap <silent> <M-j> :res +1<CR>
+    :nmap <silent> <M-l> :vertical res +1<CR>
+    :nmap <silent> <M-h> :vertical res -1<CR>
+endif
 " Tab mappings
 :nmap <silent> <C-n>n :tabnew<CR>
 :nmap <silent> <C-n><C-n> :tabnew<CR>
