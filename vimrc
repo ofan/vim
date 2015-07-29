@@ -1,4 +1,4 @@
-" vim: ts=4 sw=4
+﻿" vim: ts=4 sw=4
 " Script encoding
 scriptencoding utf-8
 
@@ -218,7 +218,7 @@ endif
 set ffs=dos,unix
 set fileencodings=ucs-bom,utf8,chinese,taiwan,japan,korea
 if g:is_Win
-    "set termencoding=gbk
+    set termencoding=utf8
     set encoding=utf8
 else
     set termencoding=utf8
@@ -362,10 +362,16 @@ setlocal spelllang=en_us
 :imap <C-e>     <C-o><C-e>
 :imap <C-y>     <C-o><C-y>
 "Window resize
-:nmap <silent> k :res +1<CR>
-:nmap <silent> j :res -1<CR>
+:nmap <silent> k :res -1<CR>
+:nmap <silent> j :res +1<CR>
 :nmap <silent> l :vertical res +1<CR>
 :nmap <silent> h :vertical res -1<CR>
+if g:is_Win
+    :nmap <silent> <M-k> :res -1<CR>
+    :nmap <silent> <M-j> :res +1<CR>
+    :nmap <silent> <M-l> :vertical res +1<CR>
+    :nmap <silent> <M-h> :vertical res -1<CR>
+endif
 " Tab mappings
 :nmap <silent> <C-n>n :tabnew<CR>
 :nmap <silent> <C-n><C-n> :tabnew<CR>
@@ -622,9 +628,9 @@ let g:use_zen_complete_tag = 1
 let g:user_zen_leader_key = '<c-z>'
 
 " List invisible chars
-if !g:is_Win
-    set listchars=tab:▸\ ,eol:↲
-endif
+"if !g:is_Win
+set listchars=tab:▸\ ,eol:↲
+"endif
 " Auto display list chars for some source files
 au BufNew,BufEnter,BufNewFile *.h,*.c,*.cpp,*.hpp,*.cxx,
             \*.py,*.hs,*.lhs,*.hsc,*.rb,Makefile,makefile,CMakelists.txt
