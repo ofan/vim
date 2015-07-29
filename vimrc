@@ -109,6 +109,8 @@ Bundle "L9"
 Bundle "dbext.vim"
 Bundle "QuickBuf"
 Bundle "DrawIt"
+" -- Misc
+Bundle "ryanoasis/vim-devicons"
 " }}}
 
 if g:is_Win
