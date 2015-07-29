@@ -37,7 +37,7 @@ filetype off                   " required!
 let win_shell = (has('win32') || has('win64')) && &shellcmdflag =~ '/'
 let vimDir = win_shell ? '$HOME/vimfiles' : '$HOME/.vim'
 let &runtimepath .= ',' . expand(vimDir . '/bundle/vundle')
-call vundle#rc(expand(vimDir . '/bundle'))
+call vundle#begin(expand(vimDir . '/bundle'))
 
 " let Vundle manage Vundle
 " required!
@@ -112,6 +112,8 @@ Bundle "DrawIt"
 " -- Misc
 Bundle "ryanoasis/vim-devicons"
 " }}}
+
+call vundle#end()
 
 if g:is_Win
 "    call vundle#config#require(g:bundles)
