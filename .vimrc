@@ -37,7 +37,7 @@ filetype off                   " required!
 let win_shell = (has('win32') || has('win64')) && &shellcmdflag =~ '/'
 let vimDir = win_shell ? '$HOME/vimfiles' : '$HOME/.vim'
 let &runtimepath .= ',' . expand(vimDir . '/bundle/vundle')
-call vundle#rc(expand(vimDir . '/bundle'))
+call vundle#begin(expand(vimDir . '/bundle'))
 
 " let Vundle manage Vundle
 " required!
@@ -94,7 +94,7 @@ Bundle "mattn/gist-vim"
 Bundle "mileszs/ack.vim"
 Bundle "jimenezrick/vimerl"
 Bundle "mattn/webapi-vim"
-"Bundle "wakatime/vim-wakatime"
+Bundle "wakatime/vim-wakatime"
 "Bundle 'rodnaph/vim-color-schemes'
 Bundle "Valloric/YouCompleteMe"
 Bundle "Shougo/neocomplete.vim"
@@ -109,7 +109,11 @@ Bundle "L9"
 Bundle "dbext.vim"
 Bundle "QuickBuf"
 Bundle "DrawIt"
+" -- Misc
+Bundle "ryanoasis/vim-devicons"
 " }}}
+
+call vundle#end()
 
 if g:is_Win
 "    call vundle#config#require(g:bundles)
@@ -405,46 +409,50 @@ augroup END
 " Terminal colors and misc settings
 set ttyfast
 
-" Highlight current line and column
-let s:curline_color = {
-    \'insert':{
-        \'ctermbg':'NONE',
-        \'guibg':'NONE'
-    \},
-    \'normal':{
-        \'ctermbg':'NONE',
-        \'guibg':'NONE'
-        \}
-\}
-if &background=="dark"
-    let s:curline_color.insert.ctermbg = 7
-    let s:curline_color.insert.guibg = #00005f
-    let s:curline_color.normal.ctermbg = 'NONE'
-    let s:curline_color.normal.guibg = 'NONE'
-else
-    let s:curline_color.insert.ctermbg = 'lightblue'
-    let s:curline_color.insert.guibg = 'lightblue'
-    let s:curline_color.normal.ctermbg = 'NONE'
-    let s:curline_color.normal.guibg = 'NONE'
-endif
+function s:set_curline_color()
+    " Highlight current line and column
+    let s:curline_color = {
+        \'insert':{
+            \'ctermbg':'NONE',
+            \'guibg':'NONE'
+        \},
+        \'normal':{
+            \'ctermbg':'NONE',
+            \'guibg':'NONE'
+            \}
+    \}
+    if &background=="dark"
+        let s:curline_color.insert.ctermbg = 7
+        let s:curline_color.insert.guibg = '#003366'
+        let s:curline_color.normal.ctermbg = 'NONE'
+        let s:curline_color.normal.guibg = 'NONE'
+    else
+        let s:curline_color.insert.ctermbg = 'lightblue'
+        let s:curline_color.insert.guibg = 'lightblue'
+        let s:curline_color.normal.ctermbg = 'NONE'
+        let s:curline_color.normal.guibg = 'NONE'
+    endif
 
-let s:hi_cursorline_insert_cmd=
-            \"highlight CursorLine ctermbg=".s:curline_color.insert.ctermbg
-            \." guibg=".s:curline_color.insert.guibg
-let s:hi_cursorline_normal_cmd=
-            \"highlight CursorLine ctermbg=".s:curline_color.normal.ctermbg
-            \." guibg=".s:curline_color.normal.guibg
-set cursorline
-set cursorcolumn
-augroup CursorLine
-    au!
-    "au InsertEnter * hi CursorLine ctermbg=black guibg=black
-    "au InsertLeave * hi CursorLine ctermbg=17 guibg=#00005f
-    au InsertEnter * exe s:hi_cursorline_insert_cmd
-    au InsertLeave * exe s:hi_cursorline_normal_cmd
-    au WinLeave * setlocal nocursorline nocursorcolumn
-    au VimEnter,WinEnter,BufWinEnter * setlocal cursorline cursorcolumn
-augroup END
+    let s:hi_cursorline_insert_cmd=
+                \"highlight CursorLine ctermbg=".s:curline_color.insert.ctermbg
+                \." guibg=".s:curline_color.insert.guibg
+    let s:hi_cursorline_normal_cmd=
+                \"highlight CursorLine ctermbg=".s:curline_color.normal.ctermbg
+                \." guibg=".s:curline_color.normal.guibg
+    set cursorline
+    set cursorcolumn
+    augroup CursorLine
+        au!
+        "au InsertEnter * hi CursorLine ctermbg=black guibg=black
+        "au InsertLeave * hi CursorLine ctermbg=17 guibg=#00005f
+        au InsertEnter * exe s:hi_cursorline_insert_cmd
+        au InsertLeave * exe s:hi_cursorline_normal_cmd
+        au WinLeave * setlocal nocursorline nocursorcolumn
+        au VimEnter,WinEnter,BufWinEnter * setlocal cursorline cursorcolumn
+    augroup END
+endfun
+" Automatically update curline color after changing coloscheme
+au ColorScheme * call s:set_curline_color()
 
 " 版本>7.3,启用新功能
 if version>=703
