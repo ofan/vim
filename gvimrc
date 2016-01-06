@@ -55,7 +55,7 @@ set go-=r
 set ch=1		" Make command line two lines high
 
 set mousehide		" Hide the mouse when typing text
-"字体设置
+" Font settings
 if g:is_Win
     "set gfn=Megatops_ProCoder_1.0:h10:b:cANSI
     "set gfn=Ubuntu_Mono_derivative_Powerlin:h11:cANSI
