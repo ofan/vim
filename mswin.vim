@@ -60,7 +60,7 @@ inoremap <C-S>		<C-O>:update<CR>
 " For CTRL-V to work autoselect must be off.
 " On Unix we have two selections, autoselect can be used.
 if !has("unix")
-  set guioptions-=a
+  set guioptions-=aM
 endif
 
 " CTRL-Z is Undo; not in cmdline though
