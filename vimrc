@@ -1,6 +1,4 @@
-﻿" vim: ts=4 sw=4
-" Script encoding
-scriptencoding utf-8
+" vim: ts=4 sw=4
 
 " Determine platform
 let g:is_Win = 0
@@ -22,6 +20,16 @@ else
     endif
 endif
 
+if g:is_Win
+    "set termencoding=utf8
+    set encoding=utf8
+else
+    set termencoding=utf8
+endif
+
+" Script encoding
+scriptencoding utf-8
+
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
   finish
@@ -37,87 +45,93 @@ filetype off                   " required!
 let win_shell = (has('win32') || has('win64')) && &shellcmdflag =~ '/'
 let vimDir = win_shell ? '$HOME/vimfiles' : '$HOME/.vim'
 let &runtimepath .= ',' . expand(vimDir . '/bundle/vundle')
-call vundle#begin(expand(vimDir . '/bundle'))
 
-" let Vundle manage Vundle
-" required!
-Bundle "gmarik/vundle"
+call plug#begin(expand(vimDir . '/plugged'))
 " {{{ Plugins
-" --- Plugins from github
-Bundle "tpope/vim-fugitive"
-Bundle "csexton/jekyll.vim"
-Bundle "sjl/gundo.vim"
-Bundle "scrooloose/nerdtree"
-Bundle "ervandew/supertab"
-Bundle "godlygeek/tabular"
-Bundle "msanders/snipmate.vim"
-Bundle "tpope/vim-markdown"
-Bundle "Lokaltog/vim-easymotion"
-Bundle "tpope/vim-surround"
-Bundle "tpope/vim-git"
-Bundle "fs111/pydoc.vim"
-Bundle "alfredodeza/pytest.vim"
-Bundle "reinh/vim-makegreen"
-Bundle "klen/python-mode"
-Bundle "pangloss/vim-javascript"
-Bundle "scrooloose/nerdcommenter"
-Bundle "chrisbra/changesPlugin"
-Bundle "mattn/emmet-vim"
-Bundle "nathanaelkane/vim-indent-guides"
-Bundle "kien/ctrlp.vim"
-Bundle "majutsushi/tagbar"
-Bundle "wlangstroth/vim-haskell"
-Bundle "Twinside/vim-hoogle"
-Bundle "bitc/lushtags"
-Bundle "Shougo/vimshell"
-" Productivity
-Bundle "jceb/vim-orgmode"
-Bundle "chrisbra/NrrwRgn"
-" -- Haskell plugins
-Bundle "lukerandall/haskellmode-vim"
-if !g:is_Win
-    Bundle "Twinside/vim-haskellConceal"
-endif
-Bundle "Twinside/vim-haskellFold"
-Bundle "eagletmt/neco-ghc"
-Bundle "eagletmt/ghcmod-vim"
-
-Bundle "ujihisa/repl.vim"
-Bundle "xaviershay/tslime.vim"
-Bundle "Shougo/vimproc"
-Bundle "scrooloose/syntastic"
-Bundle "altercation/vim-colors-solarized"
-Bundle "stephenmckinney/vim-solarized-powerline"
-Bundle 'bling/vim-airline'
-Bundle "davidhalter/jedi-vim"
-Bundle "mattn/gist-vim"
-Bundle "mileszs/ack.vim"
-Bundle "jimenezrick/vimerl"
-Bundle "mattn/webapi-vim"
-"Bundle "wakatime/vim-wakatime"
-"Bundle 'rodnaph/vim-color-schemes'
-Bundle "Valloric/YouCompleteMe"
-Bundle "Shougo/neocomplete.vim"
-" -- Plugins from vim-scripts
-Bundle "TaskList.vim"
-Bundle "vimwiki"
-Bundle "VOoM"
-Bundle "TxtBrowser"
-Bundle "FuzzyFinder"
-Bundle "DoxygenToolkit.vim"
-Bundle "L9"
-Bundle "dbext.vim"
-Bundle "QuickBuf"
-Bundle "DrawIt"
-" -- Misc
-Bundle "ryanoasis/vim-devicons"
+" {{{ UI extensions
+Plug 'sjl/gundo.vim', { 'on': 'GundoToggle' }
+Plug 'scrooloose/nerdtree'
+Plug 'majutsushi/tagbar'
+Plug 'nathanaelkane/vim-indent-guides'
 " }}}
-
-call vundle#end()
-
-if g:is_Win
-"    call vundle#config#require(g:bundles)
+" {{{ File types and highlighting
+Plug 'chrisbra/csv.vim', {'for' : 'csv'}
+Plug 'tpope/vim-markdown', {'for': 'markdown'}
+Plug 'klen/python-mode', {'for' : 'python'}
+Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+Plug 'reinh/vim-makegreen', {'on' : 'MakeGreen'} " Highlight compiler/tests output
+" Haskell plugins
+Plug 'lukerandall/haskellmode-vim', {'for': 'haskell'}
+if !g:is_Win
+    Plug 'Twinside/vim-haskellConceal'
 endif
+Plug 'Twinside/vim-haskellFold', {'for': 'haskell'}
+Plug 'eagletmt/neco-ghc', {'for': 'haskell'}
+Plug 'eagletmt/ghcmod-vim', {'for': 'haskell'}
+Plug 'wlangstroth/vim-haskell', {'for': 'haskell'}
+Plug 'bitc/lushtags', {'for': 'haskell'}
+" }}}
+" {{{ Productivity
+Plug 'chrisbra/NrrwRgn'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'scrooloose/nerdcommenter' " Toggle comments for various file types
+Plug 'mattn/emmet-vim', {'for': ['html', 'xml', 'css']} " Generate tags based on rules
+" }}}
+" {{{ Integration
+Plug 'fs111/pydoc.vim', {'for': 'python'}
+Plug 'alfredodeza/pytest.vim', {'for': 'python'}
+Plug 'ujihisa/repl.vim' | Plug 'Shougo/vimproc'
+Plug 'tpope/vim-git'
+Plug 'scrooloose/syntastic'
+Plug 'airblade/vim-gitgutter', {'on': ['GitGutterToggle', 'GitGutterEnable']}
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'Shougo/vimshell'
+"    _DISABLED_ Plug 'xaviershay/tslime.vim' " TMUX
+Plug 'tpope/vim-fugitive'
+Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
+Plug 'mattn/gist-vim' " Github gist
+" }}}
+" {{{ Themes or decorators
+Plug 'altercation/vim-colors-solarized'
+Plug 'stephenmckinney/vim-solarized-powerline'
+Plug 'bling/vim-airline'
+Plug 'jimenezrick/vimerl'
+" }}}
+" {{{ Completion
+Plug 'ervandew/supertab'
+Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp'], 'frozen': 1}
+Plug 'davidhalter/jedi-vim', {'for': 'python'}
+Plug 'Shougo/neocomplete.vim'
+Plug 'ludovicchabant/vim-gutentags'
+" }}}
+" {{{ Text editing
+Plug 'tpope/vim-surround'
+Plug 'wellle/targets.vim'
+Plug 'godlygeek/tabular'
+Plug 'junegunn/vim-easy-align'
+" }}}
+" {{{ Misc
+Plug 'ryanoasis/vim-devicons'
+" Misc or dependencies
+Plug 'mattn/webapi-vim'
+" }}}
+" {{{ Plugins from vim-scripts
+Plug 'TaskList.vim'
+Plug 'vimwiki'
+Plug 'VOoM'
+Plug 'TxtBrowser'
+Plug 'FuzzyFinder'
+Plug 'DoxygenToolkit.vim'
+Plug 'L9'
+Plug 'dbext.vim'
+Plug 'QuickBuf'
+Plug 'DrawIt'
+" }}}
+" }}}
+call plug#end()
+
+" Vim-Plug settings
+let g:plug_timeout = 600
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -132,7 +146,7 @@ set ruler        " show the cursor position all the time
 set showcmd        " display incomplete commands
 set incsearch        " do incremental searching
 
-" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
+" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff "menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
 
 " Don't use Ex mode, use Q for formatting
@@ -202,7 +216,7 @@ endif
 " Customized settings
 "
 
-" 剪切板设置
+" Clipboard settings
 if g:is_Mac
     if has("clipboard") && !has("gui_running")
         set clipboard=unnamed
@@ -214,36 +228,33 @@ if g:is_Mac
     cnoremap <special> <D-v> <C-R>+
 endif
 
-" 编码设置
+" Encoding settings
 set ffs=dos,unix
 set fileencodings=ucs-bom,utf8,chinese,taiwan,japan,korea
-if g:is_Win
-    set termencoding=utf8
-    set encoding=utf8
-else
-    set termencoding=utf8
-endif
-" 写入配置文件和脚本插件时强制使用unix风格换行
+" List invisible chars
+set listchars=tab:▸\ ,eol:↲
+
+" Newline style
 augroup FileFormat
     au BufWritePre *vimrc,*gvimrc,*.vim,*.sh set ff=unix
 augroup END
-" 不兼容Vi
-set nocompatible
+" Load Windows related settings
 if g:is_Win
     source $HOME/vimfiles/mswin.vim
     behave mswin
 endif
-" 设置当前工作路径
+" Setting current directory
 map <silent> <leader>cd :cd %:p:h<cr>
-" 颜色和配色方案
+" Theme tweaks
 if g:is_Win && &term!="win32"
     set t_Co=256
 endif
 
+" Background theme[dark or light]
 set bg=light
-" 设置最长文本长度，超过此长度会被自动截断
+" Maximum number of characters in a line, used in combination of 'linebreak
 "set textwidth=150
-" 缩进
+" Indentation
 set ts=4
 set sw=4
 " Haskell indent
@@ -256,6 +267,7 @@ augroup C
     au!
     au FileType c,cpp setlocal cindent
 augroup END
+
 " Omni completion
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -263,24 +275,18 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-" 自动缩进
 set autoindent
-" 使用空格替换Tab
+" ExpandTab
 set et
-" 智能Tab,按退格删除4个空格
 set smarttab
-" 行号
+" Line number
 set nu!
-" 设置目录
+" Default directory settings
 let &backupdir=expand(vimDir . '/.backups')
 let &dir=expand(vimDir . '/.temp')
-" 帮助
-if version >= 603
-    set helplang=cn
-endif
-" 设置word所能包含的字符
+" Define what characters can be in a word [DO NOT CHANGE!]
 set iskeyword=@,48-57,192-255,_
-" 折行设置
+" Wrapping settings
 set sbr=
 set lbr
 set mousemodel=extend
@@ -288,13 +294,12 @@ set slm=key,mouse
 set fdm=marker
 " PEP8
 let g:pep8_map='\pep'
-" netrw 设置
+" netrw settings
 let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
-" 自动变更当前目录到打开文件的目录
+" Auto change current directory based on file opened
 set acd
-" 分割窗口设置
-"set spr " 分割窗口从右边打开.
-" TxtBrowser设置
+"set spr " Split right
+" TxtBrowser settings
 let tlist_txt_settings = 'txt;c:content;f:figures;t:tables'
 
 augroup NoSpell
@@ -306,29 +311,6 @@ augroup END
 "状态栏设置
 "" 始终显示状态栏
 set laststatus=2
-"" {{{ Statusline
-"let statusHead        ="%-.50f\ %h%m%r"
-"let statusBreakPoint  ="%<"
-"let statusSeparator   ="|"
-"let statusFileType    ="%{((&ft\ ==\ \"help\"\ \|\|\ &ft\ ==\ \"\")?\"\":\"[\".&ft.\"]\")}"
-"let statusFileFormat  ="[%{(&ff\ ==\ \"unix\")?\"u\":\"d\"}]"
-"let statusAscii       ="\{%b:0x%B\}"
-"let statusCwd         ="%-.50{getcwd()}"
-"let statusBody        =statusFileType.statusFileFormat.statusSeparator.statusAscii.statusSeparator."\ ".statusBreakPoint.statusCwd
-"let statusEncoding    ="[%{(&fenc\ ==\ \"\"?&enc:&fenc).(&bomb?\",BOM\":\"\")}]"
-"let statusBlank       ="%="
-"let statusKeymap      ="%k"
-"let statusRuler       ="%-12.(%lL,%c%VC%)\ %P"
-"let statusTime        ="%{strftime(\"%y-%m-%d\",getftime(expand(\"%\")))}"
-"let statusEnd         =statusKeymap."\ ".statusEncoding.statusRuler."\ ".statusTime
-""" 最终状态栏的模式字符串
-"let statusString=statusHead.statusBody.statusBlank.statusEnd
-""" 恢复statusLine的状态(gdbmgr会修改statusline)
-"function! ResetStatusline()
-    "set statusline=%!statusString
-"endfunction
-"call ResetStatusline()
-" }}}
 
 " Spell check
 setlocal spelllang=en_us
@@ -607,9 +589,6 @@ set timeoutlen=800
 map <unique> <silent> <Leader>m :call MakeGreen()<CR>
 " Tasklist mapping
 map <unique> <Leader>l <Plug>TaskList
-" ChangesPlugin settings
-let g:changes_autocmd=0 " Auto-refresh the changes
-let g:changes_verbose=0
 " Enable neocomplete
 let g:neocomplete#enable_at_startup = 1
 " neoghc for Haskell completion
@@ -627,10 +606,6 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 let g:use_zen_complete_tag = 1
 let g:user_zen_leader_key = '<c-z>'
 
-" List invisible chars
-"if !g:is_Win
-set listchars=tab:▸\ ,eol:↲
-"endif
 " Auto display list chars for some source files
 au BufNew,BufEnter,BufNewFile *.h,*.c,*.cpp,*.hpp,*.cxx,
             \*.py,*.hs,*.lhs,*.hsc,*.rb,Makefile,makefile,CMakelists.txt
@@ -666,16 +641,6 @@ let g:indent_guides_guide_size=1
     "au QuickFixCmdPost    l* nested lwindow 4
 "augroup END
 
-" Powerline
-"python from powerline.bindings.vim import source_plugin; source_plugin()
-"set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
-let g:Powerline_theme='short'
-if &bg=='dark'
-    let g:Powerline_colorscheme='solarized256_dark'
-else
-    let g:Powerline_colorscheme='solarized256_light'
-endif
-
 " Session settings
 set sessionoptions-=curdir
 "" Make compitable with windows, use relative path
@@ -705,15 +670,20 @@ if g:is_Mac
     let g:haddock_browser_callformat = "%s %s"
 endif
 if g:is_Win
-    let g:haddock_browser="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+    let g:haddock_browser='$LOCALAPPDATA\Google\Chrome SxS\Application\chrome.exe'
+    let g:haddock_docdir='C:\cabal\doc\x86_64-windows-ghc-7.10.1\'
 endif
 
 " Syntastic options
 let g:syntastic_cpp_check_header = 1
 "let g:syntastic_cpp_include_dirs = [ '/usr/include', '/usr/include/c++/4.2.1/', '/opt/local/include', '/usr/local/include', '/opt/local/include/gcc47/c++' ]
-let g:syntastic_cpp_compiler = 'g++'
-let g:syntastic_cpp_compiler_options = '-Wall -std=c++0x'
-let g:syntastic_cpp_config_file = '.syntastic_cpp_config'
+"let g:syntastic_cpp_compiler = 'g++'
+"let g:syntastic_cpp_compiler_options = '-Wall -std=c++0x'
+"let g:syntastic_cpp_config_file = '.syntastic_cpp_config'
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " hdevtools options
 let g:hdevtools_options = '-g-i.:.. -g-Wall'
@@ -739,7 +709,8 @@ let g:ycm_filetype_blacklist = { 'haskell':1 }
 let g:ycm_filetype_specific_completion_to_disable = { 'vim':1,'txt':1 }
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_register_as_syntastic_checker = 1
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle_configs/ycm/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = expand(vimDir . '/plugin_conf/ycm/.ycm_extra_conf.py')
+
 "" ycm debug
 "let g:ycm_server_use_vim_stdout = 1
 "let g:ycm_server_log_level = 'debug'
@@ -833,9 +804,41 @@ let g:tagbar_type_vimwiki = {
 \ }
 
 " Airline settings
-"if !g:is_Win
-    let g:airline_powerline_fonts=1
-"endif
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_tabs = 1
+let g:airline#extensions#tabline#tab_min_count = 1
+let g:airline#extensions#tabline#buffer_min_count = 0
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#show_tab_nr = 1
+let g:airline_theme='simple'
+let g:airline_mode_map = {
+\ '__' : '-',
+\ 'n'  : 'N',
+\ 'i'  : 'I',
+\ 'R'  : 'R',
+\ 'c'  : 'C',
+\ 'v'  : 'V',
+\ 'V'  : 'V',
+\ '' : 'V',
+\ 's'  : 'S',
+\ 'S'  : 'S',
+\ '' : 'S',
+\ }
+
+"Easy-align Settings
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+" Supertab settings
+let g:SuperTabCrMapping=1
+
+" Emmet settings
+let g:user_emmet_install_global = 0
+autocmd FileType html,xml,css EmmetInstall
 
 if &t_Co == 256
     colorscheme peaksea
