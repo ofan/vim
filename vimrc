@@ -27,6 +27,9 @@ else
     set termencoding=utf8
 endif
 
+" Don't source menu.vim (slow)
+set guioptions+=M
+
 " Script encoding
 scriptencoding utf-8
 
@@ -39,20 +42,24 @@ endif
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-" Vundle settings
-filetype off                   " required!
-
 let win_shell = (has('win32') || has('win64')) && &shellcmdflag =~ '/'
-let vimDir = win_shell ? '$HOME/vimfiles' : '$HOME/.vim'
-let &runtimepath .= ',' . expand(vimDir . '/bundle/vundle')
+" Default directory paths
+let g:dir_vimhome = win_shell ? '$HOME/vimfiles' : '$HOME/.vim'
+let g:dir_projhome = $PROJECT_HOME ? $PROJECT_HOME : '$HOME/Projects'
+let g:dir_utilsbin = $VIM_UTILS_BIN ? $VIM_UTILS_BIN : '$VIM/utils/bin'
+let $PATH = $PATH . (g:is_Win ? ';' : ':') . expand(g:dir_utilsbin)
+let &runtimepath .= ',' . expand(g:dir_vimhome . '/bundle/vundle')
 
-call plug#begin(expand(vimDir . '/plugged'))
+call plug#begin(expand(g:dir_vimhome . '/plugged'))
 " {{{ Plugins
 " {{{ UI extensions
 Plug 'sjl/gundo.vim', { 'on': 'GundoToggle' }
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'ryanoasis/vim-devicons'
+Plug 'mhinz/vim-startify' " Fancy startscreen
+Plug 'Xuyuanp/nerdtree-git-plugin'
 " }}}
 " {{{ File types and highlighting
 Plug 'chrisbra/csv.vim', {'for' : 'csv'}
@@ -61,7 +68,6 @@ Plug 'klen/python-mode', {'for' : 'python'}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'reinh/vim-makegreen', {'on' : 'MakeGreen'} " Highlight compiler/tests output
 " Haskell plugins
-Plug 'lukerandall/haskellmode-vim', {'for': 'haskell'}
 if !g:is_Win
     Plug 'Twinside/vim-haskellConceal'
 endif
@@ -69,7 +75,6 @@ Plug 'Twinside/vim-haskellFold', {'for': 'haskell'}
 Plug 'eagletmt/neco-ghc', {'for': 'haskell'}
 Plug 'eagletmt/ghcmod-vim', {'for': 'haskell'}
 Plug 'wlangstroth/vim-haskell', {'for': 'haskell'}
-Plug 'bitc/lushtags', {'for': 'haskell'}
 " }}}
 " {{{ Productivity
 Plug 'chrisbra/NrrwRgn'
@@ -80,12 +85,26 @@ Plug 'mattn/emmet-vim', {'for': ['html', 'xml', 'css']} " Generate tags based on
 " {{{ Integration
 Plug 'fs111/pydoc.vim', {'for': 'python'}
 Plug 'alfredodeza/pytest.vim', {'for': 'python'}
-Plug 'ujihisa/repl.vim' | Plug 'Shougo/vimproc'
+Plug 'Shougo/vimproc' | Plug 'ujihisa/repl.vim'
 Plug 'tpope/vim-git'
+Plug 'motemen/git-vim'
 Plug 'scrooloose/syntastic'
 Plug 'airblade/vim-gitgutter', {'on': ['GitGutterToggle', 'GitGutterEnable']}
-Plug 'ctrlpvim/ctrlp.vim'
+"    _DISABLED_ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Shougo/vimshell'
+Plug 'Shougo/unite.vim'
+"Plug 'Shougo/vimfiler.vim'
+Plug 'Shougo/neomru.vim'
+Plug 'tsukkee/unite-tag'
+Plug 'Shougo/unite-outline'
+Plug 'ujihisa/unite-colorscheme'
+if g:is_Win
+Plug 'sgur/unite-everything'
+endif
+Plug 'tacroe/unite-mark'
+Plug 'tacroe/unite-alias'
+Plug 'sgur/unite-qf' " Quickfix source
+
 "    _DISABLED_ Plug 'xaviershay/tslime.vim' " TMUX
 Plug 'tpope/vim-fugitive'
 Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
@@ -95,11 +114,10 @@ Plug 'mattn/gist-vim' " Github gist
 Plug 'altercation/vim-colors-solarized'
 Plug 'stephenmckinney/vim-solarized-powerline'
 Plug 'bling/vim-airline'
-Plug 'jimenezrick/vimerl'
 " }}}
 " {{{ Completion
 Plug 'ervandew/supertab'
-Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp'], 'frozen': 1}
+Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp']}
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
 Plug 'Shougo/neocomplete.vim'
 Plug 'ludovicchabant/vim-gutentags'
@@ -111,7 +129,6 @@ Plug 'godlygeek/tabular'
 Plug 'junegunn/vim-easy-align'
 " }}}
 " {{{ Misc
-Plug 'ryanoasis/vim-devicons'
 " Misc or dependencies
 Plug 'mattn/webapi-vim'
 " }}}
@@ -119,12 +136,11 @@ Plug 'mattn/webapi-vim'
 Plug 'TaskList.vim'
 Plug 'vimwiki'
 Plug 'VOoM'
-Plug 'TxtBrowser'
-Plug 'FuzzyFinder'
+"Plug 'FuzzyFinder'
 Plug 'DoxygenToolkit.vim'
 Plug 'L9'
 Plug 'dbext.vim'
-Plug 'QuickBuf'
+"Plug 'QuickBuf'
 Plug 'DrawIt'
 " }}}
 " }}}
@@ -173,10 +189,6 @@ endif
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
-
-    " 加载 pathogen
-    "call pathogen#runtime_append_all_bundles()
-
   " Enable file type detection.
   " Use the default filetype settings, so that mail gets 'tw' set to 72,
   " 'cindent' is on in C files, etc.
@@ -213,9 +225,6 @@ if !exists(":DiffOrig")
           \ | wincmd p | diffthis
 endif
 
-" Customized settings
-"
-
 " Clipboard settings
 if g:is_Mac
     if has("clipboard") && !has("gui_running")
@@ -233,6 +242,9 @@ set ffs=dos,unix
 set fileencodings=ucs-bom,utf8,chinese,taiwan,japan,korea
 " List invisible chars
 set listchars=tab:▸\ ,eol:↲
+set list
+" Toggle listchars
+noremap <Leader><Leader>l :set list!<CR>
 
 " Newline style
 augroup FileFormat
@@ -282,8 +294,8 @@ set smarttab
 " Line number
 set nu!
 " Default directory settings
-let &backupdir=expand(vimDir . '/.backups')
-let &dir=expand(vimDir . '/.temp')
+let &backupdir=expand(g:dir_vimhome . '/.backups')
+let &dir=expand(g:dir_vimhome . '/.temp')
 " Define what characters can be in a word [DO NOT CHANGE!]
 set iskeyword=@,48-57,192-255,_
 " Wrapping settings
@@ -297,7 +309,7 @@ let g:pep8_map='\pep'
 " netrw settings
 let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 " Auto change current directory based on file opened
-set acd
+set autochdir
 "set spr " Split right
 " TxtBrowser settings
 let tlist_txt_settings = 'txt;c:content;f:figures;t:tables'
@@ -308,17 +320,17 @@ augroup NoSpell
     au FileType vim setlocal nospell
 augroup END
 
-"状态栏设置
-"" 始终显示状态栏
+" Status bar settings
 set laststatus=2
 
 " Spell check
 setlocal spelllang=en_us
 "setlocal spell
-" 设置Shift-Tab为减少缩进
+" Shift-Tab un-tab
 :imap <S-Tab> 
-" 对于绕回显示的行要使用gj,g<Down> 或 gk,g<up> 来跳转到上下行
-" 绑定<C-j>,<C-k>,<C-Up>,<C-Down>到以上几个命令
+" Cursor movement in insert mode
+" For wrapped lines, use gj,g<Down> or gk,g<up> to jump between lines
+" Map <C-j>,<C-k>,<C-Up>,<C-Down>
 :imap  <C-Up>     <C-o>gk
 :imap  <C-Down>   <C-o>gj
 :imap  <C-k>      <C-o>gk
@@ -386,7 +398,7 @@ endif
 :nmap <silent> <C-n>9 :tabnext 9<CR>
 :nmap <silent> <C-n>0 :tabnext 10<CR>
 
-"正确的显示 .NFO 文件（ANSI art)
+".NFO files (ANSI art)
 let s:encBackup=&enc
 augroup NfoEncoding
     au!
@@ -410,14 +422,14 @@ function s:set_curline_color()
             \}
     \}
     if &background=="dark"
-        let s:curline_color.insert.ctermbg = 7
+        let s:curline_color.insert.ctermbg = 24
         let s:curline_color.insert.guibg = '#003366'
-        let s:curline_color.normal.ctermbg = 'NONE'
+        let s:curline_color.normal.ctermbg = 8
         let s:curline_color.normal.guibg = 'NONE'
     else
         let s:curline_color.insert.ctermbg = 'lightblue'
         let s:curline_color.insert.guibg = 'lightblue'
-        let s:curline_color.normal.ctermbg = 'NONE'
+        let s:curline_color.normal.ctermbg = 'lightyellow'
         let s:curline_color.normal.guibg = 'NONE'
     endif
 
@@ -431,7 +443,7 @@ function s:set_curline_color()
     set cursorcolumn
     augroup CursorLine
         au!
-        "au InsertEnter * hi CursorLine ctermbg=black guibg=black
+        "au InsertEnter * hi CursorLine ctermbg=black guibg='NONE'
         "au InsertLeave * hi CursorLine ctermbg=17 guibg=#00005f
         au InsertEnter * exe s:hi_cursorline_insert_cmd
         au InsertLeave * exe s:hi_cursorline_normal_cmd
@@ -442,10 +454,7 @@ endfun
 " Automatically update curline color after changing coloscheme
 au ColorScheme * call s:set_curline_color()
 
-" 版本>7.3,启用新功能
 if version>=703
-    " 相对行号
-    "set rnu
     " Presistent undo
     set undofile
     au BufWritePre /tmp/*,/var/log/* setlocal noundofile
@@ -454,17 +463,15 @@ if version>=703
     else
         set undodir=~/.vim/.undo
     endif
-    " undo次数限制10000
+    " undo limit 10000
     set ul=10000
-    " 高亮textwidth后的第二列
+    " Highlight column textwidth+2
     set colorcolumn=+2
-    " 底色为浅绿
-    hi colorcolumn guibg=lightgreen
 endif
 " visualbell
 "set visualbell
 
-" 设置不同模式下的光标颜色
+" Set cursor color
 if &term =~? "xterm\\|rxvt"
     :silent !echo -ne "\033]12;green\x7"
     let &t_SI = "\033]12;orange\007"
@@ -489,65 +496,9 @@ let g:DoxygenToolkit_maxFunctionProtoLines = 30
 " ctags and cscope settings
 set cscopetag
 set tags+=~/.vim/tags
-"map <F9> :call Do_CsTag()<CR>
-function Do_CsTag() " {{{
-    let dir = getcwd()
-    if filereadable("tags")
-        if(g:is_Win==1)
-            let tagsdeleted=delete(dir."\\"."tags")
-        else
-            let tagsdeleted=delete("./"."tags")
-        endif
-        if(tagsdeleted!=0)
-            echohl WarningMsg | echo "Fail to do tags! I cannot delete the tags" | echohl None
-            return
-        endif
-    endif
-    if has("cscope")
-        silent! execute "cs kill -1"
-    endif
-    if filereadable("cscope.files")
-        if(g:is_Win==1)
-            let csfilesdeleted=delete(dir."\\"."cscope.files")
-        else
-            let csfilesdeleted=delete("./"."cscope.files")
-        endif
-        if(csfilesdeleted!=0)
-            echohl WarningMsg | echo "Fail to do cscope! I cannot delete the cscope.files" | echohl None
-            return
-        endif
-    endif
-    if filereadable("cscope.out")
-        if(g:is_Win==1)
-            let csoutdeleted=delete(dir."\\"."cscope.out")
-        else
-            let csoutdeleted=delete("./"."cscope.out")
-        endif
-        if(csoutdeleted!=0)
-            echohl WarningMsg | echo "Fail to do cscope! I cannot delete the cscope.out" | echohl None
-            return
-        endif
-    endif
-    if(executable('ctags'))
-        "silent! execute "!ctags -R --c-types=+p --fields=+S *"
-        silent! execute "!ctags -R --c++-kinds=+p --python-kinds=-i --fields=+iaS --extra=+q ."
-    endif
-    if(executable('cscope') && has("cscope") )
-        if(g:is_Win!=1)
-            silent! execute "!find . -name '*.h' -o -name '*.c' -o -name '*.cpp' -o -name '*.java' -o -name '*.cs' > cscope.files"
-        else
-            silent! execute "!dir /s/b *.c,*.cpp,*.h,*.java,*.cs >> cscope.files"
-        endif
-        silent! execute "!cscope -b"
-        execute "normal :"
-        if filereadable("cscope.out")
-            silent! execute "cs add cscope.out"
-        endif
-    endif
-endfunction " }}}
 
 " add any database in current directory
-if filereadable("cscope.out")
+if filereadable(".cscope.out")
     cs add cscope.out
     " else add database pointed to by environment
 elseif $CSCOPE_DB != ""
@@ -555,44 +506,127 @@ elseif $CSCOPE_DB != ""
 endif
 
 " NERDTree settings
-nnoremap <F1> :silent! NERDTreeToggle<CR>
-inoremap <F1> <C-o>:silent! NERDTreeToggle<CR>
+nnoremap <silent> <F1> :NERDTreeToggle<CR>
+inoremap <silent> <F1> <C-o>:NERDTreeToggle<CR>
+" map \r to make nerdtree to change cur directory to cur buffer
+map <leader>r :NERDTreeFind<cr> " open nerdtree in cur dir
 
-" Quick buf
-let g:qb_hotkey = "<F2>"
-map <C-w>b <F2>
-map <C-w><C-b> <F2>
-cmap <C-w>b <F2>
-cmap <C-w><C-b> <F2>
+" NERDTree-git settings
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ "Unknown"   : "?"
+    \ }
 
-" Taglist 设置
-"TlistUpdate可以更新tags
-noremap <F3> :silent! TagbarToggle<CR>
-inoremap <F3> <Esc>:silent! TagbarToggle<CR>
-let Tlist_Ctags_Cmd='ctags'
-let Tlist_Use_Right_Window=0
-let Tlist_Show_One_File=0
-let Tlist_File_Fold_Auto_Close=0
-let Tlist_Auto_Update=1
-let Tlist_Exit_OnlyWindow=1
-"是否一直处理tags.1:处理;0:不处理
-let Tlist_Process_File_Always=0 "不是一直实时更新tags，因为没有必要
-let Tlist_Inc_Winwidth=0
-" Gundo(Persistent Undo) 设置
+" Unite settings
+let g:unite_data_directory = expand(g:dir_vimhome . '/.cache/unite')
+
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#custom#profile('default',
+          \ 'context', {
+          \   'smartcase': 1,
+          \   'start_insert': 1,
+          \   'winheight': 10,
+          \   'direction': 'botright',
+          \ })
+nnoremap <silent> <F2> :<C-u>Unite<CR>
+inoremap <silent> <F2> <C-o>:<C-u>Unite<CR>
+
+nnoremap [unite] <Nop>
+nmap <leader>u [unite]
+nnoremap <silent> [unite]f :<C-u>Unite file<CR>
+nnoremap <silent> [unite]fr :<C-u>Unite file_rec/async:!<CR>
+nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
+nnoremap <silent> [unite]s :<C-u>Unite source<CR>
+nnoremap <silent> [unite]m :<C-u>Unite mapping<CR>
+nnoremap <silent> [unite]b :<C-u>Unite buffer bookmark<CR>
+nnoremap <silent> [unite]e :<C-u>Unite -buffer-name=everything everything<CR>
+nnoremap <silent> [unite]r :<C-u>UniteResume<CR>
+
+autocmd FileType unite call s:unite_my_settings()
+function! s:unite_my_settings()
+  " Overwrite settings.
+
+  imap <buffer><expr> j unite#smart_map('j', '')
+  imap <buffer> <TAB>   <Plug>(unite_select_next_line)
+  imap <buffer> <C-Backspace>     <Plug>(unite_delete_backward_path)
+  imap <buffer> '     <Plug>(unite_quick_match_default_action)
+  nmap <buffer> '     <Plug>(unite_quick_match_default_action)
+  imap <buffer> <C-x>     <Plug>(unite_quick_match_jump)
+  nmap <buffer> <C-x>     <Plug>(unite_quick_match_jump)
+  imap <buffer> <C-v>     <Plug>(unite_toggle_auto_preview)
+  nmap <buffer> <C-v>     <Plug>(unite_toggle_auto_preview)
+  nmap <buffer> <C-h>     <Plug>(unite_quick_help)
+  " Runs "split" action by <C-s>.
+  imap <silent><buffer><expr> <C-s>     unite#do_action('split')
+endfunction
+
+" Unite everything source settings
+let g:unite_source_everything_cmd_path = 'es.exe'
+let g:unite_source_everything_posix_regexp_search = 1
+
+" Startify settings
+let g:startify_list_order = [
+            \ ['    Most recently used files in the current directory'],
+            \ 'dir',
+            \ ['    Most recently used files'],
+            \ 'files',
+            \ ['    Bookmarks'],
+            \ 'bookmarks',
+            \ ['    Sessions'],
+            \ 'sessions',
+            \ ]
+let g:startify_bookmarks = [
+            \ {'v': expand(g:dir_vimhome . '/vimrc')},
+            \ {'h': expand('$HOME')},
+            \ {'p': expand(g:dir_projhome)},
+            \ ]
+let g:startify_skiplist = [
+    \ 'COMMIT_EDITMSG',
+    \ escape(fnamemodify(resolve($VIMRUNTIME), ':p'), '\') .'doc',
+    \ 'plugged[/\\].*[/\\]doc',
+    \ '.git[/\\].*',
+    \ ]
+let g:startify_custom_header = [
+\'                           ╓─╖╓──╖ ╓─╖ ╓────╖ ╓────╖',
+\'                           ║░║║░╓╜ ║░║ ║░╓──╜ ║░╓──╜',
+\'                           ║░╙╜╓╜░ ║░║ ║░╙──╖ ║░╙──╖',
+\'                           ║░╓╖╙╖░ ║░║ ╙──╖░║ ╙──╖░║',
+\'                           ║░║║░╙╖ ║░║ ╓──╜░║ ╓──╜░║',
+\'                           ╙─╜╙──╜ ╙─╜ ╙────╜ ╙────╜',
+\'',
+\'',
+\]
+let g:startify_files_number = 5
+let g:startify_session_autoload = 0
+let g:startify_session_persistence = 1
+let g:startify_session_delete_buffers = 1
+let g:startify_change_to_vcs_root = 1
+
+" GutenTags settings
+
+
+" Gundo(Persistent Undo) settings
 noremap <F4> :GundoToggle<CR>
 inoremap <F4> <ESC>:GundoToggle<CR>
 " Automatically use opened file instead of reopen in current buf when using quickfix
 set switchbuf=useopen
-" timeout for mapping(ms)
-set timeoutlen=800
+" Timeout for mapping(ms)
+set timeoutlen=600
 " MakeGreen mapping
-map <unique> <silent> <Leader>m :call MakeGreen()<CR>
+map <unique> <silent> <Leader>m :MakeGreen<CR>
 " Tasklist mapping
 map <unique> <Leader>l <Plug>TaskList
-" Enable neocomplete
-let g:neocomplete#enable_at_startup = 1
 " neoghc for Haskell completion
 let g:necoghc_enable_detailed_browse = 1
+let g:haskellmode_completion_ghc = 0
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 
 
 " Enable omni completion.
@@ -601,10 +635,6 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Zen coding
-let g:use_zen_complete_tag = 1
-let g:user_zen_leader_key = '<c-z>'
 
 " Auto display list chars for some source files
 au BufNew,BufEnter,BufNewFile *.h,*.c,*.cpp,*.hpp,*.cxx,
@@ -623,18 +653,11 @@ augroup HiExtraWhiteSpace
     au BufWinLeave * call clearmatches()
 augroup END
 
-noremap <Leader><Leader>l :set list!<CR> " toggle list
 " Vim indent guides
 let g:indent_guides_auto_colors = 1
 let g:indent_guides_enable_on_vim_startup = 0
 let g:indent_guides_start_level=2
 let g:indent_guides_guide_size=1
-"" Set indent line colors
-"augroup IndentGuideColors
-    "au VimEnter,ColorScheme * hi IndentGuidesOdd  guibg=#262626 ctermbg=235
-    "au VimEnter,ColorScheme * hi IndentGuidesEven guibg=#3a3a3a ctermbg=237
-"augroup END
-
 " Auto open and close quickfix window
 "augroup Quickfix
     "au QuickFixCmdPost [^l]* nested cwindow 4
@@ -645,11 +668,6 @@ let g:indent_guides_guide_size=1
 set sessionoptions-=curdir
 "" Make compitable with windows, use relative path
 set sessionoptions+=slash,unix,sesdir
-" map \r to make nerdtree to change cur directory to cur buffer
-map <leader>r :NERDTreeFind<cr> " open nerdtree in cur dir
-" cpoptinos  snipMate plugin requires B in cpo
-"set cpo-=B
-
 " Haskell highligh
 let hs_highlight_delimiters = 1
 let hs_highlight_boolean = 1
@@ -657,22 +675,23 @@ let hs_highlight_types = 1
 let hs_highlighy_more_types = 1
 
 " Haskell mode
-augroup Haskell
-    au FileType haskell compiler ghc
-    au FileType haskell let b:ghc_staticoptions = '-Wall -i.:..:../..:../../..:../../../..:../../../../..'
-    " Reset makeprg after setting b:ghc_staticoptions
-    au FileType haskell execute 'setlocal makeprg=' . g:ghc . '\ ' . escape(b:ghc_staticoptions,' ') .'\ -e\ :q\ %'
-    au FileType haskell setlocal omnifunc=necoghc#omnifunc
-augroup END
-if g:is_Mac
-    let g:haddock_docdir="/Users/ofan/Library/Haskell/doc"
-    let g:haddock_browser="open"
-    let g:haddock_browser_callformat = "%s %s"
-endif
-if g:is_Win
-    let g:haddock_browser='$LOCALAPPDATA\Google\Chrome SxS\Application\chrome.exe'
-    let g:haddock_docdir='C:\cabal\doc\x86_64-windows-ghc-7.10.1\'
-endif
+"let g:ghc = 'stack ghc --'
+"augroup Haskell
+    "au FileType haskell compiler 'stack ghc --'
+    "au FileType haskell let b:ghc_staticoptions = '-Wall -i.:..:../..:../../..:../../../..:../../../../..'
+    "" Reset makeprg after setting b:ghc_staticoptions
+    "au FileType haskell execute 'setlocal makeprg=' . g:ghc . '\ ' . escape(b:ghc_staticoptions,' ') .'\ -e\ :q\ %'
+    "au FileType haskell setlocal omnifunc=necoghc#omnifunc
+"augroup END
+"if g:is_Mac
+    "let g:haddock_docdir="/Users/ofan/Library/Haskell/doc"
+    "let g:haddock_browser="open"
+    "let g:haddock_browser_callformat = "%s %s"
+"endif
+"if g:is_Win
+    "let g:haddock_browser=''
+    "let g:haddock_docdir=''
+"endif
 
 " Syntastic options
 let g:syntastic_cpp_check_header = 1
@@ -689,27 +708,29 @@ let g:syntastic_check_on_wq = 0
 let g:hdevtools_options = '-g-i.:.. -g-Wall'
 
 " Ctrl-p
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_cache_dir = $HOME.'/.vim/.cache/ctrlp'
-let g:ctrlp_custom_ignore = {
-            \ 'dir': '\v[\/]\.(git|hg|svn)$',
-            \ 'file': '(\.(DS_Store|so|dll))|\v\.(tmp,exe,dll,so,socket)'
-            \ }
-let g:ctrlp_lazy_update = 1
-let g:ctrlp_cmd = 'CtrlPLastMode'
-let g:ctrlp_extensions = ['tag', 'buffertag', 'mixed', 'quickfix', 'dir', 'line']
+"let g:ctrlp_clear_cache_on_exit = 0
+"let g:ctrlp_cache_dir = expand(g:dir_vimhome . '/.cache/ctrlp')
+"let g:ctrlp_custom_ignore = {
+            "\ 'dir': '\v[\/]\.(git|hg|svn)$',
+            "\ 'file': '(\.(DS_Store|so|dll))|\v\.(tmp,exe,dll,so,socket)'
+            "\ }
+"let g:ctrlp_lazy_update = 1
+"let g:ctrlp_cmd = 'CtrlPLastMode'
+"let g:ctrlp_extensions = ['tag', 'buffertag', 'mixed', 'quickfix', 'dir', 'line']
 
 " Solarized colorscheme
 let g:solarized_termcolors=256
 let g:solarized_termtrans=1
 
 " YouCompleteMe options
+autocmd! User YouCompleteMe call youcompleteme#Enable()
 let g:ycm_filetype_whitelist = { 'cpp':1,'c':1, 'python':1 }
 let g:ycm_filetype_blacklist = { 'haskell':1 }
 let g:ycm_filetype_specific_completion_to_disable = { 'vim':1,'txt':1 }
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_register_as_syntastic_checker = 1
-let g:ycm_global_ycm_extra_conf = expand(vimDir . '/plugin_conf/ycm/.ycm_extra_conf.py')
+let g:ycm_global_ycm_extra_conf = expand(g:dir_vimhome . '/plugin_conf/ycm/.ycm_extra_conf.py')
+"let g:ycm_semantic_triggers = {'haskell' : ['.']}
 
 "" ycm debug
 "let g:ycm_server_use_vim_stdout = 1
@@ -757,16 +778,12 @@ let g:pymode_rope = 0
 " Vimwiki settings
 " Stores wiki in dropbox
 let dropbox_wiki = {}
-if g:is_Mac || g:is_Linux
+if g:is_Mac || g:is_Linux || g:is_Cygwin
     let dropbox_wiki.path = "~/Dropbox/VimWiki"
 endif
 if g:is_Win
     ":echohl "You may need to change the default path of VimWiki"
     let dropbox_wiki.path = expand("%HOMEPATH%\Documents\Dropbox\VimWiki")
-endif
-
-if g:is_Cygwin
-    let dropbox_wiki.path = "~/Dropbox/Vimwiki"
 endif
 
 let dropbox_wiki.html_template = dropbox_wiki.path . "/html_templates/template.tpl"
@@ -795,6 +812,8 @@ let g:vimwiki_hl_cb_checked = 1
 let g:vimwiki_dir_link = 'index'
 
 " Tagbar settings
+nnoremap <silent> <F3> :TagbarToggle<CR>
+inoremap <silent> <F3> <C-o>:TagbarToggle<CR>
 let g:tagbar_type_vimwiki = {
 \ 'ctagstype' : 'vimwiki',
 \ 'kinds'     : [
@@ -811,7 +830,11 @@ let g:airline#extensions#tabline#tab_min_count = 1
 let g:airline#extensions#tabline#buffer_min_count = 0
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#show_tab_nr = 1
+let g:airline#extensions#hunks#enabled = 1
+let g:airline#extensions#hunks#non_zero_only = 0
+let g:airline#extensions#nrrwrgn#enabled = 1
 let g:airline_theme='simple'
+
 let g:airline_mode_map = {
 \ '__' : '-',
 \ 'n'  : 'N',
@@ -825,6 +848,11 @@ let g:airline_mode_map = {
 \ 'S'  : 'S',
 \ '' : 'S',
 \ }
+
+" Webdevicons settings
+let g:webdevicons_enable = 1
+let g:webdevicons_enable_unite = 1
+let g:webdevicons_enable_nerdtree = 1
 
 "Easy-align Settings
 " Start interactive EasyAlign in visual mode (e.g. vipga)
@@ -844,5 +872,6 @@ if &t_Co == 256
     colorscheme peaksea
     "colorscheme solarized
 else
-    colorscheme desert
+    colorscheme relaxedgreen
+    set bg=dark
 endif
