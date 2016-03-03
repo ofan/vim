@@ -47,8 +47,13 @@ let win_shell = (has('win32') || has('win64')) && &shellcmdflag =~ '/'
 let g:dir_vimhome = win_shell ? '$HOME/vimfiles' : '$HOME/.vim'
 let g:dir_projhome = $PROJECT_HOME ? $PROJECT_HOME : '$HOME/Projects'
 let g:dir_utilsbin = $VIM_UTILS_BIN ? $VIM_UTILS_BIN : '$VIM/utils/bin'
-let $PATH = $PATH . (g:is_Win ? ';' : ':') . expand(g:dir_utilsbin)
-let &runtimepath .= ',' . expand(g:dir_vimhome . '/bundle/vundle')
+let g:dir_path_separator = (g:is_Win ? ';' : ':')
+let $PATH = $PATH . g:dir_path_separator . expand(g:dir_utilsbin)
+
+if g:is_Win
+    set shellxescape-=\>
+    set shellxescape-=\&
+endif
 
 call plug#begin(expand(g:dir_vimhome . '/plugged'))
 " {{{ Plugins
@@ -67,6 +72,9 @@ Plug 'tpope/vim-markdown', {'for': 'markdown'}
 Plug 'klen/python-mode', {'for' : 'python'}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'reinh/vim-makegreen', {'on' : 'MakeGreen'} " Highlight compiler/tests output
+" {{{ Project management
+Plug 'dbakker/vim-projectroot'
+" }}}}
 " Haskell plugins
 if !g:is_Win
     Plug 'Twinside/vim-haskellConceal'
@@ -81,6 +89,9 @@ Plug 'chrisbra/NrrwRgn'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'scrooloose/nerdcommenter' " Toggle comments for various file types
 Plug 'mattn/emmet-vim', {'for': ['html', 'xml', 'css']} " Generate tags based on rules
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'terryma/vim-multiple-cursors'
 " }}}
 " {{{ Integration
 Plug 'fs111/pydoc.vim', {'for': 'python'}
@@ -89,11 +100,10 @@ Plug 'Shougo/vimproc' | Plug 'ujihisa/repl.vim'
 Plug 'tpope/vim-git'
 Plug 'motemen/git-vim'
 Plug 'scrooloose/syntastic'
+Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp']}
 Plug 'airblade/vim-gitgutter', {'on': ['GitGutterToggle', 'GitGutterEnable']}
-"    _DISABLED_ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Shougo/vimshell'
 Plug 'Shougo/unite.vim'
-"Plug 'Shougo/vimfiler.vim'
 Plug 'Shougo/neomru.vim'
 Plug 'tsukkee/unite-tag'
 Plug 'Shougo/unite-outline'
@@ -105,7 +115,6 @@ Plug 'tacroe/unite-mark'
 Plug 'tacroe/unite-alias'
 Plug 'sgur/unite-qf' " Quickfix source
 
-"    _DISABLED_ Plug 'xaviershay/tslime.vim' " TMUX
 Plug 'tpope/vim-fugitive'
 Plug 'jmcantrell/vim-virtualenv', {'for': 'python'}
 Plug 'mattn/gist-vim' " Github gist
@@ -114,13 +123,15 @@ Plug 'mattn/gist-vim' " Github gist
 Plug 'altercation/vim-colors-solarized'
 Plug 'stephenmckinney/vim-solarized-powerline'
 Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " }}}
 " {{{ Completion
 Plug 'ervandew/supertab'
-Plug 'Valloric/YouCompleteMe', {'for': ['c', 'cpp']}
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
 Plug 'Shougo/neocomplete.vim'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'Townk/vim-autoclose'
+Plug 'Rip-Rip/clang_complete'
 " }}}
 " {{{ Text editing
 Plug 'tpope/vim-surround'
@@ -309,7 +320,7 @@ let g:pep8_map='\pep'
 " netrw settings
 let g:netrw_list_hide='\(^\|\s\s\)\zs\.\S\+'
 " Auto change current directory based on file opened
-set autochdir
+" set autochdir
 "set spr " Split right
 " TxtBrowser settings
 let tlist_txt_settings = 'txt;c:content;f:figures;t:tables'
@@ -375,10 +386,10 @@ endif
 :nmap <silent> <C-n><C-c> :tabclose<CR>
 :nmap <silent> <C-n>o :tabonly<CR>
 :nmap <silent> <C-n><C-o> :tabonly<CR>
-:nmap <silent> <C-n>k :tabnext<CR>
-:nmap <silent> <C-n><C-k> :tabnext<CR>
-:nmap <silent> <C-n>j :tabprev<CR>
-:nmap <silent> <C-n><C-j> :tabprev<CR>
+:nmap <silent> <C-n>j :tabnext<CR>
+:nmap <silent> <C-n><C-j> :tabnext<CR>
+:nmap <silent> <C-n>k :tabprev<CR>
+:nmap <silent> <C-n><C-k> :tabprev<CR>
 :nmap <silent> <C-n>h :tabfirst<CR>
 :nmap <silent> <C-n><C-h> :tabfirst<CR>
 :nmap <silent> <C-n>l :tablast<CR>
@@ -584,8 +595,8 @@ let g:startify_list_order = [
             \ ]
 let g:startify_bookmarks = [
             \ {'v': expand(g:dir_vimhome . '/vimrc')},
-            \ {'h': expand('$HOME')},
-            \ {'p': expand(g:dir_projhome)},
+            \ {'h': expand('$HOME' . '/')},
+            \ {'p': expand(g:dir_projhome . '/')},
             \ ]
 let g:startify_skiplist = [
     \ 'COMMIT_EDITMSG',
@@ -628,13 +639,53 @@ let g:necoghc_enable_detailed_browse = 1
 let g:haskellmode_completion_ghc = 0
 autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 
-
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Use VimCompletesMe for <Tab> mappings(fuck off supertab, fuck off
+" neocomplete, fuck off ultisnips!)
+let g:vcm_default_maps = 1
+
+" Use neocomplete.
+" neocomplete {{{
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_auto_select = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#auto_completion_start_length = 2
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" increase limit for tag cache files
+let g:neocomplete#sources#tags#cache_limit_size = 16777216 " 16MB
+
+" fuzzy completion breaks dot-repeat more noticeably
+" https://github.com/Shougo/neocomplete.vim/issues/332
+let g:neocomplete#enable_fuzzy_completion = 0
+
+" always use completions from all buffers
+if !exists('g:neocomplete#same_filetypes')
+  let g:neocomplete#same_filetypes = {}
+endif
+let g:neocomplete#same_filetypes._ = '_'
+
+" from neocomplete.txt:
+" ---------------------
+
+" Plugin key-mappings.
+inoremap <expr> <C-g> neocomplete#undo_completion()
+
+" Recommended key-mappings.
+" <CR>: cancel popup and insert newline.
+inoremap <silent> <CR> <C-r>=neocomplete#smart_close_popup()<CR>
+" <TAB>: completion.
+inoremap <expr> <Tab> pumvisible() ? "\<C-;>" : "\<Tab>"
+inoremap <expr> <BS>  neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr> <C-;> neocomplete#close_popup()
+inoremap <expr> <C-'> neocomplete#cancel_popup()
+"}}}
 
 " Auto display list chars for some source files
 au BufNew,BufEnter,BufNewFile *.h,*.c,*.cpp,*.hpp,*.cxx,
@@ -674,67 +725,48 @@ let hs_highlight_boolean = 1
 let hs_highlight_types = 1
 let hs_highlighy_more_types = 1
 
-" Haskell mode
-"let g:ghc = 'stack ghc --'
-"augroup Haskell
-    "au FileType haskell compiler 'stack ghc --'
-    "au FileType haskell let b:ghc_staticoptions = '-Wall -i.:..:../..:../../..:../../../..:../../../../..'
-    "" Reset makeprg after setting b:ghc_staticoptions
-    "au FileType haskell execute 'setlocal makeprg=' . g:ghc . '\ ' . escape(b:ghc_staticoptions,' ') .'\ -e\ :q\ %'
-    "au FileType haskell setlocal omnifunc=necoghc#omnifunc
-"augroup END
-"if g:is_Mac
-    "let g:haddock_docdir="/Users/ofan/Library/Haskell/doc"
-    "let g:haddock_browser="open"
-    "let g:haddock_browser_callformat = "%s %s"
-"endif
-"if g:is_Win
-    "let g:haddock_browser=''
-    "let g:haddock_docdir=''
-"endif
-
 " Syntastic options
 let g:syntastic_cpp_check_header = 1
-"let g:syntastic_cpp_include_dirs = [ '/usr/include', '/usr/include/c++/4.2.1/', '/opt/local/include', '/usr/local/include', '/opt/local/include/gcc47/c++' ]
-"let g:syntastic_cpp_compiler = 'g++'
-"let g:syntastic_cpp_compiler_options = '-Wall -std=c++0x'
-"let g:syntastic_cpp_config_file = '.syntastic_cpp_config'
+let g:syntastic_enable_cpp_checker = 1
+let g:syntastic_cpp_checkers = ['clang_check']
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_filetype_map = {}
+let g:syntastic_clang_check_config_file = ".clang_complete"
+let g:syntastic_clang_tidy_config_file = ".clang_complete"
+let g:syntastic_cpp_clang_check_post_args = '-p compile_commands.json'
+let g:syntastic_cpp_clang_tidy_post_args = '-p compile_commands.json'
 
 " hdevtools options
 let g:hdevtools_options = '-g-i.:.. -g-Wall'
-
-" Ctrl-p
-"let g:ctrlp_clear_cache_on_exit = 0
-"let g:ctrlp_cache_dir = expand(g:dir_vimhome . '/.cache/ctrlp')
-"let g:ctrlp_custom_ignore = {
-            "\ 'dir': '\v[\/]\.(git|hg|svn)$',
-            "\ 'file': '(\.(DS_Store|so|dll))|\v\.(tmp,exe,dll,so,socket)'
-            "\ }
-"let g:ctrlp_lazy_update = 1
-"let g:ctrlp_cmd = 'CtrlPLastMode'
-"let g:ctrlp_extensions = ['tag', 'buffertag', 'mixed', 'quickfix', 'dir', 'line']
 
 " Solarized colorscheme
 let g:solarized_termcolors=256
 let g:solarized_termtrans=1
 
-" YouCompleteMe options
-autocmd! User YouCompleteMe call youcompleteme#Enable()
-let g:ycm_filetype_whitelist = { 'cpp':1,'c':1, 'python':1 }
-let g:ycm_filetype_blacklist = { 'haskell':1 }
-let g:ycm_filetype_specific_completion_to_disable = { 'vim':1,'txt':1 }
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_register_as_syntastic_checker = 1
-let g:ycm_global_ycm_extra_conf = expand(g:dir_vimhome . '/plugin_conf/ycm/.ycm_extra_conf.py')
-"let g:ycm_semantic_triggers = {'haskell' : ['.']}
+" Clang-format settings
+let g:clang_format#style_options = {
+            \ "AccessModifierOffset" : -4,
+            \ "AllowShortIfStatementsOnASingleLine" : "true",
+            \ "AlwaysBreakTemplateDeclarations" : "true",
+            \ "Standard" : "C++11",
+            \ "BreakBeforeBraces" : "Stroustrup"}
 
-"" ycm debug
-"let g:ycm_server_use_vim_stdout = 1
-"let g:ycm_server_log_level = 'debug'
+" Clang complete settings
+let g:clang_snippets = 1
+let g:clang_snippets_engine = 'ultisnips'
+let g:clang_complete_macros = 1
+let g:clang_use_library = 1
+let g:clang_auto_user_options = "compile_commands.json, .clang_complete, path"
+nnoremap <C-c><C-f> :call g:ClangUpdateQuickFix()
+inoremap <C-c><C-f> <C-o>:call g:ClangUpdateQuickFix()
+
+" UltiSnips settings
+let g:UltiSnipsUsePythonVersion=2
+let g:UltiSnipsJumpForwardTrigger='<C-n>'
+let g:UltiSnipsJumpBackwardTrigger='<C-p>'
 
 " Auto-rename tmux window title
 let g:in_tmux=$TMUX
@@ -754,8 +786,7 @@ endif
 " VimShell options
 let g:vimshell_editor_command = 'vim'
 let g:vimshell_user_prompt = "fnamemodify(getcwd(), ':~')"
-let g:vimshell_temporary_directory = expand('~/.vim/.temp')
-
+let g:vimshell_temporary_directory = expand(g:dir_vimhome . '/.temp')
 " Gist settings
 if g:is_Mac
     let g:gist_clip_command = 'pbcopy'
@@ -833,7 +864,7 @@ let g:airline#extensions#tabline#show_tab_nr = 1
 let g:airline#extensions#hunks#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 0
 let g:airline#extensions#nrrwrgn#enabled = 1
-let g:airline_theme='simple'
+let g:airline_theme='sol'
 
 let g:airline_mode_map = {
 \ '__' : '-',
@@ -863,10 +894,42 @@ nmap ga <Plug>(EasyAlign)
 
 " Supertab settings
 let g:SuperTabCrMapping=1
+let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " Emmet settings
 let g:user_emmet_install_global = 0
 autocmd FileType html,xml,css EmmetInstall
+
+" Multi cursor settings
+let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_next_key='<C-m>'
+let g:multi_cursor_prev_key='<C-n>'
+let g:multi_cursor_skip_key='<C-o>'
+let g:multi_cursor_quit_key='<Esc>'
+let g:multi_cursor_start_key='<C-m>'
+let g:multi_cursor_start_word_key='g<C-m>'
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+  if exists(':NeoCompleteLock')==2
+    exe 'NeoCompleteLock'
+  endif
+endfunction
+
+let g:gutentags_ctags_no_space_in_paths = 0
+
+" Auto load .proj_vim
+" .proj.vim is a vim script that will be executed when openning a file,
+" it may or may not change default settings set in .[g]vimrc
+let g:project_root_path = projectroot#get()
+let g:project_loaded_proj_vim = {}
+function LoadProjVim()
+    let s:proj_vim = expand(g:project_root_path . '/.proj.vim')
+    if !get(g:project_loaded_proj_vim, s:proj_vim) && filereadable(s:proj_vim)
+        exec 'source ' . s:proj_vim
+        let g:project_loaded_proj_vim[s:proj_vim] = 1
+    endif
+endfunction
+call LoadProjVim()
 
 if &t_Co == 256
     colorscheme peaksea

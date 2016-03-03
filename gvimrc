@@ -52,6 +52,11 @@ set go-=r
 " set the X11 font to use
 " set guifont=-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-1
 
+" Set window size(only for GUI)
+set lines=50
+set columns=100
+set lsp=1
+
 set ch=1		" Make command line two lines high
 
 set mousehide		" Hide the mouse when typing text
@@ -93,6 +98,9 @@ endif
 if has("transparency")
   set transparency=4
 endif
+
+" Multi cursor doesn't work in exclusive mode
+set selection=inclusive
 
 " Colorscheme
 "colorscheme solarized
