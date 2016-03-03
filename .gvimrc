@@ -52,15 +52,20 @@ set go-=r
 " set the X11 font to use
 " set guifont=-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-1
 
+" Set window size(only for GUI)
+set lines=50
+set columns=100
+set lsp=1
+
 set ch=1		" Make command line two lines high
 
 set mousehide		" Hide the mouse when typing text
-"字体设置
+" Font settings
 if g:is_Win
     "set gfn=Megatops_ProCoder_1.0:h10:b:cANSI
     "set gfn=Ubuntu_Mono_derivative_Powerlin:h11:cANSI
     "set gfn=DejaVu_Sans_Mono_for_Powerline_:h10:cANSI
-    set gfn=Meslo_LG_S_for_Powerline_PNFT_P:h10:cANSI
+    set gfn=Meslo_LG_M_for_Powerline_PNFT:h10:cANSI
     set gfw=NSimSun:h11:cANSI
 elseif g:is_Mac
     "set gfn=Consolas:h12
@@ -93,6 +98,9 @@ endif
 if has("transparency")
   set transparency=4
 endif
+
+" Multi cursor doesn't work in exclusive mode
+set selection=inclusive
 
 " Colorscheme
 "colorscheme solarized
