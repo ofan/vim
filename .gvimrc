@@ -58,8 +58,9 @@ set mousehide		" Hide the mouse when typing text
 "字体设置
 if g:is_Win
     "set gfn=Megatops_ProCoder_1.0:h10:b:cANSI
-    set gfn=Ubuntu_Mono_derivative_Powerlin:h11:cANSI
-    "set gfw=Microsoft\ YaHei\ Light:h11
+    "set gfn=Ubuntu_Mono_derivative_Powerlin:h11:cANSI
+    "set gfn=DejaVu_Sans_Mono_for_Powerline_:h10:cANSI
+    set gfn=Meslo_LG_S_for_Powerline_PNFT_P:h10:cANSI
     set gfw=NSimSun:h11:cANSI
 elseif g:is_Mac
     "set gfn=Consolas:h12
