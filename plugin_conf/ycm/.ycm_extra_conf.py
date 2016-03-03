@@ -48,7 +48,7 @@ base_flags = [
 # a "-std=<something>".
 # For a C project, you would set this to something like 'c99' instead of
 # 'c++11'.
-'-std=c++11',
+'-std=c++1z',
 '-stdlib=libc++',
 # ...and the same thing goes for the magic -x option which specifies the
 # language that the files to be compiled are written in. This is mostly
@@ -102,8 +102,11 @@ elif platform.system() == "Linux":
         '-L',
         '/usr/local/lib'
     ]
-else:
-    flags = base_flags
+elif "Windows" in platform.uname():
+    flags = base_flags + [
+        '-I', 'C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC',
+    ]
+    flags.remove("-stdlib=libc++")
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
 # compile_commands.json file to use that instead of 'flags'. See here for
