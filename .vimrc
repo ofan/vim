@@ -933,7 +933,7 @@ call LoadProjVim()
 
 if &t_Co == 256
     colorscheme peaksea
-    "colorscheme solarized
+    set bg=light
 else
     colorscheme relaxedgreen
     set bg=dark
