@@ -764,7 +764,7 @@ nnoremap <C-c><C-f> :call g:ClangUpdateQuickFix()
 inoremap <C-c><C-f> <C-o>:call g:ClangUpdateQuickFix()
 
 " UltiSnips settings
-let g:UltiSnipsUsePythonVersion=2
+let g:UltiSnipsUsePythonVersion=3
 let g:UltiSnipsJumpForwardTrigger='<C-n>'
 let g:UltiSnipsJumpBackwardTrigger='<C-p>'
 
@@ -933,7 +933,7 @@ call LoadProjVim()
 
 if &t_Co == 256
     colorscheme peaksea
-    set bg=light
+    set bg=dark
 else
     colorscheme relaxedgreen
     set bg=dark
