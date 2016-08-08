@@ -594,7 +594,7 @@ let g:startify_list_order = [
             \ 'sessions',
             \ ]
 let g:startify_bookmarks = [
-            \ {'v': expand(g:dir_vimhome . '/vimrc')},
+            \ {'v': expand(g:dir_vimhome . '/.vimrc')},
             \ {'h': expand('$HOME' . '/')},
             \ {'p': expand(g:dir_projhome . '/')},
             \ ]
