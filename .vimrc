@@ -1,6 +1,5 @@
 " vim: ts=4 sw=4
 
-" Determine platform
 let g:is_Win = 0
 let g:is_Mac = 0
 let g:is_Linux = 0
@@ -89,7 +88,6 @@ Plug 'chrisbra/NrrwRgn'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'scrooloose/nerdcommenter' " Toggle comments for various file types
 Plug 'mattn/emmet-vim', {'for': ['html', 'xml', 'css']} " Generate tags based on rules
-Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'terryma/vim-multiple-cursors'
 " }}}
@@ -126,12 +124,10 @@ Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " }}}
 " {{{ Completion
-Plug 'ervandew/supertab'
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
-Plug 'Shougo/neocomplete.vim'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'Townk/vim-autoclose'
 Plug 'Rip-Rip/clang_complete'
+Plug 'lifepillar/vim-mucomplete'
 " }}}
 " {{{ Text editing
 Plug 'tpope/vim-surround'
@@ -298,6 +294,12 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
+set completeopt+=menuone,noselect
+
+" mucomplete
+let g:mucomplete#enable_auto_at_startup=1
+let g:mucomplete#completion_delay=1
+
 set autoindent
 " ExpandTab
 set et
@@ -336,9 +338,8 @@ set laststatus=2
 
 " Spell check
 setlocal spelllang=en_us
-"setlocal spell
-" Shift-Tab un-tab
-:imap <S-Tab> 
+setlocal spell
+
 " Cursor movement in insert mode
 " For wrapped lines, use gj,g<Down> or gk,g<up> to jump between lines
 " Map <C-j>,<C-k>,<C-Up>,<C-Down>
@@ -420,50 +421,50 @@ augroup END
 " Terminal colors and misc settings
 set ttyfast
 
-function s:set_curline_color()
-    " Highlight current line and column
-    let s:curline_color = {
-        \'insert':{
-            \'ctermbg':'NONE',
-            \'guibg':'NONE'
-        \},
-        \'normal':{
-            \'ctermbg':'NONE',
-            \'guibg':'NONE'
-            \}
-    \}
-    if &background=="dark"
-        let s:curline_color.insert.ctermbg = 24
-        let s:curline_color.insert.guibg = '#003366'
-        let s:curline_color.normal.ctermbg = 8
-        let s:curline_color.normal.guibg = 'NONE'
-    else
-        let s:curline_color.insert.ctermbg = 'lightblue'
-        let s:curline_color.insert.guibg = 'lightblue'
-        let s:curline_color.normal.ctermbg = 'lightyellow'
-        let s:curline_color.normal.guibg = 'NONE'
-    endif
+"function s:set_curline_color()
+    "" Highlight current line and column
+    "let s:curline_color = {
+        "\'insert':{
+            "\'ctermbg':'NONE',
+            "\'guibg':'NONE'
+        "\},
+        "\'normal':{
+            "\'ctermbg':'NONE',
+            "\'guibg':'NONE'
+            "\}
+    "\}
+    "if &background=="dark"
+        "let s:curline_color.insert.ctermbg = 24
+        "let s:curline_color.insert.guibg = '#003366'
+        "let s:curline_color.normal.ctermbg = 8
+        "let s:curline_color.normal.guibg = 'NONE'
+    "else
+        "let s:curline_color.insert.ctermbg = 'lightblue'
+        "let s:curline_color.insert.guibg = 'lightblue'
+        "let s:curline_color.normal.ctermbg = 'lightyellow'
+        "let s:curline_color.normal.guibg = 'NONE'
+    "endif
 
-    let s:hi_cursorline_insert_cmd=
-                \"highlight CursorLine ctermbg=".s:curline_color.insert.ctermbg
-                \." guibg=".s:curline_color.insert.guibg
-    let s:hi_cursorline_normal_cmd=
-                \"highlight CursorLine ctermbg=".s:curline_color.normal.ctermbg
-                \." guibg=".s:curline_color.normal.guibg
-    set cursorline
-    set cursorcolumn
-    augroup CursorLine
-        au!
-        "au InsertEnter * hi CursorLine ctermbg=black guibg='NONE'
-        "au InsertLeave * hi CursorLine ctermbg=17 guibg=#00005f
-        au InsertEnter * exe s:hi_cursorline_insert_cmd
-        au InsertLeave * exe s:hi_cursorline_normal_cmd
-        au WinLeave * setlocal nocursorline nocursorcolumn
-        au VimEnter,WinEnter,BufWinEnter * setlocal cursorline cursorcolumn
-    augroup END
-endfun
-" Automatically update curline color after changing coloscheme
-au ColorScheme * call s:set_curline_color()
+    "let s:hi_cursorline_insert_cmd=
+                "\"highlight CursorLine ctermbg=".s:curline_color.insert.ctermbg
+                "\." guibg=".s:curline_color.insert.guibg
+    "let s:hi_cursorline_normal_cmd=
+                "\"highlight CursorLine ctermbg=".s:curline_color.normal.ctermbg
+                "\." guibg=".s:curline_color.normal.guibg
+    "set cursorline
+    "set cursorcolumn
+    "augroup CursorLine
+        "au!
+        ""au InsertEnter * hi CursorLine ctermbg=black guibg='NONE'
+        ""au InsertLeave * hi CursorLine ctermbg=17 guibg=#00005f
+        "au InsertEnter * exe s:hi_cursorline_insert_cmd
+        "au InsertLeave * exe s:hi_cursorline_normal_cmd
+        "au WinLeave * setlocal nocursorline nocursorcolumn
+        "au VimEnter,WinEnter,BufWinEnter * setlocal cursorline cursorcolumn
+    "augroup END
+"endfun
+"" Automatically update curline color after changing coloscheme
+"au ColorScheme * call s:set_curline_color()
 
 if version>=703
     " Presistent undo
@@ -479,8 +480,10 @@ if version>=703
     " Highlight column textwidth+2
     set colorcolumn=+2
 endif
+
 " visualbell
 "set visualbell
+set belloff+=ctrlg
 
 " Set cursor color
 if &term =~? "xterm\\|rxvt"
@@ -646,46 +649,8 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-" Use VimCompletesMe for <Tab> mappings(fuck off supertab, fuck off
-" neocomplete, fuck off ultisnips!)
+" Use VimCompletesMe for <Tab> mappings(no supertab, no neocomplete, no ultisnips!)
 let g:vcm_default_maps = 1
-
-" Use neocomplete.
-" neocomplete {{{
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_auto_select = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#auto_completion_start_length = 2
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" increase limit for tag cache files
-let g:neocomplete#sources#tags#cache_limit_size = 16777216 " 16MB
-
-" fuzzy completion breaks dot-repeat more noticeably
-" https://github.com/Shougo/neocomplete.vim/issues/332
-let g:neocomplete#enable_fuzzy_completion = 0
-
-" always use completions from all buffers
-if !exists('g:neocomplete#same_filetypes')
-  let g:neocomplete#same_filetypes = {}
-endif
-let g:neocomplete#same_filetypes._ = '_'
-
-" from neocomplete.txt:
-" ---------------------
-
-" Plugin key-mappings.
-inoremap <expr> <C-g> neocomplete#undo_completion()
-
-" Recommended key-mappings.
-" <CR>: cancel popup and insert newline.
-inoremap <silent> <CR> <C-r>=neocomplete#smart_close_popup()<CR>
-" <TAB>: completion.
-inoremap <expr> <Tab> pumvisible() ? "\<C-;>" : "\<Tab>"
-inoremap <expr> <BS>  neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr> <C-;> neocomplete#close_popup()
-inoremap <expr> <C-'> neocomplete#cancel_popup()
-"}}}
 
 " Auto display list chars for some source files
 au BufNew,BufEnter,BufNewFile *.h,*.c,*.cpp,*.hpp,*.cxx,
@@ -756,7 +721,7 @@ let g:clang_format#style_options = {
 
 " Clang complete settings
 let g:clang_snippets = 1
-let g:clang_snippets_engine = 'ultisnips'
+let g:clang_snippets_engine = 'mucomplete'
 let g:clang_complete_macros = 1
 let g:clang_use_library = 1
 let g:clang_auto_user_options = "compile_commands.json, .clang_complete, path"
@@ -891,10 +856,6 @@ xmap ga <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-
-" Supertab settings
-let g:SuperTabCrMapping=1
-let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " Emmet settings
 let g:user_emmet_install_global = 0
