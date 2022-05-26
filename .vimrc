@@ -54,7 +54,7 @@ if g:is_Win
     set shellxescape-=\&
 endif
 
-call plug#begin(expand(g:dir_vimhome . '/plugged'))
+call plug#begin(expand(g:dir_vimhome . '/plugged'))"{{{
 " {{{ Plugins
 " {{{ UI extensions
 Plug 'sjl/gundo.vim', { 'on': 'GundoToggle' }
@@ -71,6 +71,7 @@ Plug 'tpope/vim-markdown', {'for': 'markdown'}
 Plug 'klen/python-mode', {'for' : 'python'}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'reinh/vim-makegreen', {'on' : 'MakeGreen'} " Highlight compiler/tests output
+Plug 'andrewstuart/vim-kubernetes', {'for': 'yaml'}
 " {{{ Project management
 Plug 'dbakker/vim-projectroot'
 " }}}}
@@ -151,7 +152,7 @@ Plug 'dbext.vim'
 Plug 'DrawIt'
 " }}}
 " }}}
-call plug#end()
+call plug#end()"}}}
 
 " Vim-Plug settings
 let g:plug_timeout = 600
@@ -245,7 +246,7 @@ if g:is_Mac
 endif
 
 " Encoding settings
-set ffs=dos,unix
+set ffs=unix,dos
 set fileencodings=ucs-bom,utf8,chinese,taiwan,japan,korea
 " List invisible chars
 set listchars=tab:▸\ ,eol:↲
@@ -286,6 +287,10 @@ augroup C
     au!
     au FileType c,cpp setlocal cindent
 augroup END
+
+" Different indentation for JSON and YAML files
+autocmd FileType yaml,json setlocal ts=2 sts=2 sw=2
+autocmd FileType yaml setlocal foldmethod=indent foldlevel=1 foldmarker=---,---
 
 " Omni completion
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
