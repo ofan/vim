@@ -128,6 +128,9 @@ Plug 'davidhalter/jedi-vim', {'for': 'python'}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'Rip-Rip/clang_complete'
 Plug 'lifepillar/vim-mucomplete'
+if executable('fzf')
+      Plug 'junegunn/fzf.vim'
+endif
 " }}}
 " {{{ Text editing
 Plug 'tpope/vim-surround'
@@ -140,15 +143,15 @@ Plug 'junegunn/vim-easy-align'
 Plug 'mattn/webapi-vim'
 " }}}
 " {{{ Plugins from vim-scripts
-Plug 'TaskList.vim'
-Plug 'vimwiki'
-Plug 'VOoM'
+"Plug 'TaskList.vim'
+"Plug 'vimwiki'
+"Plug 'VOoM'
 "Plug 'FuzzyFinder'
-Plug 'DoxygenToolkit.vim'
-Plug 'L9'
-Plug 'dbext.vim'
+"Plug 'DoxygenToolkit.vim'
+"Plug 'L9'
+"Plug 'dbext.vim'
 "Plug 'QuickBuf'
-Plug 'DrawIt'
+"Plug 'DrawIt'
 " }}}
 " }}}
 call plug#end()
@@ -526,7 +529,7 @@ inoremap <silent> <F1> <C-o>:NERDTreeToggle<CR>
 map <leader>r :NERDTreeFind<cr> " open nerdtree in cur dir
 
 " NERDTree-git settings
-let g:NERDTreeIndicatorMapCustom = {
+let g:NERDTreeIndicatorGitStatusMapCustom = {
     \ "Modified"  : "✹",
     \ "Staged"    : "✚",
     \ "Untracked" : "✭",
@@ -819,7 +822,7 @@ let g:tagbar_type_vimwiki = {
 \ }
 
 " Airline settings
-let g:airline_powerline_fonts=1
+let g:airline_powerline_fonts=0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#tab_min_count = 1
