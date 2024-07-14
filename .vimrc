@@ -29,6 +29,8 @@ endif
 " Don't source menu.vim (slow)
 set guioptions+=M
 
+set wildmode=longest,list,full
+
 " Script encoding
 scriptencoding utf-8
 
